@@ -1,0 +1,6 @@
+export { Home } from './Home'
+export { Lobby } from './Lobby'
+export { Result } from './Result'
+export { Resume } from './Resume'
+export { MyProfile } from './MyProfile'
+export { EditProfile } from './EditProfile'

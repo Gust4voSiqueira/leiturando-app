@@ -4,6 +4,10 @@
     "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "souceExts": ["js", "jsx", "ts", "tsx", "svg"]
+    },
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
