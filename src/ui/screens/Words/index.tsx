@@ -34,8 +34,6 @@ export function Words({ navigation }: WordsProps) {
       response,
       ...responses.slice(index + 1),
     ])
-
-    console.log(responses)
   }
 
   function onAlterWord(newWordIndex: number) {
@@ -44,6 +42,13 @@ export function Words({ navigation }: WordsProps) {
     setIndexWord(newWordIndex)
     setVoice(responses[newWordIndex])
     onResponseUser(voice, indexWord)
+
+    if (newWordIndex > 9) {
+      navigation.navigate('Result', {
+        words: WordsDatabase,
+        responses,
+      })
+    }
   }
 
   return (
