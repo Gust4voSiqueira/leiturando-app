@@ -6,6 +6,6 @@ export type RootStackParamList = {
     screen: string
     textSpeech: string
   }
-  Result: { words: string[]; corrects: string[] }
-  Resume: { words: string[]; corrects: string[] }
+  Result: { words: String[]; responses: String[] }
+  Resume: { words: String[]; responses: String[] }
 }

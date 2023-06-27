@@ -11,11 +11,13 @@ type ResultProps = StackScreenProps<RootStackParamList, 'Result'>
 
 export function Result({ route, navigation }: ResultProps) {
   const redirect = useRedirect()
-  const { words, corrects } = route.params
+  const { words, responses } = route.params
 
   function onRedirect() {
-    navigation.navigate('Resume', { words, corrects })
+    navigation.navigate('Resume', { words, responses })
   }
+
+  const corrects = words.filter((word, index) => word === responses[index])
 
   return (
     <View style={globalStyles.container}>

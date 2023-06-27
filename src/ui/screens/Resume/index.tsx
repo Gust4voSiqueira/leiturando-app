@@ -11,15 +11,15 @@ import { useRedirect } from '../../../hooks/useRedirect'
 type ResumeProps = StackScreenProps<RootStackParamList, 'Resume'>
 
 interface IHandleCards {
-  words: string[]
-  corrects: string[]
+  words: String[]
+  corrects: String[]
 }
 
 function HandleCards({ words, corrects }: IHandleCards) {
   return (
     <View>
       {words.map((word, index) => {
-        const isCorrectFunction = corrects.some((correct) => correct === word)
+        const isCorrectFunction = word === corrects[index]
 
         return (
           <CardResult key={index} word={word} isCorrect={isCorrectFunction} />
@@ -30,12 +30,12 @@ function HandleCards({ words, corrects }: IHandleCards) {
 }
 
 export function Resume({ route, navigation }: ResumeProps) {
-  const { words, corrects } = route.params
-  const incorrects = words.filter((word) => corrects.indexOf(word) === -1)
+  const { words, responses } = route.params
+  const incorrects = words.filter((word) => responses.indexOf(word) === -1)
   const redirect = useRedirect()
 
   function onRedirect() {
-    navigation.navigate('Result', { words, corrects })
+    navigation.navigate('Result', { words, responses })
   }
 
   return (
@@ -45,14 +45,14 @@ export function Resume({ route, navigation }: ResumeProps) {
         isRedirect
         textSpeech={`
         Você acertou as palavras 
-        ${corrects.map((correct) => correct)},
+        ${responses.map((correct) => correct)},
         e errou as palavras 
         ${incorrects.map((incorrect) => incorrect)}`}
       />
 
       <ScrollView style={styles.scrollViewResume}>
         <View style={styles.resumeContainer}>
-          <HandleCards corrects={corrects} words={words} />
+          <HandleCards corrects={responses} words={words} />
         </View>
       </ScrollView>
 

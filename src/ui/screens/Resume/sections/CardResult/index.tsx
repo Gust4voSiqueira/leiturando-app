@@ -6,7 +6,7 @@ import { colors } from '../../../../../../global/themes/default'
 
 interface ICardResult {
   isCorrect: boolean
-  word: string
+  word: String
 }
 
 export function CardResult({ isCorrect, word }: ICardResult) {
