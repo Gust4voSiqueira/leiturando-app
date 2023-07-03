@@ -3,7 +3,7 @@ import { colors, fontsSize } from '../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   buttonContainer: {
-    width: '65%',
+    width: '100%',
     height: 45,
     borderRadius: 7,
     backgroundColor: colors['green-600'],

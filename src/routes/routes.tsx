@@ -5,7 +5,9 @@ import {
   EditProfile,
   Home,
   Lobby,
+  Login,
   MyProfile,
+  Register,
   Result,
   Resume,
 } from '../ui/screens'
@@ -16,6 +18,8 @@ const { Navigator, Screen } = createNativeStackNavigator()
 export function AppRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="Login" component={Login} />
+      <Screen name="Register" component={Register} />
       <Screen name="Home" component={Home} />
       <Screen name="Lobby" component={Lobby} />
       <Screen name="Words" component={Words} />
