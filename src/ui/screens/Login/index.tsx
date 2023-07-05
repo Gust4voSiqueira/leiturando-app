@@ -6,19 +6,29 @@ import Logo from '../../../../assets/logo.svg'
 import { colors } from '../../../../global/themes/default'
 import { ButtonNext } from '../../components'
 import { Link } from '@react-navigation/native'
-// import { api } from '../../../lib/axios'
+import { useUserRequest } from '../../../hooks/useUserRequest'
+import { useState } from 'react'
+
+interface IInputsFields {
+  email: String
+  password: String
+}
 
 export function Login() {
-  // async function loginFunction() {
-  //   try {
-  //     // const response = api.post('/login', {}, {
-  //     //   username:
-  //     // })
-  //     // console.log(response)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  const { login } = useUserRequest()
+  const [inputs, setInputs] = useState<IInputsFields>({
+    email: '',
+    password: '',
+  })
+
+  function loginFunction() {
+    const loginData = {
+      email: inputs.email as string,
+      password: inputs.password as string,
+    }
+
+    login(loginData)
+  }
 
   return (
     <View style={globalStyles.container}>
@@ -29,6 +39,8 @@ export function Login() {
           style={styles.input}
           placeholder="Email ou Apelido"
           placeholderTextColor={colors['black-300']}
+          value={inputs.email as string}
+          onChangeText={(newText) => setInputs({ ...inputs, email: newText })}
         />
 
         <TextInput
@@ -36,13 +48,17 @@ export function Login() {
           style={styles.input}
           placeholder="Senha"
           placeholderTextColor={colors['black-300']}
+          value={inputs.password as string}
+          onChangeText={(newText) =>
+            setInputs({ ...inputs, password: newText })
+          }
         />
 
         <Text style={styles.textRegister}>
           Novo por aqui?
           <Link to="/Register"> Cadastre-se</Link>
         </Text>
-        <ButtonNext text="Entrar" />
+        <ButtonNext text="Entrar" onClickFunction={loginFunction} />
       </View>
     </View>
   )

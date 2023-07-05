@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  Login: { email?: string; password?: string }
   CardMatches: { description: string }
   Lobby: {
     description: string
