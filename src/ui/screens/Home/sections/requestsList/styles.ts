@@ -5,9 +5,9 @@ export const styles = StyleSheet.create({
   listRequestsContainer: {
     position: 'absolute',
     alignItems: 'center',
-    right: 5,
-    top: 150,
-    maxWidth: 230,
+    right: 10,
+    top: 140,
+    maxWidth: 300,
     height: 300,
     borderRadius: 11,
     paddingVertical: 13,
@@ -40,22 +40,5 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-  },
-  indicatorIcon: {
-    position: 'absolute',
-    backgroundColor: colors['black-500'],
-    top: -13,
-    right: 45,
-
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderBottomWidth: 13,
-
-    borderLeftColor: colors['black-700'],
-    borderRightColor: colors['black-700'],
-    borderBottomColor: colors['black-500'],
-
-    width: 0,
-    height: 0,
   },
 })

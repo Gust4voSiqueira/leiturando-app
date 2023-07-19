@@ -1,4 +1,8 @@
+import { useContext } from 'react'
 import { api } from '../lib/axios'
+import { btoa } from 'react-native-quick-base64'
+import { TokenContext } from '../contexts/TokenContext'
+import { IImage } from '../ui/screens/Register'
 
 interface ILogin {
   email: String
@@ -6,29 +10,36 @@ interface ILogin {
 }
 
 interface IUserRegister {
-  characterName: String
-  name: String
-  email: String
-  password: String
-  confirmPassword: String
+  characterName?: string
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+  file?: IImage
 }
 
 export const useUserRequest = () => {
-  async function register({
-    name,
-    email,
-    characterName,
-    password,
-    confirmPassword,
-  }: IUserRegister) {
+  const { addToken, token } = useContext(TokenContext)
+
+  async function register(userRequest: IUserRegister) {
     try {
-      const response = await api.post('/user/register', {
-        characterName,
-        name,
-        email,
-        password,
-        confirmPassword,
-      })
+      const formData = new FormData()
+
+      if (userRequest.file) {
+        const file = await convertImagePickerAssetToFile(userRequest.file)
+        formData.append('file', file)
+      }
+
+      if (userRequest.characterName) {
+        formData.append('characterName', userRequest.characterName)
+      }
+
+      formData.append('name', userRequest.name)
+      formData.append('email', userRequest.email)
+      formData.append('password', userRequest.password)
+      formData.append('confirmPassword', userRequest.confirmPassword)
+
+      const response = await api.post('/user/register', formData)
 
       return response.data
     } catch (err) {
@@ -38,16 +49,8 @@ export const useUserRequest = () => {
 
   async function login({ email, password }: ILogin) {
     try {
-      const bodyFormData = new FormData()
-      bodyFormData.append('email', email as string)
-      bodyFormData.append('password', password as string)
-
       const credentials = btoa('client' + ':' + 123)
       const basicAuth = 'Basic ' + credentials
-
-      console.log(credentials)
-
-      console.log(bodyFormData)
 
       const response = await api.post(
         '/oauth/token',
@@ -64,14 +67,56 @@ export const useUserRequest = () => {
         },
       )
 
-      console.log(response)
+      addToken(response.data?.access_token)
+
+      return response
+    } catch (error) {
+      return 'Error'
+    }
+  }
+
+  async function myUser() {
+    try {
+      console.log(token)
+
+      const response = await api.get('/user-auth', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      console.log('falhou')
+
+      console.log(error)
+    }
+  }
+
+  async function getRequests() {
+    try {
+      const response = await api.get('/request/getRequests', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return response.data
     } catch (error) {
       console.log(error)
     }
   }
 
+  const convertImagePickerAssetToFile = async (asset) => {
+    const response = await fetch(asset.sourceString)
+    const blob = await response.blob()
+    return new File([blob], 'file.jpg', { type: 'image/jpeg' })
+  }
+
   return {
     register,
     login,
+    myUser,
+    getRequests,
   }
 }

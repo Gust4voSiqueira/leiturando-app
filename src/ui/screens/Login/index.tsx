@@ -1,13 +1,13 @@
-import { View, TextInput, Text } from 'react-native'
+import { View, TextInput, Text, Pressable } from 'react-native'
 import { styles } from './styles'
 import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
 import { colors } from '../../../../global/themes/default'
-import { ButtonNext } from '../../components'
 import { Link } from '@react-navigation/native'
 import { useUserRequest } from '../../../hooks/useUserRequest'
 import { useState } from 'react'
+import { useRedirect } from '../../../hooks/useRedirect'
 
 interface IInputsFields {
   email: String
@@ -16,18 +16,33 @@ interface IInputsFields {
 
 export function Login() {
   const { login } = useUserRequest()
+  const { onRedirect } = useRedirect()
+  const [isDisbaledButton, setIsDisabledButton] = useState(false)
+  const [error, setError] = useState(false)
   const [inputs, setInputs] = useState<IInputsFields>({
     email: '',
     password: '',
   })
+  const stylesButtonDisabled = isDisbaledButton
+    ? styles.buttonContainerDisable
+    : styles.buttonContainer
+  const stylesInputError = error ? styles.inputError : styles.input
 
-  function loginFunction() {
+  async function loginFunction() {
+    setIsDisabledButton(true)
     const loginData = {
       email: inputs.email as string,
       password: inputs.password as string,
     }
 
-    login(loginData)
+    const response = await login(loginData)
+
+    if (response === 'Error') {
+      setError(true)
+      setIsDisabledButton(false)
+    } else {
+      onRedirect('/Home')
+    }
   }
 
   return (
@@ -36,18 +51,20 @@ export function Login() {
 
       <View style={styles.formLogin}>
         <TextInput
-          style={styles.input}
+          style={stylesInputError}
           placeholder="Email ou Apelido"
           placeholderTextColor={colors['black-300']}
+          autoCapitalize="none"
           value={inputs.email as string}
           onChangeText={(newText) => setInputs({ ...inputs, email: newText })}
         />
 
         <TextInput
           secureTextEntry={true}
-          style={styles.input}
+          style={stylesInputError}
           placeholder="Senha"
           placeholderTextColor={colors['black-300']}
+          autoCapitalize="none"
           value={inputs.password as string}
           onChangeText={(newText) =>
             setInputs({ ...inputs, password: newText })
@@ -58,7 +75,9 @@ export function Login() {
           Novo por aqui?
           <Link to="/Register"> Cadastre-se</Link>
         </Text>
-        <ButtonNext text="Entrar" onClickFunction={loginFunction} />
+        <Pressable style={stylesButtonDisabled} onPress={loginFunction}>
+          <Text style={styles.textButton}>Entrar</Text>
+        </Pressable>
       </View>
     </View>
   )

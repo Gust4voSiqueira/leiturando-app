@@ -2,30 +2,35 @@
 import { Image, Pressable, Text, View } from 'react-native'
 import { Card } from '../../../../components'
 import { styles } from './styles'
-import { UserPlus } from 'phosphor-react-native'
+import { SignOut, UserPlus } from 'phosphor-react-native'
 import { colors } from '../../../../../../global/themes/default'
 import { profileInfo } from '../../../../../database/profileData'
 import { progressActual } from '../../../../../utils/progressActual'
 import { useRedirect } from '../../../../../hooks/useRedirect'
+import { IRequests, IUserData } from '../..'
+import { useContext } from 'react'
+import { TokenContext } from '../../../../../contexts/TokenContext'
 
 export interface IRequestCard {
-  id: number
-  uriImage: string
+  imageUrl: string
   name: string
-  friendsCommon: number
-  typeRequest: string
+  mutualFriends: number
 }
 
 interface ICardProfile {
   onCloseModalRequests?: () => void
+  user?: IUserData
+  requests: IRequests
 }
 
-export function CardProfile({ onCloseModalRequests }: ICardProfile) {
+export function CardProfile({
+  onCloseModalRequests,
+  user,
+  requests,
+}: ICardProfile) {
   const { onRedirect } = useRedirect()
-  const { level, requests, user } = profileInfo
-  const newRequests = requests.filter(
-    (request) => request.typeRequest === 'Request',
-  )
+  const { level } = profileInfo
+  const { removeToken } = useContext(TokenContext)
 
   const progressActualBarProgress = progressActual(
     level.actualPoints,
@@ -42,10 +47,10 @@ export function CardProfile({ onCloseModalRequests }: ICardProfile) {
             style={customStyles.requestsContainer}
             onPress={onCloseModalRequests}
           >
-            {requests.length > 0 && (
+            {requests.requests.length > 0 && (
               <View style={customStyles.quantitieRequestsCircle}>
                 <Text style={customStyles.quantitieRequestsText}>
-                  {newRequests.length}
+                  {requests.requests.length}
                 </Text>
               </View>
             )}
@@ -55,17 +60,20 @@ export function CardProfile({ onCloseModalRequests }: ICardProfile) {
           </Pressable>
         )}
 
+        <Pressable style={customStyles.logoutButton} onPress={removeToken}>
+          <SignOut size={30} color={colors.white} weight="regular" />
+          <Text style={customStyles.requestsText}>Sair</Text>
+        </Pressable>
+
         <Image
+          source={{ uri: `data:image/jpeg;base64,${user.imageUrl}` }}
           style={customStyles.imageProfile}
-          source={{
-            uri: user.image,
-          }}
         />
 
         <Text style={customStyles.nameUser}>{user.name}</Text>
 
         <View style={customStyles.levelContainer}>
-          <Text style={customStyles.levelText}>Nível {level.actualLevel}</Text>
+          <Text style={customStyles.levelText}>Nível {user.level}</Text>
           <View style={customStyles.levelTotal}>
             <View style={customStyles.progressActual}></View>
           </View>

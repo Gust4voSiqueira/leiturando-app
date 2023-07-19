@@ -1,4 +1,11 @@
-import { View, Pressable, Text, TextInput, Image } from 'react-native'
+import {
+  View,
+  Pressable,
+  Text,
+  TextInput,
+  Image,
+  ImageSourcePropType,
+} from 'react-native'
 
 import { Link } from '@react-navigation/native'
 import { ButtonNext } from '../../../components'
@@ -8,28 +15,41 @@ import { colors } from '../../../../../global/themes/default'
 import { styles } from './styles'
 
 import ImageProfileDefault from '../../../../../assets/profileDefault.svg'
-import { IImage } from '..'
 import React, { useState } from 'react'
+import { Characters as CharactersType } from '..'
+import { Characters } from '../Modal/characters'
+
+interface IImage {
+  source?: ImageSourcePropType
+  sourceString?: string
+  type: 'character' | 'galery'
+}
 
 interface IOnRenderImage {
   image: IImage
+  characterSelected: CharactersType
 }
 
-function OnRenderImage({ image }: IOnRenderImage) {
-  const { type, source, sourceString } = image
-
-  return type === 'character' ? (
-    <Image source={source} style={styles.image} alt="" />
-  ) : (
-    <Image source={{ uri: sourceString }} style={styles.image} alt="" />
-  )
+function OnRenderImage({ image, characterSelected }: IOnRenderImage) {
+  if (image) {
+    return (
+      <Image source={{ uri: image.sourceString }} style={styles.image} alt="" />
+    )
+  } else if (characterSelected) {
+    const image = Characters.find(
+      (character) => character.name === characterSelected,
+    )
+    return <Image source={image.image} style={styles.image} alt="" />
+  } else {
+    return <ImageProfileDefault />
+  }
 }
 
 export interface IInputs {
-  name: String
-  email: String
-  password: String
-  confirmPassword: String
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
 }
 
 type IError = 'name' | 'email' | 'password' | 'confirmPassword'
@@ -37,12 +57,14 @@ type IError = 'name' | 'email' | 'password' | 'confirmPassword'
 interface IFormRegisterProps {
   onOpenModal: () => void
   image: IImage
+  characterSelected: CharactersType
   onRegisterFunction: (inputs: IInputs) => void
 }
 
 export function FormRegister({
   onOpenModal,
   image,
+  characterSelected,
   onRegisterFunction,
 }: IFormRegisterProps) {
   const [error, setError] = useState<IError[] | string[]>([])
@@ -87,7 +109,7 @@ export function FormRegister({
     <View style={styles.formLogin}>
       <View style={styles.buttonSelectImage}>
         <Pressable onPress={onOpenModal}>
-          {image ? <OnRenderImage image={image} /> : <ImageProfileDefault />}
+          <OnRenderImage image={image} characterSelected={characterSelected} />
         </Pressable>
         <Text style={styles.imageProfileText}>Foto de perfil</Text>
       </View>
@@ -95,12 +117,14 @@ export function FormRegister({
         style={[styles.input, onErrorInput('name') && styles.inputError]}
         placeholder="Nome ou Apelido"
         placeholderTextColor={colors['black-300']}
+        autoCapitalize="none"
         onChangeText={(newText) => setInputs({ ...inputs, name: newText })}
       />
 
       <TextInput
         style={[styles.input, onErrorInput('email') && styles.inputError]}
         placeholder="Email"
+        autoCapitalize="none"
         placeholderTextColor={colors['black-300']}
         onChangeText={(newText) => setInputs({ ...inputs, email: newText })}
       />
@@ -109,6 +133,7 @@ export function FormRegister({
         secureTextEntry={true}
         style={[styles.input, onErrorInput('password') && styles.inputError]}
         placeholder="Senha"
+        autoCapitalize="none"
         placeholderTextColor={colors['black-300']}
         onChangeText={(newText) => setInputs({ ...inputs, password: newText })}
       />
@@ -120,6 +145,7 @@ export function FormRegister({
           onErrorInput('confirmPassword') && styles.inputError,
         ]}
         placeholder="Confirmar Senha"
+        autoCapitalize="none"
         placeholderTextColor={colors['black-300']}
         onChangeText={(newText) =>
           setInputs({ ...inputs, confirmPassword: newText })

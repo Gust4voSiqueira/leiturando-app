@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
+    marginRight: 5,
   },
   infoRequestContainer: {
     alignItems: 'center',
@@ -35,6 +36,32 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 5,
+  },
+  responseFriendButtonAccept: {
+    backgroundColor: colors['green-700'],
+    paddingHorizontal: 10,
+    borderRadius: 3,
+    marginHorizontal: 5,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  responseFriendButtonReject: {
+    backgroundColor: colors['red-600'],
+    paddingHorizontal: 10,
+    borderRadius: 3,
+    marginHorizontal: 5,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  requestSend: {
+    backgroundColor: colors['black-500'],
+    paddingHorizontal: 10,
+    borderRadius: 3,
+    marginHorizontal: 5,
+
+    alignItems: 'center',
   },
   responseFriendButton: {
     backgroundColor: colors['black-500'],

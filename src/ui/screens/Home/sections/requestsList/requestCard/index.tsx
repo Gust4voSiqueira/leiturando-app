@@ -1,68 +1,125 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Image, Pressable, Text, View } from 'react-native'
 import { styles } from './styles'
+import { Check, X } from 'phosphor-react-native'
+import { colors } from '../../../../../../../global/themes/default'
+import { useRequests } from '../../../../../../hooks/useRequests'
+import { useState } from 'react'
 
 interface IHandleButton {
+  idUser: number
   typeCard: string
+  sendRequest: () => void
+  deleteRequest: (idUser: number) => void
+  acceptRequest: (idUser: number) => void
 }
 
-function HandleButton({ typeCard }: IHandleButton) {
+function HandleButton({
+  idUser,
+  typeCard,
+  sendRequest,
+  deleteRequest,
+  acceptRequest,
+}: IHandleButton) {
   if (typeCard === 'Request') {
     return (
       <>
-        <Pressable style={styles.responseFriendButton}>
-          <Text style={styles.responseFriendText}>Remover</Text>
+        <Pressable
+          style={styles.responseFriendButtonReject}
+          onPress={() => deleteRequest(idUser)}
+        >
+          <X size={18} color={colors.white} />
         </Pressable>
-        <Pressable style={styles.responseFriendButton}>
-          <Text style={styles.responseFriendText}>Aceitar</Text>
+        <Pressable
+          style={styles.responseFriendButtonAccept}
+          onPress={() => acceptRequest(idUser)}
+        >
+          <Check size={18} color={colors.white} />
         </Pressable>
       </>
     )
   } else if (typeCard === 'SubmittedRequest') {
     return (
-      <Pressable style={styles.responseFriendButton}>
-        <Text style={styles.responseFriendText}>Cancelar Solicitação</Text>
+      <Pressable
+        style={styles.responseFriendButton}
+        onPress={() => deleteRequest(idUser)}
+      >
+        <Text style={styles.responseFriendText}>Cancelar</Text>
       </Pressable>
     )
   }
 
   return (
-    <Pressable style={styles.responseFriendButton}>
-      <Text style={styles.responseFriendText}>Enviar Solicitação</Text>
+    <Pressable style={styles.responseFriendButton} onPress={sendRequest}>
+      <Text style={styles.responseFriendText}>Adicionar</Text>
     </Pressable>
   )
 }
 
 interface IRequestCard {
-  uriImage: string
+  id: number
+  imageUrl: string
   name: string
-  friendsCommon: number
+  mutualFriends: number
   typeCard: string
+  onRemoveRequest?: (id: number) => void
+  onAcceptRequest?: (id: number) => void
 }
 
 export function RequestCard({
-  uriImage,
+  id,
+  imageUrl,
   name,
-  friendsCommon,
+  mutualFriends,
   typeCard,
+  onRemoveRequest,
+  onAcceptRequest,
 }: IRequestCard) {
+  const [typeCardState, setTypeCardState] = useState(typeCard)
+  const { sendRequest } = useRequests()
+
+  async function onSendRequest() {
+    const response = await sendRequest(id)
+
+    if (response === 200) {
+      setTypeCardState('SubmittedRequest')
+    }
+  }
+
   return (
     <View style={styles.requestCard}>
-      <Image
+      {/* <Image
         style={styles.imageUserRequest}
         source={{
-          uri: uriImage,
+          uri: imageUrl,
         }}
+      /> */}
+
+      <Image
+        source={{ uri: `data:image/jpeg;base64,${imageUrl}` }}
+        style={styles.imageUserRequest}
       />
 
       <View style={styles.infoRequestContainer}>
         <Text style={styles.nameUserRequest}>{name}</Text>
-        <Text style={styles.quantitiFriendsCommon}>
-          {friendsCommon} amigos em comum
-        </Text>
+        {mutualFriends === 1 ? (
+          <Text style={styles.quantitiFriendsCommon}>
+            {mutualFriends} amigo em comum
+          </Text>
+        ) : (
+          <Text style={styles.quantitiFriendsCommon}>
+            {mutualFriends} amigos em comum
+          </Text>
+        )}
 
         <View style={styles.buttonsContainer}>
-          <HandleButton typeCard={typeCard} />
+          <HandleButton
+            idUser={id}
+            sendRequest={onSendRequest}
+            deleteRequest={onRemoveRequest}
+            acceptRequest={onAcceptRequest}
+            typeCard={typeCardState}
+          />
         </View>
       </View>
     </View>

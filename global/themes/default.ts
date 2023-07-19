@@ -8,6 +8,7 @@ export const colors = {
 
   'green-500': '#32E206',
   'green-600': '#04D361',
+  'green-700': '#019945',
 
   'red-600': '#C11111',
 

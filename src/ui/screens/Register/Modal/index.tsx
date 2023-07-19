@@ -27,7 +27,7 @@ export function ModalSelectImage({
           return (
             <Pressable
               key={index}
-              onPress={() => onSelectCharacter(character.image)}
+              onPress={() => onSelectCharacter(character.name)}
             >
               <Image source={character.image} style={styles.image} />
             </Pressable>

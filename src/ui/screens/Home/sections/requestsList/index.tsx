@@ -1,16 +1,38 @@
 import { ScrollView, Text, TextInput, View } from 'react-native'
 import { styles } from './styles'
 import { RequestCard } from './requestCard'
-import { IRequestCard } from '../cardProfile'
 import { useState } from 'react'
 import { colors } from '../../../../../../global/themes/default'
 
-interface IRequestList {
-  requests: IRequestCard[]
+interface IRequests {
+  id: number
+  urlImage: string
+  name: string
+  mutualFriends: number
 }
 
-export function RequestsList({ requests }: IRequestList) {
-  const [Myrequests] = useState<IRequestCard[]>(requests)
+interface IRecommendedFriends {
+  id: number
+  name: string
+  urlImage: string
+  mutualFriends: number
+}
+
+interface IRequestList {
+  requests: IRequests[]
+  requestsSend: IRequests[]
+  recommended: IRecommendedFriends[]
+  onRemoveRequest: (idUser: number) => void
+  onAcceptRequest: (idUser: number) => void
+}
+
+export function RequestsList({
+  requests,
+  recommended,
+  requestsSend,
+  onRemoveRequest,
+  onAcceptRequest,
+}: IRequestList) {
   const [selectInput, setSelectInput] = useState(false)
 
   function onSelectInput() {
@@ -19,8 +41,6 @@ export function RequestsList({ requests }: IRequestList) {
 
   return (
     <View style={styles.listRequestsContainer}>
-      <View style={styles.indicatorIcon} />
-
       <Text style={styles.listRequestsTitle}>Solicitações</Text>
       <ScrollView scrollEnabled style={{ width: '100%' }}>
         <TextInput
@@ -33,13 +53,38 @@ export function RequestsList({ requests }: IRequestList) {
           placeholderTextColor={colors['black-300']}
           onFocus={onSelectInput}
         />
-        {Myrequests.map((request) => (
+        {requests?.map((request, index) => (
           <RequestCard
-            key={request.id}
+            key={index}
+            id={request.id}
             name={request.name}
-            uriImage={request.uriImage}
-            friendsCommon={request.friendsCommon}
-            typeCard={request.typeRequest}
+            imageUrl={request.urlImage}
+            mutualFriends={request.mutualFriends}
+            typeCard="Request"
+            onRemoveRequest={onRemoveRequest}
+            onAcceptRequest={onAcceptRequest}
+          />
+        ))}
+
+        {requestsSend.map((request, index) => (
+          <RequestCard
+            key={index}
+            id={request.id}
+            name={request.name}
+            imageUrl={request.urlImage}
+            mutualFriends={request.mutualFriends}
+            typeCard="SubmittedRequest"
+          />
+        ))}
+
+        {recommended.map((user, index) => (
+          <RequestCard
+            key={index}
+            id={user.id}
+            name={user.name}
+            imageUrl={user.urlImage}
+            mutualFriends={user.mutualFriends}
+            typeCard="Recommended Friend"
           />
         ))}
       </ScrollView>

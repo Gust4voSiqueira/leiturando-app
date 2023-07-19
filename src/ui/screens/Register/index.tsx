@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { View, ImageSourcePropType } from 'react-native'
+import { ImageSourcePropType, View } from 'react-native'
 import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
@@ -22,12 +22,25 @@ type LoginScreenNavigationProp = StackNavigationProp<
 export interface IImage {
   source?: ImageSourcePropType
   sourceString?: string
+  image?: ImagePicker.Asset
   type: 'character' | 'galery'
 }
+
+export type Characters =
+  | 'batman'
+  | 'robin'
+  | 'superman'
+  | 'wonderMan'
+  | 'thor'
+  | 'spiderMan'
+  | 'joker'
+  | 'harry'
+  | 'wolverine'
 
 export function Register() {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [image, setImage] = useState<IImage>()
+  const [characterName, setCharacterName] = useState<Characters>()
   const { register } = useUserRequest()
   const navigation = useNavigation<LoginScreenNavigationProp>()
 
@@ -37,12 +50,14 @@ export function Register() {
         mediaType: 'photo',
       },
       (response) => {
-        onOpenModal()
         const newImage: IImage = {
           sourceString: response.assets[0].uri,
+          image: response.assets[0],
           type: 'galery',
         }
         setImage(newImage)
+        setCharacterName(null)
+        onOpenModal()
       },
     )
   }
@@ -51,28 +66,23 @@ export function Register() {
     setIsOpenModal(!isOpenModal)
   }
 
-  function onSelectCharacter(character) {
-    const newImage: IImage = {
-      source: character,
-      type: 'character',
-    }
-    setImage(newImage)
+  function onSelectCharacter(character: Characters) {
+    setCharacterName(character)
+    setImage(null)
     onOpenModal()
   }
 
   function onSubmitRegister(inputs: IInputs) {
     const dataRegister = {
-      characterName: 'Batman',
       ...inputs,
+      characterName,
+      file: image,
     }
+
     const response = register(dataRegister)
 
-    const { email, password } = inputs
-
     if (response) {
-      const emailUser = email as string
-      const passwordUser = password as string
-      navigation.navigate('Login', { email: emailUser, password: passwordUser })
+      navigation.navigate('Login')
     }
   }
 
@@ -88,6 +98,7 @@ export function Register() {
 
       <FormRegister
         image={image}
+        characterSelected={characterName}
         onOpenModal={onOpenModal}
         onRegisterFunction={onSubmitRegister}
       />

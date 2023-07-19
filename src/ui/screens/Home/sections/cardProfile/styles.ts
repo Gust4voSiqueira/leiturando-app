@@ -22,6 +22,13 @@ export const styles = (props: StyleProps) =>
     requestsText: {
       color: colors.white,
       fontSize: 9,
+      textAlign: 'center',
+    },
+    logoutButton: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      alignItems: 'center',
     },
     nameUser: {
       fontSize: fontsSize.large,
@@ -29,8 +36,8 @@ export const styles = (props: StyleProps) =>
       color: colors.white,
     },
     imageProfile: {
-      width: 70,
-      height: 70,
+      width: 65,
+      height: 65,
       borderRadius: 50,
       marginBottom: 5,
     },
