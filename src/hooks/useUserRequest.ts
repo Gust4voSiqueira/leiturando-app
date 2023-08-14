@@ -2,7 +2,8 @@ import { useContext } from 'react'
 import { api } from '../lib/axios'
 import { btoa } from 'react-native-quick-base64'
 import { TokenContext } from '../contexts/TokenContext'
-import { IImage } from '../ui/screens/Register'
+import { UserContext } from '../contexts/UserDataContext'
+import { convertData } from '../utils/convertData'
 
 interface ILogin {
   email: String
@@ -13,37 +14,39 @@ interface IUserRegister {
   characterName?: string
   name: string
   email: string
+  dateOfBirth: string
   password: string
   confirmPassword: string
-  file?: IImage
+}
+
+interface IEditProfile {
+  characterName?: string
+  name?: string
+  email?: string
+  dateOfBirth?: string
+  password: string
 }
 
 export const useUserRequest = () => {
-  const { addToken, token } = useContext(TokenContext)
+  const { removeToken, addToken, token } = useContext(TokenContext)
+  const { saveUserData } = useContext(UserContext)
 
-  async function register(userRequest: IUserRegister) {
+  async function register(userRegister: IUserRegister) {
     try {
-      const formData = new FormData()
-
-      if (userRequest.file) {
-        const file = await convertImagePickerAssetToFile(userRequest.file)
-        formData.append('file', file)
+      const userRequest = {
+        ...userRegister,
+        dateOfBirth: convertData(userRegister.dateOfBirth),
       }
 
-      if (userRequest.characterName) {
-        formData.append('characterName', userRequest.characterName)
-      }
-
-      formData.append('name', userRequest.name)
-      formData.append('email', userRequest.email)
-      formData.append('password', userRequest.password)
-      formData.append('confirmPassword', userRequest.confirmPassword)
-
-      const response = await api.post('/user/register', formData)
+      const response = await api.post('/user/register', userRequest, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      })
 
       return response.data
     } catch (err) {
-      console.log(err)
+      return err
     }
   }
 
@@ -51,6 +54,8 @@ export const useUserRequest = () => {
     try {
       const credentials = btoa('client' + ':' + 123)
       const basicAuth = 'Basic ' + credentials
+
+      console.log({ email, password })
 
       const response = await api.post(
         '/oauth/token',
@@ -71,52 +76,46 @@ export const useUserRequest = () => {
 
       return response
     } catch (error) {
-      return 'Error'
+      return error
     }
   }
 
   async function myUser() {
     try {
-      console.log(token)
-
       const response = await api.get('/user-auth', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
+      saveUserData(response.data)
       return response.data
     } catch (error) {
-      console.log('falhou')
-
       console.log(error)
+
+      removeToken()
+      return error
     }
   }
 
-  async function getRequests() {
+  async function editProfile(newUser: IEditProfile) {
     try {
-      const response = await api.get('/request/getRequests', {
+      const response = await api.put('/edit-profile', newUser, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
-      return response.data
+      console.log(response.data)
     } catch (error) {
-      console.log(error)
+      return error
     }
-  }
-
-  const convertImagePickerAssetToFile = async (asset) => {
-    const response = await fetch(asset.sourceString)
-    const blob = await response.blob()
-    return new File([blob], 'file.jpg', { type: 'image/jpeg' })
   }
 
   return {
     register,
     login,
     myUser,
-    getRequests,
+    editProfile,
   }
 }

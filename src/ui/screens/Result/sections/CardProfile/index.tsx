@@ -9,9 +9,7 @@ import { useState } from 'react'
 
 export function CardProfile() {
   const { level, user } = profileInfo
-  const [progress, setProgress] = useState(
-    progressActual(level.actualPoints, level.pointsTotal),
-  )
+  const [progress, setProgress] = useState(progressActual(level.actualPoints))
   const customStyles = styles({ progressActualBarProgress: progress })
 
   // setTimeout(() => {

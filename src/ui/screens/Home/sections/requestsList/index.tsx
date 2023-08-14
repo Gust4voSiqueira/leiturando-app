@@ -1,43 +1,29 @@
-import { ScrollView, Text, TextInput, View } from 'react-native'
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
 import { styles } from './styles'
 import { RequestCard } from './requestCard'
-import { useState } from 'react'
 import { colors } from '../../../../../../global/themes/default'
+import { useContext, useEffect, useState } from 'react'
+import { RequestsContext } from '../../../../../contexts/RequestsContext'
 
-interface IRequests {
-  id: number
-  urlImage: string
-  name: string
-  mutualFriends: number
-}
-
-interface IRecommendedFriends {
-  id: number
-  name: string
-  urlImage: string
-  mutualFriends: number
-}
-
-interface IRequestList {
-  requests: IRequests[]
-  requestsSend: IRequests[]
-  recommended: IRecommendedFriends[]
-  onRemoveRequest: (idUser: number) => void
-  onAcceptRequest: (idUser: number) => void
-}
-
-export function RequestsList({
-  requests,
-  recommended,
-  requestsSend,
-  onRemoveRequest,
-  onAcceptRequest,
-}: IRequestList) {
+export function RequestsList() {
   const [selectInput, setSelectInput] = useState(false)
+  const { requests, onLoadRequests } = useContext(RequestsContext)
+
+  useEffect(() => {
+    onLoadRequests()
+  }, [])
 
   function onSelectInput() {
     setSelectInput(!selectInput)
   }
+
+  if (!requests) return <ActivityIndicator size="large" />
 
   return (
     <View style={styles.listRequestsContainer}>
@@ -53,22 +39,20 @@ export function RequestsList({
           placeholderTextColor={colors['black-300']}
           onFocus={onSelectInput}
         />
-        {requests?.map((request, index) => (
+        {requests?.requests.map((request) => (
           <RequestCard
-            key={index}
+            key={request.id}
             id={request.id}
             name={request.name}
             imageUrl={request.urlImage}
             mutualFriends={request.mutualFriends}
             typeCard="Request"
-            onRemoveRequest={onRemoveRequest}
-            onAcceptRequest={onAcceptRequest}
           />
         ))}
 
-        {requestsSend.map((request, index) => (
+        {requests?.requestsSend.map((request) => (
           <RequestCard
-            key={index}
+            key={request.id}
             id={request.id}
             name={request.name}
             imageUrl={request.urlImage}
@@ -77,9 +61,9 @@ export function RequestsList({
           />
         ))}
 
-        {recommended.map((user, index) => (
+        {requests?.usersRecommended.map((user) => (
           <RequestCard
-            key={index}
+            key={user.id}
             id={user.id}
             name={user.name}
             imageUrl={user.urlImage}

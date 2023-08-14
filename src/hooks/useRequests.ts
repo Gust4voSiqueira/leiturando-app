@@ -19,11 +19,9 @@ export const useRequests = () => {
         },
       )
 
-      console.log(response)
-
-      return response.status
+      return response.data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 
@@ -37,7 +35,7 @@ export const useRequests = () => {
 
       return response.data
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 
@@ -55,7 +53,21 @@ export const useRequests = () => {
 
       return response.data
     } catch (error) {
-      console.log(error)
+      return error
+    }
+  }
+
+  async function getRequests() {
+    try {
+      const response = await api.get('/request/getRequests', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      return error
     }
   }
 
@@ -63,5 +75,6 @@ export const useRequests = () => {
     sendRequest,
     removeRequest,
     acceptRequest,
+    getRequests,
   }
 }

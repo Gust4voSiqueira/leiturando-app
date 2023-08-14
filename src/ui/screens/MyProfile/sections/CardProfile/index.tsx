@@ -6,12 +6,37 @@ import { CaretLeft, PencilSimple } from 'phosphor-react-native'
 import { colors } from '../../../../../../global/themes/default'
 import { useRedirect } from '../../../../../hooks/useRedirect'
 
-interface ICardProfile {
-  name: string
-  image: string
+function dateFormatter(date: Date) {
+  const monthList = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ]
+
+  const data = new Date(date)
+
+  const month = monthList[data.getMonth()]
+  const year = data.getFullYear()
+
+  return `${month} de ${year}`.toUpperCase()
 }
 
-export function CardProfile({ name, image }: ICardProfile) {
+interface ICardProfile {
+  name: string
+  image: any
+  createdAt: Date
+}
+
+export function CardProfile({ name, image, createdAt }: ICardProfile) {
   const { onRedirect } = useRedirect()
 
   return (
@@ -20,12 +45,7 @@ export function CardProfile({ name, image }: ICardProfile) {
         <CaretLeft size={30} weight="bold" color={colors['black-400']} />
       </Pressable>
 
-      <Image
-        style={styles.imageProfile}
-        source={{
-          uri: image,
-        }}
-      />
+      <Image source={image} style={styles.imageProfile} />
       <Pressable
         style={styles.iconPencil}
         onPress={() => onRedirect('/EditProfile')}
@@ -36,7 +56,9 @@ export function CardProfile({ name, image }: ICardProfile) {
       <Text style={styles.nameUser}>{name}</Text>
 
       <View style={styles.footerCardContainer}>
-        <Text style={styles.textFooterCard}>MEMBRO DESDE: AGOSTO DE 2022</Text>
+        <Text style={styles.textFooterCard}>
+          MEMBRO DESDE: {dateFormatter(createdAt)}
+        </Text>
       </View>
     </View>
   )

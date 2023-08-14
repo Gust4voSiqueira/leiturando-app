@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Image, Pressable, Text, View } from 'react-native'
+import { useContext, useState } from 'react'
+import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native'
 import { styles } from './styles'
 import { Check, X } from 'phosphor-react-native'
 import { colors } from '../../../../../../../global/themes/default'
-import { useRequests } from '../../../../../../hooks/useRequests'
-import { useState } from 'react'
+import { RequestsContext } from '../../../../../../contexts/RequestsContext'
 
 interface IHandleButton {
   idUser: number
   typeCard: string
-  sendRequest: () => void
-  deleteRequest: (idUser: number) => void
+  sendRequest: (id: number) => void
+  cancelRequest: () => void
+  deleteRequest: () => void
   acceptRequest: (idUser: number) => void
 }
 
@@ -18,6 +19,7 @@ function HandleButton({
   idUser,
   typeCard,
   sendRequest,
+  cancelRequest,
   deleteRequest,
   acceptRequest,
 }: IHandleButton) {
@@ -26,7 +28,7 @@ function HandleButton({
       <>
         <Pressable
           style={styles.responseFriendButtonReject}
-          onPress={() => deleteRequest(idUser)}
+          onPress={deleteRequest}
         >
           <X size={18} color={colors.white} />
         </Pressable>
@@ -40,17 +42,17 @@ function HandleButton({
     )
   } else if (typeCard === 'SubmittedRequest') {
     return (
-      <Pressable
-        style={styles.responseFriendButton}
-        onPress={() => deleteRequest(idUser)}
-      >
+      <Pressable style={styles.cancelRequestButton} onPress={cancelRequest}>
         <Text style={styles.responseFriendText}>Cancelar</Text>
       </Pressable>
     )
   }
 
   return (
-    <Pressable style={styles.responseFriendButton} onPress={sendRequest}>
+    <Pressable
+      style={styles.responseFriendButton}
+      onPress={() => sendRequest(idUser)}
+    >
       <Text style={styles.responseFriendText}>Adicionar</Text>
     </Pressable>
   )
@@ -72,29 +74,34 @@ export function RequestCard({
   name,
   mutualFriends,
   typeCard,
-  onRemoveRequest,
-  onAcceptRequest,
 }: IRequestCard) {
-  const [typeCardState, setTypeCardState] = useState(typeCard)
-  const { sendRequest } = useRequests()
+  const {
+    onRemoveRequestSend,
+    onRemoveRequestReceived,
+    onAcceptRequest,
+    onSendRequest,
+  } = useContext(RequestsContext)
+  const [isLoading, setIsLoading] = useState(false)
 
-  async function onSendRequest() {
-    const response = await sendRequest(id)
-
-    if (response === 200) {
-      setTypeCardState('SubmittedRequest')
-    }
+  function handleCancelRequest() {
+    setIsLoading(true)
+    onRemoveRequestSend(id)
   }
+
+  function handleRemoveRequest() {
+    setIsLoading(true)
+    onRemoveRequestReceived(id)
+  }
+
+  if (isLoading)
+    return (
+      <View style={styles.requestCardLoad}>
+        <ActivityIndicator size="small" style={styles.load} />
+      </View>
+    )
 
   return (
     <View style={styles.requestCard}>
-      {/* <Image
-        style={styles.imageUserRequest}
-        source={{
-          uri: imageUrl,
-        }}
-      /> */}
-
       <Image
         source={{ uri: `data:image/jpeg;base64,${imageUrl}` }}
         style={styles.imageUserRequest}
@@ -116,9 +123,10 @@ export function RequestCard({
           <HandleButton
             idUser={id}
             sendRequest={onSendRequest}
-            deleteRequest={onRemoveRequest}
+            cancelRequest={handleCancelRequest}
+            deleteRequest={handleRemoveRequest}
             acceptRequest={onAcceptRequest}
-            typeCard={typeCardState}
+            typeCard={typeCard}
           />
         </View>
       </View>

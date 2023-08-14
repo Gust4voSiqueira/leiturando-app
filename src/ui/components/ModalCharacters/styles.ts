@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native'
-import { colors } from '../../../../../global/themes/default'
+import { colors } from '../../../../global/themes/default'
 
 const { width, height } = Dimensions.get('window')
 
@@ -39,5 +39,15 @@ export const styles = StyleSheet.create({
     width: 60,
     height: 60,
     marginVertical: 15,
+  },
+  cancelSelection: {
+    backgroundColor: colors['green-600'],
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+  },
+  cancelSelectionContainer: {
+    width: '100%',
+    alignItems: 'center',
   },
 })

@@ -12,6 +12,16 @@ export const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 3,
   },
+  requestCardLoad: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: colors['black-700'],
+    paddingVertical: 10,
+    maxWidth: 230,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+    borderRadius: 3,
+  },
   imageUserRequest: {
     width: 50,
     height: 50,
@@ -60,8 +70,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 3,
     marginHorizontal: 5,
-
     alignItems: 'center',
+  },
+  cancelRequestButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 3,
+    marginHorizontal: 5,
+    backgroundColor: colors['red-600'],
   },
   responseFriendButton: {
     backgroundColor: colors['black-500'],
@@ -73,5 +89,9 @@ export const styles = StyleSheet.create({
   responseFriendText: {
     color: colors.white,
     fontSize: fontsSize.small,
+  },
+  load: {
+    width: 5,
+    alignItems: 'center',
   },
 })

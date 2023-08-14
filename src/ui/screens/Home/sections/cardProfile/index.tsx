@@ -4,15 +4,16 @@ import { Card } from '../../../../components'
 import { styles } from './styles'
 import { SignOut, UserPlus } from 'phosphor-react-native'
 import { colors } from '../../../../../../global/themes/default'
-import { profileInfo } from '../../../../../database/profileData'
 import { progressActual } from '../../../../../utils/progressActual'
 import { useRedirect } from '../../../../../hooks/useRedirect'
-import { IRequests, IUserData } from '../..'
-import { useContext } from 'react'
+import { IUserData } from '../..'
+import { useContext, useEffect } from 'react'
 import { TokenContext } from '../../../../../contexts/TokenContext'
+import { RequestsContext } from '../../../../../contexts/RequestsContext'
+import { Characters } from '../../../../components/ModalCharacters/characters'
 
 export interface IRequestCard {
-  imageUrl: string
+  image: string
   name: string
   mutualFriends: number
 }
@@ -20,22 +21,21 @@ export interface IRequestCard {
 interface ICardProfile {
   onCloseModalRequests?: () => void
   user?: IUserData
-  requests: IRequests
 }
 
-export function CardProfile({
-  onCloseModalRequests,
-  user,
-  requests,
-}: ICardProfile) {
+export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
   const { onRedirect } = useRedirect()
-  const { level } = profileInfo
+  const { requests, onLoadRequests } = useContext(RequestsContext)
   const { removeToken } = useContext(TokenContext)
 
-  const progressActualBarProgress = progressActual(
-    level.actualPoints,
-    level.pointsTotal,
-  )
+  console.log(user)
+
+  const image = Characters.find((character) => character.name === user?.image)
+  const progressActualBarProgress = progressActual(user.breakthrough)
+
+  useEffect(() => {
+    onLoadRequests()
+  }, [])
 
   const customStyles = styles({ progressActualBarProgress })
 
@@ -47,7 +47,7 @@ export function CardProfile({
             style={customStyles.requestsContainer}
             onPress={onCloseModalRequests}
           >
-            {requests.requests.length > 0 && (
+            {requests?.requests.length > 0 && (
               <View style={customStyles.quantitieRequestsCircle}>
                 <Text style={customStyles.quantitieRequestsText}>
                   {requests.requests.length}
@@ -65,10 +65,7 @@ export function CardProfile({
           <Text style={customStyles.requestsText}>Sair</Text>
         </Pressable>
 
-        <Image
-          source={{ uri: `data:image/jpeg;base64,${user.imageUrl}` }}
-          style={customStyles.imageProfile}
-        />
+        <Image source={image?.image} style={customStyles.imageProfile} />
 
         <Text style={customStyles.nameUser}>{user.name}</Text>
 

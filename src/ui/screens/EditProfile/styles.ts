@@ -65,4 +65,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700',
   },
+  inputsContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
 })

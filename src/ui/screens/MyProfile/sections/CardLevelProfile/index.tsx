@@ -5,15 +5,10 @@ import { progressActual } from '../../../../../utils/progressActual'
 interface ICardLevelProfile {
   level: number
   actualPoints: number
-  pointsTotal: number
 }
 
-export function CardLevelProfile({
-  level,
-  actualPoints,
-  pointsTotal,
-}: ICardLevelProfile) {
-  const progressActualBarProgress = progressActual(actualPoints, pointsTotal)
+export function CardLevelProfile({ level, actualPoints }: ICardLevelProfile) {
+  const progressActualBarProgress = progressActual(actualPoints)
 
   const customStyles = styles({ progressActualBarProgress })
 

@@ -2,75 +2,109 @@
 import { Image, Pressable, Text, TextInput, View } from 'react-native'
 import { Header } from '../../components'
 import { styles } from './styles'
-import { profileInfo } from '../../../database/profileData'
 import { colors } from '../../../../global/themes/default'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { UserContext } from '../../../contexts/UserDataContext'
+import { ModalSelectImage } from '../../components/ModalCharacters'
+import { Characters } from '../Register'
+import { Characters as CharactersList } from '../../components/ModalCharacters/characters'
+import { useUserRequest } from '../../../hooks/useUserRequest'
+
+const fields = [
+  { key: 'name', placeholder: 'Nome' },
+  { key: 'email', placeholder: 'Email' },
+  { key: 'dateOfBirth', placeholder: 'Data de Nascimento' },
+  { key: 'password', placeholder: 'Senha' },
+]
 
 export function EditProfile() {
+  const [inputs, setInputs] = useState({
+    name: '',
+    email: '',
+    dateOfBirth: '',
+    password: '',
+  })
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [characterName, setCharacterName] = useState<Characters>()
+  const { userData } = useContext(UserContext)
   const [inputFocused, setInputFocused] = useState<String>()
+  const { editProfile } = useUserRequest()
+  const imageCharacter = CharactersList.find(
+    (character) => character.name === characterName,
+  )
+  const image = CharactersList.find(
+    (character) => character.name === userData.image,
+  )
 
-  function onAlterFocusInput(newFocus: string) {
-    setInputFocused(newFocus)
-    console.log(newFocus)
+  const renderProfileImage = () => {
+    if (image) {
+      return <Image source={image.image} style={styles.imageProfile} />
+    } else {
+      return <Image source={imageCharacter.image} style={styles.imageProfile} />
+    }
   }
+
+  function onOpenModal() {
+    setIsOpenModal(!isOpenModal)
+  }
+
+  function onSelectCharacter(character: Characters) {
+    setCharacterName(character)
+    onOpenModal()
+  }
+
+  const handleFieldFocus = (fieldKey: string) => {
+    setInputFocused(fieldKey)
+  }
+
+  const handleInputChange = (fieldKey: string, newText: string) => {
+    setInputs((prevInputs) => ({ ...prevInputs, [fieldKey]: newText }))
+  }
+
+  async function sendRequest() {
+    try {
+      await editProfile(inputs)
+    } catch (error) {
+      return error
+    }
+  }
+
+  const renderTextInput = (field) => (
+    <TextInput
+      style={
+        inputFocused !== field.key
+          ? styles.inputEditProfile
+          : styles.inputEditProfileFocused
+      }
+      placeholder={field.placeholder}
+      onFocus={() => handleFieldFocus(field.key)}
+      placeholderTextColor={colors['black-300']}
+      value={inputs[field.key]}
+      onChangeText={(newText) => handleInputChange(field.key, newText)}
+    />
+  )
 
   return (
     <View style={styles.editProfileContainer}>
       <Header title="Editar Perfil" isRedirect />
 
       <View style={styles.editProfileFormContainer}>
-        <Image
-          style={styles.imageProfile}
-          source={{
-            uri: profileInfo.user.image,
-          }}
-        />
-        <TextInput
-          style={
-            inputFocused !== 'Nome'
-              ? styles.inputEditProfile
-              : styles.inputEditProfileFocused
-          }
-          placeholder="Nome"
-          onFocus={() => onAlterFocusInput('Nome')}
-          placeholderTextColor={colors['black-300']}
-        />
-        <TextInput
-          style={
-            inputFocused !== 'Apelido'
-              ? styles.inputEditProfile
-              : styles.inputEditProfileFocused
-          }
-          placeholder="Apelido"
-          onFocus={() => onAlterFocusInput('Apelido')}
-          placeholderTextColor={colors['black-300']}
-        />
-        <TextInput
-          style={
-            inputFocused !== 'Email'
-              ? styles.inputEditProfile
-              : styles.inputEditProfileFocused
-          }
-          placeholder="Email"
-          onFocus={() => onAlterFocusInput('Email')}
-          placeholderTextColor={colors['black-300']}
-        />
-        <TextInput
-          style={
-            inputFocused !== 'Nascimento'
-              ? styles.inputEditProfile
-              : styles.inputEditProfileFocused
-          }
-          placeholder="Data de Nascimento"
-          onFocus={() => onAlterFocusInput('Nascimento')}
-          placeholderTextColor={colors['black-300']}
-        />
+        <Pressable onPress={onOpenModal}>{renderProfileImage()}</Pressable>
+        {isOpenModal && (
+          <ModalSelectImage onSelectCharacter={onSelectCharacter} />
+        )}
+
+        {fields.map((field) => (
+          <View key={field.key} style={styles.inputsContainer}>
+            {renderTextInput(field)}
+          </View>
+        ))}
 
         <View style={styles.buttonsContainer}>
           <Pressable style={styles.buttonEditProfile}>
             <Text style={styles.textButton}>Alterar Senha</Text>
           </Pressable>
-          <Pressable style={styles.buttonEditProfile}>
+          <Pressable style={styles.buttonEditProfile} onPress={sendRequest}>
             <Text style={styles.textButton}>Salvar Informações</Text>
           </Pressable>
         </View>

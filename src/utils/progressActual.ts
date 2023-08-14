@@ -1,4 +1,2 @@
-export const progressActual = (
-  actualPoints: number,
-  pointsTotal: number,
-): number => (actualPoints / pointsTotal) * 100
+export const progressActual = (actualPoints: number): number =>
+  (actualPoints / 100) * 100
