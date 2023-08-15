@@ -24,7 +24,6 @@ interface IEditProfile {
   name?: string
   email?: string
   dateOfBirth?: string
-  password: string
 }
 
 export const useUserRequest = () => {
@@ -45,8 +44,8 @@ export const useUserRequest = () => {
       })
 
       return response.data
-    } catch (err) {
-      return err
+    } catch (error) {
+      throw new Error(error)
     }
   }
 
@@ -54,8 +53,6 @@ export const useUserRequest = () => {
     try {
       const credentials = btoa('client' + ':' + 123)
       const basicAuth = 'Basic ' + credentials
-
-      console.log({ email, password })
 
       const response = await api.post(
         '/oauth/token',
@@ -76,7 +73,7 @@ export const useUserRequest = () => {
 
       return response
     } catch (error) {
-      return error
+      throw new Error(error)
     }
   }
 
@@ -91,24 +88,29 @@ export const useUserRequest = () => {
       saveUserData(response.data)
       return response.data
     } catch (error) {
-      console.log(error)
-
       removeToken()
-      return error
+      throw new Error(error)
     }
   }
 
   async function editProfile(newUser: IEditProfile) {
     try {
-      const response = await api.put('/edit-profile', newUser, {
+      const userRequest = {
+        ...newUser,
+        dateOfBirth: newUser.dateOfBirth
+          ? convertData(newUser.dateOfBirth)
+          : newUser.dateOfBirth,
+      }
+
+      const response = await api.put('/edit-profile', userRequest, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
-      console.log(response.data)
+      saveUserData(response.data)
     } catch (error) {
-      return error
+      throw new Error(error)
     }
   }
 
