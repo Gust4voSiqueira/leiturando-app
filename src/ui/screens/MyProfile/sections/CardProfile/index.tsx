@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { Image, Text, View, Pressable } from 'react-native'
+import { Text, View, Pressable } from 'react-native'
 
 import { styles } from './styles'
 import { CaretLeft, PencilSimple } from 'phosphor-react-native'
 import { colors } from '../../../../../../global/themes/default'
 import { useRedirect } from '../../../../../hooks/useRedirect'
+
+import React from 'react'
 
 function dateFormatter(date: Date) {
   const monthList = [
@@ -32,11 +34,11 @@ function dateFormatter(date: Date) {
 
 interface ICardProfile {
   name: string
-  image: any
+  character: React.JSX.Element
   createdAt: Date
 }
 
-export function CardProfile({ name, image, createdAt }: ICardProfile) {
+export function CardProfile({ name, character, createdAt }: ICardProfile) {
   const { onRedirect } = useRedirect()
 
   return (
@@ -45,7 +47,7 @@ export function CardProfile({ name, image, createdAt }: ICardProfile) {
         <CaretLeft size={30} weight="bold" color={colors['black-400']} />
       </Pressable>
 
-      <Image source={image} style={styles.imageProfile} />
+      {character}
       <Pressable
         style={styles.iconPencil}
         onPress={() => onRedirect('/EditProfile')}

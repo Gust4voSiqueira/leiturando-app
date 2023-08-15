@@ -43,4 +43,8 @@ export const styles = StyleSheet.create({
     height: 65,
     borderRadius: 50,
   },
+  inputsContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
 })

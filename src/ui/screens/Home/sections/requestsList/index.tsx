@@ -44,7 +44,7 @@ export function RequestsList() {
             key={request.id}
             id={request.id}
             name={request.name}
-            imageUrl={request.urlImage}
+            image={request.image}
             mutualFriends={request.mutualFriends}
             typeCard="Request"
           />
@@ -55,7 +55,7 @@ export function RequestsList() {
             key={request.id}
             id={request.id}
             name={request.name}
-            imageUrl={request.urlImage}
+            image={request.image}
             mutualFriends={request.mutualFriends}
             typeCard="SubmittedRequest"
           />
@@ -66,7 +66,7 @@ export function RequestsList() {
             key={user.id}
             id={user.id}
             name={user.name}
-            imageUrl={user.urlImage}
+            image={user.image}
             mutualFriends={user.mutualFriends}
             typeCard="Recommended Friend"
           />

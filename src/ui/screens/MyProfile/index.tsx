@@ -15,7 +15,7 @@ export function MyProfile() {
       <ScrollView style={styles.scrollViewContainer}>
         <CardProfile
           name={userData.name}
-          image={userData.image}
+          character={userData.image}
           createdAt={userData.createdAt}
         />
         <CardLevelProfile

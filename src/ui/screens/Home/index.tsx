@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 
 import { CardProfile } from './sections/cardProfile'
@@ -12,12 +12,13 @@ import { RequestsList } from './sections/requestsList'
 import { useUserRequest } from '../../../hooks/useUserRequest'
 import { Loading } from '../Loading'
 import { useRedirect } from '../../../hooks/useRedirect'
+import { UserContext } from '../../../contexts/UserDataContext'
 
 type CardMatchesProps = StackScreenProps<RootStackParamList, 'CardMatches'>
 
 export interface IUserData {
   breakthrough: number
-  image: string
+  image: React.JSX.Element
   level: number
   name: string
 }
@@ -32,15 +33,13 @@ export interface IOnRedirectProps {
 export function Home({ navigation }: CardMatchesProps) {
   const { myUser } = useUserRequest()
   const [cardList, setCartList] = useState(false)
-  const [userData, setUserData] = useState<IUserData>()
+  const { userData } = useContext(UserContext)
   const redirect = useRedirect()
 
   useEffect(() => {
     async function getMyUserData() {
       try {
-        const response = await myUser()
-
-        setUserData(response)
+        await myUser()
       } catch (error) {
         redirect.onRedirect('/Login')
       }

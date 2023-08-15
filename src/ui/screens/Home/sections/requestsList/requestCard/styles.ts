@@ -23,8 +23,6 @@ export const styles = StyleSheet.create({
     borderRadius: 3,
   },
   imageUserRequest: {
-    width: 50,
-    height: 50,
     borderRadius: 50,
     marginRight: 5,
   },

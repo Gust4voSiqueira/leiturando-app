@@ -1,4 +1,4 @@
-import { View, Pressable, Text, TextInput, Image } from 'react-native'
+import { View, Pressable, Text, TextInput } from 'react-native'
 
 import { Link } from '@react-navigation/native'
 import { ButtonNext } from '../../../components'
@@ -10,7 +10,9 @@ import { styles } from './styles'
 import ImageProfileDefault from '../../../../../assets/profileDefault.svg'
 import React, { useState } from 'react'
 import { Characters as CharactersType } from '..'
-import { Characters } from '../../../components/ModalCharacters/characters'
+import { FieldsRegisterNewUser, onErrorInput, validateInputs } from './validate'
+import { handleDateChange } from '../../../../utils/handleDateChange'
+import { charactersImages } from '../../../../utils/charactersImages'
 
 interface IOnRenderImage {
   characterSelected: CharactersType
@@ -18,10 +20,10 @@ interface IOnRenderImage {
 
 function OnRenderImage({ characterSelected }: IOnRenderImage) {
   if (characterSelected) {
-    const image = Characters.find(
+    const image = charactersImages(10, 10).find(
       (character) => character.name === characterSelected,
     )
-    return <Image source={image.image} style={styles.image} alt="" />
+    return image.image
   } else {
     return <ImageProfileDefault />
   }
@@ -35,8 +37,6 @@ export interface IInputs {
   dateOfBirth: string
 }
 
-type IError = 'name' | 'email' | 'password' | 'confirmPassword' | 'dateOfBirth'
-
 interface IFormRegisterProps {
   onOpenModal: () => void
   characterSelected: CharactersType
@@ -48,7 +48,7 @@ export function FormRegister({
   characterSelected,
   onRegisterFunction,
 }: IFormRegisterProps) {
-  const [error, setError] = useState<IError[] | string[]>([])
+  const [error, setError] = useState([])
   const [inputs, setInputs] = useState<IInputs>({
     name: '',
     email: '',
@@ -57,28 +57,9 @@ export function FormRegister({
     dateOfBirth: '',
   })
 
-  const onErrorInput = (field: String) => error.some((error) => error === field)
-
-  const validateInputs = (field: IError) => {
-    const { name, email, password, confirmPassword, dateOfBirth } = inputs
-
-    const fields = {
-      name: name.length > 2 && name.length < 10,
-      email: email.length > 10,
-      password: password.length > 5 && password.length < 15,
-      confirmPassword:
-        confirmPassword.length > 5 &&
-        confirmPassword.length < 15 &&
-        confirmPassword === password,
-      dateOfBirth: dateOfBirth.length === 10,
-    }
-
-    return fields[field]
-  }
-
   const onRegister = () => {
     const errors = Object.keys(inputs).filter(
-      (input: IError) => !validateInputs(input),
+      (input: FieldsRegisterNewUser) => !validateInputs(input, inputs),
     )
 
     setError([...errors])
@@ -87,7 +68,6 @@ export function FormRegister({
       onRegisterFunction(inputs)
     }
   }
-
   return (
     <View style={styles.formLogin}>
       <View style={styles.buttonSelectImage}>
@@ -97,7 +77,7 @@ export function FormRegister({
         <Text style={styles.imageProfileText}>Foto de perfil</Text>
       </View>
       <TextInput
-        style={[styles.input, onErrorInput('name') && styles.inputError]}
+        style={[styles.input, onErrorInput('name', error) && styles.inputError]}
         placeholder="Nome ou Apelido"
         placeholderTextColor={colors['black-300']}
         autoCapitalize="none"
@@ -105,7 +85,10 @@ export function FormRegister({
       />
 
       <TextInput
-        style={[styles.input, onErrorInput('email') && styles.inputError]}
+        style={[
+          styles.input,
+          onErrorInput('email', error) && styles.inputError,
+        ]}
         placeholder="Email"
         autoCapitalize="none"
         placeholderTextColor={colors['black-300']}
@@ -114,7 +97,10 @@ export function FormRegister({
 
       <TextInput
         secureTextEntry={true}
-        style={[styles.input, onErrorInput('password') && styles.inputError]}
+        style={[
+          styles.input,
+          onErrorInput('password', error) && styles.inputError,
+        ]}
         placeholder="Senha"
         autoCapitalize="none"
         placeholderTextColor={colors['black-300']}
@@ -125,7 +111,7 @@ export function FormRegister({
         secureTextEntry={true}
         style={[
           styles.input,
-          onErrorInput('confirmPassword') && styles.inputError,
+          onErrorInput('confirmPassword', error) && styles.inputError,
         ]}
         placeholder="Confirmar Senha"
         autoCapitalize="none"
@@ -135,7 +121,10 @@ export function FormRegister({
         }
       />
       <TextInput
-        style={[styles.input, onErrorInput('dateOfBirth') && styles.inputError]}
+        style={[
+          styles.input,
+          onErrorInput('dateOfBirth', error) && styles.inputError,
+        ]}
         placeholder="Data de nascimento"
         autoCapitalize="none"
         value={inputs.dateOfBirth}
@@ -144,9 +133,7 @@ export function FormRegister({
         onChangeText={(newText) =>
           setInputs({
             ...inputs,
-            dateOfBirth: [2, 5].includes(newText.length)
-              ? newText + '/'
-              : newText,
+            dateOfBirth: handleDateChange(newText),
           })
         }
       />

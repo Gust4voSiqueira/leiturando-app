@@ -18,8 +18,6 @@ export const styles = StyleSheet.create({
     marginTop: Platform.OS === 'android' && '30%',
   },
   imageProfile: {
-    width: 70,
-    height: 70,
     borderRadius: 50,
     marginBottom: 15,
   },
@@ -68,5 +66,10 @@ export const styles = StyleSheet.create({
   inputsContainer: {
     width: '100%',
     alignItems: 'center',
+  },
+  inputError: {
+    borderWidth: 2,
+    borderColor: colors['red-600'],
+    color: colors['red-600'],
   },
 })

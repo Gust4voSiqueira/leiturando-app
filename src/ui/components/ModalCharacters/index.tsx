@@ -1,32 +1,35 @@
-/* eslint-disable jsx-a11y/alt-text */
-import { Image, Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 
 import { styles } from './styles'
-
-import { Characters } from './characters'
+import { charactersImages } from '../../../utils/charactersImages'
 
 interface IModalSelectImage {
   onSelectCharacter: (character: String) => void
+  onCloseModal: () => void
 }
 
-export function ModalSelectImage({ onSelectCharacter }: IModalSelectImage) {
+export function ModalSelectImage({
+  onSelectCharacter,
+  onCloseModal,
+}: IModalSelectImage) {
   return (
     <>
       <View style={styles.deepShadow} />
       <View style={styles.modalContainer}>
-        {Characters.map((character, index) => {
+        {charactersImages(60, 60).map((character, index) => {
           return (
             <Pressable
               key={index}
               onPress={() => onSelectCharacter(character.name)}
+              style={styles.image}
             >
-              <Image source={character.image} style={styles.image} />
+              {character.image}
             </Pressable>
           )
         })}
 
         <View style={styles.cancelSelectionContainer}>
-          <Pressable style={styles.cancelSelection}>
+          <Pressable style={styles.cancelSelection} onPress={onCloseModal}>
             <Text>Cancelar</Text>
           </Pressable>
         </View>

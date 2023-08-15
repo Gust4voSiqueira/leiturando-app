@@ -1,4 +1,10 @@
-import { View, TextInput, Text, Pressable } from 'react-native'
+import {
+  View,
+  TextInput,
+  Text,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native'
 import { styles } from './styles'
 import { globalStyles } from '../../../../global/global'
 
@@ -29,19 +35,19 @@ export function Login() {
   const stylesInputError = error ? styles.inputError : styles.input
 
   async function loginFunction() {
-    setIsDisabledButton(true)
-    const loginData = {
-      email: inputs.email as string,
-      password: inputs.password as string,
-    }
+    try {
+      setIsDisabledButton(true)
+      const loginData = {
+        email: inputs.email as string,
+        password: inputs.password as string,
+      }
 
-    const response = await login(loginData)
+      await login(loginData)
 
-    if (response === 'Error') {
+      onRedirect('/Home')
+    } catch (error) {
       setError(true)
       setIsDisabledButton(false)
-    } else {
-      onRedirect('/Home')
     }
   }
 
@@ -76,7 +82,15 @@ export function Login() {
           <Link to="/Register"> Cadastre-se</Link>
         </Text>
         <Pressable style={stylesButtonDisabled} onPress={loginFunction}>
-          <Text style={styles.textButton}>Entrar</Text>
+          {!isDisbaledButton ? (
+            <Text style={styles.textButton}>Entrar</Text>
+          ) : (
+            <ActivityIndicator
+              size="small"
+              style={styles.load}
+              color={colors.black}
+            />
+          )}
         </Pressable>
       </View>
     </View>

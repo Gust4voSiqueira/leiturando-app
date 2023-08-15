@@ -36,10 +36,7 @@ export const styles = (props: StyleProps) =>
       color: colors.white,
     },
     imageProfile: {
-      width: 65,
-      height: 65,
       borderRadius: 50,
-      marginBottom: 5,
     },
     levelContainer: {
       marginTop: 5,

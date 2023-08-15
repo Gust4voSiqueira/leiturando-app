@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/alt-text */
 import { useContext, useState } from 'react'
-import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, Text, View } from 'react-native'
 import { styles } from './styles'
 import { Check, X } from 'phosphor-react-native'
 import { colors } from '../../../../../../../global/themes/default'
 import { RequestsContext } from '../../../../../../contexts/RequestsContext'
+import { charactersImages } from '../../../../../../utils/charactersImages'
 
 interface IHandleButton {
   idUser: number
@@ -60,7 +60,7 @@ function HandleButton({
 
 interface IRequestCard {
   id: number
-  imageUrl: string
+  image: string
   name: string
   mutualFriends: number
   typeCard: string
@@ -70,7 +70,7 @@ interface IRequestCard {
 
 export function RequestCard({
   id,
-  imageUrl,
+  image,
   name,
   mutualFriends,
   typeCard,
@@ -82,6 +82,10 @@ export function RequestCard({
     onSendRequest,
   } = useContext(RequestsContext)
   const [isLoading, setIsLoading] = useState(false)
+
+  const characterImage = charactersImages(50, 50).find(
+    (character) => character.name === image,
+  ).image
 
   function handleCancelRequest() {
     setIsLoading(true)
@@ -102,10 +106,7 @@ export function RequestCard({
 
   return (
     <View style={styles.requestCard}>
-      <Image
-        source={{ uri: `data:image/jpeg;base64,${imageUrl}` }}
-        style={styles.imageUserRequest}
-      />
+      <View style={styles.imageUserRequest}>{characterImage}</View>
 
       <View style={styles.infoRequestContainer}>
         <Text style={styles.nameUserRequest}>{name}</Text>

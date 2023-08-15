@@ -31,8 +31,8 @@ export const styles = StyleSheet.create({
     marginTop: 5,
   },
   image: {
-    width: 60,
     marginVertical: 15,
+    marginHorizontal: 10,
   },
   imageSelect: {
     alignItems: 'center',
@@ -49,5 +49,6 @@ export const styles = StyleSheet.create({
   cancelSelectionContainer: {
     width: '100%',
     alignItems: 'center',
+    marginTop: 10,
   },
 })
