@@ -3,7 +3,7 @@ import { useRequests } from '../hooks/useRequests'
 
 interface IRequest {
   id: number
-  urlImage: string
+  image: string
   name: string
   mutualFriends: number
 }
@@ -11,7 +11,7 @@ interface IRequest {
 export interface IRequests {
   friends: {
     id: number
-    urlImage: string
+    image: string
     name: string
   }[]
   requests: IRequest[]
