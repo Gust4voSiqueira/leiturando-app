@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
     borderRadius: 7,
     backgroundColor: colors['green-600'],
     justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContainerDisable: {
     width: '100%',
@@ -50,11 +51,16 @@ export const styles = StyleSheet.create({
     borderRadius: 7,
     backgroundColor: colors['green-700'],
     justifyContent: 'center',
+    alignItems: 'center',
   },
   textButton: {
     color: colors.black,
     fontWeight: '700',
     fontSize: fontsSize.medium,
     textAlign: 'center',
+  },
+  load: {
+    width: 5,
+    alignItems: 'center',
   },
 })

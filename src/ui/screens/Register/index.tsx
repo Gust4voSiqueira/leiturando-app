@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
@@ -35,13 +34,13 @@ export function Register() {
   const { register } = useUserRequest()
   const navigation = useNavigation<LoginScreenNavigationProp>()
 
-  function onOpenModal() {
+  function toggleModal() {
     setIsOpenModal(!isOpenModal)
   }
 
   function onSelectCharacter(character: Characters) {
     setCharacterName(character)
-    onOpenModal()
+    toggleModal()
   }
 
   function onSubmitRegister(inputs: IInputs) {
@@ -61,12 +60,15 @@ export function Register() {
     <View style={globalStyles.container}>
       <Logo width={280} height="20%" />
       {isOpenModal && (
-        <ModalSelectImage onSelectCharacter={onSelectCharacter} />
+        <ModalSelectImage
+          onSelectCharacter={onSelectCharacter}
+          onCloseModal={toggleModal}
+        />
       )}
 
       <FormRegister
         characterSelected={characterName}
-        onOpenModal={onOpenModal}
+        onOpenModal={toggleModal}
         onRegisterFunction={onSubmitRegister}
       />
     </View>
