@@ -8,8 +8,9 @@ import { styles } from './styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/types'
 
-import Words from '../../../../assets/words2.svg'
+import Words from '../../../../assets/words.svg'
 import Shields from '../../../../assets/shield.svg'
+import Jupiter from '../../../../assets/jupiter.svg'
 import { useRedirect } from '../../../hooks/useRedirect'
 
 type LobbyProps = StackScreenProps<RootStackParamList, 'Lobby'>
@@ -19,8 +20,9 @@ export function Lobby({ route }: LobbyProps) {
   const { description, title, screen, textSpeech } = route.params
 
   const image = {
-    Words: <Words style={styles.imageLobby} width={500} height="25%" />,
-    Shields: <Shields style={styles.imageLobby} width={500} height="25%" />,
+    Words: <Words width={500} height="25%" />,
+    Operations: <Shields width={500} height="25%" />,
+    Phrases: <Jupiter width={300} height="20%" />,
   }
 
   return (

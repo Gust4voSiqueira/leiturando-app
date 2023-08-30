@@ -41,4 +41,5 @@ export const fontsSize = {
   xmedium: normalize(19),
   large: normalize(20),
   xlarge: normalize(25),
+  xxxlarge: normalize(70),
 }

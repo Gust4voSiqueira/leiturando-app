@@ -1,6 +1,6 @@
 import React from 'react'
 import { CardMatches } from '../../../../components'
-import Words from '../../../../../../assets/words2.svg'
+import Words from '../../../../../../assets/words.svg'
 import { IOnRedirectProps } from '../..'
 
 interface IWordsCart {
@@ -20,9 +20,9 @@ export function WordsCard({ onRedirectFunction }: IWordsCart) {
       navigationFunction={() =>
         onRedirectFunction({
           title: 'Palavras',
-          description: 'Nomeie as palavras o mais rápido que conseguir!',
+          description: 'Leia as palavras corretamente para somar pontos',
           screen: 'Words',
-          textSpeech: 'Nomeie as palavras o mais rápido que conseguir',
+          textSpeech: 'Leia as palavras corretamente para somar pontos',
         })
       }
     >

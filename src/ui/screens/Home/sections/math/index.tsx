@@ -7,16 +7,17 @@ interface IShieldsCard {
   onRedirectFunction: ({ title, description, screen }: IOnRedirectProps) => void
 }
 
-export function ShieldsCard({ onRedirectFunction }: IShieldsCard) {
+export function MathCard({ onRedirectFunction }: IShieldsCard) {
   return (
     <CardMatches
-      title="Imagens"
-      readerText="Modo Imagens"
+      title="Matemática"
+      readerText="Modo Matemática"
       navigationFunction={() =>
         onRedirectFunction({
-          title: 'Palavras',
-          description: 'Descreva as imagens o mais rápido que conseguir!',
-          screen: 'Shields',
+          title: 'Matemática',
+          description: 'Resolva as operações corretamente para somar pontos',
+          screen: 'Operations',
+          textSpeech: 'Resolva as operações corretamente para somar pontos',
         })
       }
     >

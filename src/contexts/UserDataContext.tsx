@@ -23,10 +23,25 @@ interface IUser {
   wrong: number
 }
 
+interface IUpdateUserLevelDataProps {
+  level: number
+  breakthrough: number
+  matches: number
+  correct: number
+  wrong: number
+}
+
 interface UserContextType {
   userData: IUser
   saveUserData: (newUserData: IUserRequest) => void
   removeUserData: () => void
+  updateUserLevelData: ({
+    level,
+    breakthrough,
+    matches,
+    correct,
+    wrong,
+  }: IUpdateUserLevelDataProps) => void
 }
 
 export const UserContext = createContext({} as UserContextType)
@@ -36,7 +51,7 @@ interface UserContextProviderProps {
 }
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
-  const [userData, setUserDate] = useState<IUser>()
+  const [userData, setUserData] = useState<IUser>()
 
   function saveUserData(newUserData: IUserRequest) {
     const characterImage = charactersImages(65, 65).find(
@@ -48,15 +63,34 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       image: characterImage,
     }
 
-    setUserDate(user)
+    setUserData(user)
   }
 
   function removeUserData() {
-    setUserDate(null)
+    setUserData(null)
+  }
+
+  function updateUserLevelData({
+    level,
+    breakthrough,
+    matches,
+    correct,
+    wrong,
+  }: IUpdateUserLevelDataProps) {
+    setUserData({
+      ...userData,
+      level,
+      breakthrough,
+      matches,
+      correct,
+      wrong,
+    })
   }
 
   return (
-    <UserContext.Provider value={{ userData, saveUserData, removeUserData }}>
+    <UserContext.Provider
+      value={{ userData, saveUserData, removeUserData, updateUserLevelData }}
+    >
       {children}
     </UserContext.Provider>
   )

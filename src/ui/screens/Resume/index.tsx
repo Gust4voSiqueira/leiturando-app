@@ -7,35 +7,33 @@ import { CardResult } from './sections/CardResult'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/types'
 import { useRedirect } from '../../../hooks/useRedirect'
+import { IResultProps } from '../Result'
 
 type ResumeProps = StackScreenProps<RootStackParamList, 'Resume'>
 
 interface IHandleCards {
-  words: String[]
-  corrects: String[]
+  resume: IResultProps[]
 }
 
-function HandleCards({ words, corrects }: IHandleCards) {
+function HandleCards({ resume }: IHandleCards) {
   return (
     <View>
-      {words.map((word, index) => {
-        const isCorrectFunction = word === corrects[index]
-
-        return (
-          <CardResult key={index} word={word} isCorrect={isCorrectFunction} />
-        )
-      })}
+      {resume.map((word, index) => (
+        <CardResult key={index} word={word.word} isCorrect={word.correct} />
+      ))}
     </View>
   )
 }
 
 export function Resume({ route, navigation }: ResumeProps) {
-  const { words, responses } = route.params
-  const incorrects = words.filter((word) => responses.indexOf(word) === -1)
+  const { resume } = route.params
   const redirect = useRedirect()
 
+  const incorrects = resume.filter((word) => !word.correct)
+  const corrects = resume.filter((word) => word.correct)
+
   function onRedirect() {
-    navigation.navigate('Result', { words, responses })
+    navigation.navigate('Result', { response: resume })
   }
 
   return (
@@ -45,14 +43,14 @@ export function Resume({ route, navigation }: ResumeProps) {
         isRedirect
         textSpeech={`
         Você acertou as palavras 
-        ${responses.map((correct) => correct)},
+        ${corrects.map((correct) => correct)},
         e errou as palavras 
         ${incorrects.map((incorrect) => incorrect)}`}
       />
 
       <ScrollView style={styles.scrollViewResume}>
         <View style={styles.resumeContainer}>
-          <HandleCards corrects={responses} words={words} />
+          <HandleCards resume={resume} />
         </View>
       </ScrollView>
 

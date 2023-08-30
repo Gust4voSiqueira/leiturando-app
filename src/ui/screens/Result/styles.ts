@@ -10,7 +10,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  contentContainer: {},
+  contentContainer: {
+    alignItems: 'center',
+  },
   resultText: {
     color: colors.white,
     fontSize: fontsSize.xmedium,
@@ -29,7 +31,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: 440,
+    width: '80%',
     height: 100,
     marginTop: 10,
   },

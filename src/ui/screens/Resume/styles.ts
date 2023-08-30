@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   scrollViewResume: {
-    width: 300,
+    width: '80%',
     maxHeight: '50%',
     marginTop: 100,
   },
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: 440,
+    width: '80%',
     height: 100,
     marginTop: 20,
   },

@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     fontSize: fontsSize.large,
     fontWeight: 'bold',
     textAlign: 'center',
-    width: 310,
+    width: '90%',
+    marginVertical: 30,
   },
   buttonStart: {
     width: '65%',
@@ -29,12 +30,8 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  imageLobby: {
-    marginVertical: 10,
-  },
   buttonContainer: {
     alignItems: 'center',
-    marginTop: 45,
-    width: '100%',
+    width: '80%',
   },
 })

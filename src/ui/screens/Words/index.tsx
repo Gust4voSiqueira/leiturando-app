@@ -1,4 +1,5 @@
-import { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 
 import { styles } from './styles'
@@ -6,9 +7,15 @@ import { styles } from './styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/types'
 
-import { Words as WordsDatabase } from '../../../database/wordsData'
 import { ButtonsSection, IconsSection, WordSection } from './sections'
 import { Header } from '../../components'
+import { useWords } from '../../../hooks/useWords'
+import { Loading } from '../Loading'
+
+export interface IWord {
+  id: number
+  word: string
+}
 
 type WordsProps = StackScreenProps<RootStackParamList, 'Result'>
 
@@ -17,6 +24,22 @@ export function Words({ navigation }: WordsProps) {
   const [isRecording, setIsRecording] = useState(false)
   const [voice, setVoice] = useState<String>('')
   const [responses, setResponses] = useState<String[]>([])
+  const [words, setWords] = useState<IWord[]>([])
+  const { getWords, finallyWords } = useWords()
+
+  useEffect(() => {
+    async function onGetWords() {
+      try {
+        const response = await getWords()
+
+        setWords(response)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    onGetWords()
+  }, [])
 
   function onRecordingVoice() {
     setIsRecording(!isRecording)
@@ -36,6 +59,18 @@ export function Words({ navigation }: WordsProps) {
     ])
   }
 
+  async function finallyGame() {
+    try {
+      const response = await finallyWords(words, responses)
+
+      navigation.navigate('Result', {
+        response,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   function onAlterWord(newWordIndex: number) {
     if (newWordIndex < 0) return
 
@@ -43,26 +78,27 @@ export function Words({ navigation }: WordsProps) {
     setVoice(responses[newWordIndex])
     onResponseUser(voice, indexWord)
 
-    if (newWordIndex > 9) {
-      navigation.navigate('Result', {
-        words: WordsDatabase,
-        responses,
-      })
-    }
+    if (newWordIndex === 7) finallyGame()
   }
+
+  if (words.length === 0 || indexWord === 7) return <Loading />
 
   return (
     <View style={styles.wordsContainer}>
       <Header title="Palavras" />
 
-      <WordSection word={WordsDatabase[indexWord]} />
+      <WordSection word={words[indexWord].word} />
       <IconsSection
         isRecording={isRecording}
         onRecordingVoice={onRecordingVoice}
         onAlterWordVoice={onAlterWordVoice}
       />
       <WordSection word={voice} />
-      <ButtonsSection indexWord={indexWord} onAlterWord={onAlterWord} />
+      <ButtonsSection
+        indexWord={indexWord}
+        onAlterWord={onAlterWord}
+        total={words.length}
+      />
     </View>
   )
 }

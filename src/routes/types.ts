@@ -1,3 +1,6 @@
+import { IOperations } from '../hooks/useMath'
+import { IResultProps } from '../ui/screens/Result'
+
 export type RootStackParamList = {
   Login: { email?: string; password?: string }
   CardMatches: { description: string }
@@ -7,6 +10,7 @@ export type RootStackParamList = {
     screen: string
     textSpeech: string
   }
-  Result: { words: String[]; responses: String[] }
-  Resume: { words: String[]; responses: String[] }
+  Result: { response: IResultProps[] }
+  Resume: { resume: IResultProps[] }
+  Math: { operations: IOperations[] }
 }

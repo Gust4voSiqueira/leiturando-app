@@ -7,12 +7,13 @@ import { styles } from './styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/types'
 import { WordsCard } from './sections/words'
-import { ShieldsCard } from './sections/shields'
+import { MathCard } from './sections/math'
 import { RequestsList } from './sections/requestsList'
 import { useUserRequest } from '../../../hooks/useUserRequest'
 import { Loading } from '../Loading'
 import { useRedirect } from '../../../hooks/useRedirect'
 import { UserContext } from '../../../contexts/UserDataContext'
+import { PhrasesCard } from './sections/phrases'
 
 type CardMatchesProps = StackScreenProps<RootStackParamList, 'CardMatches'>
 
@@ -24,9 +25,9 @@ export interface IUserData {
 }
 
 export interface IOnRedirectProps {
-  title: 'Palavras' | 'Imagens'
+  title: 'Palavras' | 'Matemática' | 'Frases'
   description: string
-  screen: 'Words' | 'Shields'
+  screen: 'Words' | 'Operations' | 'Phrases'
   textSpeech: string
 }
 
@@ -76,7 +77,8 @@ export function Home({ navigation }: CardMatchesProps) {
         />
         {cardList && <RequestsList />}
         <WordsCard onRedirectFunction={onRedirect} />
-        <ShieldsCard onRedirectFunction={onRedirect} />
+        <PhrasesCard onRedirectFunction={onRedirect} />
+        <MathCard onRedirectFunction={onRedirect} />
       </View>
     </ScrollView>
   )

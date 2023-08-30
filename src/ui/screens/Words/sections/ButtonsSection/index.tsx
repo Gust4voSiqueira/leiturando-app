@@ -5,11 +5,13 @@ import { styles } from './styles'
 interface IButtonsSectionProps {
   onAlterWord: (indexWord: number) => void
   indexWord: number
+  total: number
 }
 
 export function ButtonsSection({
   onAlterWord,
   indexWord,
+  total,
 }: IButtonsSectionProps) {
   const stylesButtonPrevious =
     indexWord - 1 >= 0 ? styles.buttonNext : styles.buttonNextTransparent
@@ -23,16 +25,18 @@ export function ButtonsSection({
         <CaretLeft size={45} color="#FFF" />
       </Pressable>
 
-      <Text style={styles.textNumberWord}>{indexWord + 1}/10</Text>
+      <Text style={styles.textNumberWord}>
+        {indexWord + 1}/{total}
+      </Text>
 
       <Pressable
         style={styles.buttonNext}
         onPress={() => onAlterWord(indexWord + 1)}
       >
-        {indexWord < 9 ? (
-          <CaretRight size={45} color="#FFF" />
-        ) : (
+        {indexWord === total - 1 ? (
           <FlagCheckered size={45} color="#FFF" />
+        ) : (
+          <CaretRight size={45} color="#FFF" />
         )}
       </Pressable>
     </View>

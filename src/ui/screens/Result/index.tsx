@@ -9,32 +9,41 @@ import { useRedirect } from '../../../hooks/useRedirect'
 
 type ResultProps = StackScreenProps<RootStackParamList, 'Result'>
 
+export interface IResultProps {
+  word: string
+  correct: boolean
+}
+
 export function Result({ route, navigation }: ResultProps) {
   const redirect = useRedirect()
-  const { words, responses } = route.params
+  const { response } = route.params
 
   function onRedirect() {
-    navigation.navigate('Resume', { words, responses })
+    navigation.navigate('Resume', { resume: response })
   }
 
-  const corrects = words.filter((word, index) => word === responses[index])
+  const corrects = response.filter((word) => word.correct)
 
   return (
     <View style={globalStyles.container}>
       <View style={styles.resultContainer}>
         <Header
           title="Resultado"
-          textSpeech={`Parabéns, você acertou ${corrects.length} de 10, e conquistou ${corrects.length} pontos.`}
+          textSpeech={`Parabéns, você acertou ${corrects.length} de ${
+            response.length
+          }, e conquistou ${corrects.length * 2} pontos.`}
         />
 
         <View style={styles.contentContainer}>
           <Text style={styles.resultText}>
-            Parabéns, você acertou {corrects.length}/10! 🤩
+            {corrects.length > 3
+              ? `Parabéns, você acertou ${corrects.length}/${response.length}! 🤩`
+              : `Parece que você acertou ${corrects.length}/${response.length} \n Mas não desista! 😉`}
           </Text>
 
           <CardProfile />
 
-          <Text style={styles.scoreText}>+{corrects.length} pontos</Text>
+          <Text style={styles.scoreText}>+{corrects.length * 2} pontos</Text>
         </View>
 
         <View style={styles.buttonsContainer}>

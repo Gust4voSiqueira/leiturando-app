@@ -28,12 +28,6 @@ export const styles = (props: StyleProps) =>
       fontWeight: '600',
       color: colors.white,
     },
-    imageProfile: {
-      width: 70,
-      height: 70,
-      borderRadius: 50,
-      marginBottom: 5,
-    },
     levelContainer: {
       marginTop: 8,
     },
