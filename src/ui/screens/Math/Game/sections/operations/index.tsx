@@ -15,13 +15,20 @@ interface IOperationsSection {
   number1: number
   number2: number
   operation: IOperations
-  onChangeResponse: (newText: string) => void
+  onChangeResponse: (
+    number1: number,
+    number2: number,
+    operation: IOperations,
+    response: string,
+  ) => void
+  valueInput: string
 }
 
 export function OperationsContainer({
   number1,
   number2,
   operation,
+  valueInput,
   onChangeResponse,
 }: IOperationsSection) {
   return (
@@ -39,8 +46,11 @@ export function OperationsContainer({
 
       <TextInput
         style={styles.resultOperation}
-        onChangeText={(newText) => onChangeResponse(newText)}
+        onChangeText={(newText) =>
+          onChangeResponse(number1, number2, operation, newText)
+        }
         keyboardType="numeric"
+        value={valueInput}
       />
     </View>
   )

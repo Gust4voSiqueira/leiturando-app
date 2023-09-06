@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { api } from '../lib/axios'
 import { TokenContext } from '../contexts/TokenContext'
+import { IResponses } from '../ui/screens/Math/Game'
+import { UserContext } from '../contexts/UserDataContext'
 
 export type IOperations =
   | 'SUBTRACTION'
@@ -8,16 +10,16 @@ export type IOperations =
   | 'MULTIPLICATION'
   | 'DIVISION'
 
-export interface IFinnallyMath {
-  number1: number
-  number2: number
-  response: number
-  operation: IOperations
+const operationMapping = {
+  ADDITION: 'ADDITION',
+  SUBTRACTION: 'SUBTRACTION',
+  MULTIPLICATION: 'MULTIPLICATION',
+  DIVISION: 'DIVISION',
 }
 
 export const useMath = () => {
   const { token } = useContext(TokenContext)
-  //   const { updateUserLevelData } = useContext(UserContext)
+  const { updateUserLevelData } = useContext(UserContext)
 
   async function getMath(operations: IOperations[]) {
     try {
@@ -33,15 +35,31 @@ export const useMath = () => {
     }
   }
 
-  async function finnalyMath(request: IFinnallyMath[]) {
+  async function finnalyMath(request: IResponses) {
     try {
-      const response = await api.post('/math/correct', request, {
+      const newRequest = []
+      for (const key in request) {
+        const response = request[key]
+        const newResponse = {
+          number1: response.number1,
+          number2: response.number2,
+          response: parseInt(response.response),
+          operation: operationMapping[response.operation],
+        }
+
+        newRequest.push(newResponse)
+      }
+
+      const response = await api.post('/math/correct', newRequest, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
-      console.log(response)
+      const { level, breakthrough, matches, correct, wrong } = response.data
+
+      updateUserLevelData({ level, breakthrough, matches, correct, wrong })
+      return response.data.results
     } catch (error) {
       return error
     }

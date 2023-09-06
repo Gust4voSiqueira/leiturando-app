@@ -1,4 +1,4 @@
-import { CaretLeft, CaretRight } from 'phosphor-react-native'
+import { CaretLeft, CaretRight, FlagCheckered } from 'phosphor-react-native'
 import { Pressable, Text, View } from 'react-native'
 import { colors } from '../../../../../../../global/themes/default'
 import { styles } from './styles'
@@ -33,7 +33,11 @@ export function ButtonsSection({
         style={styles.alterOperation}
         onPress={() => onAlterOperation(index + 1)}
       >
-        <CaretRight size={50} color={colors.white} />
+        {index !== 6 ? (
+          <CaretRight size={50} color={colors.white} />
+        ) : (
+          <FlagCheckered size={50} color={colors.white} weight="fill" />
+        )}
       </Pressable>
     </View>
   )
