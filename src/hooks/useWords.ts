@@ -21,8 +21,6 @@ export const useWords = () => {
         },
       })
 
-      console.log(response.data)
-
       return response.data
     } catch (error) {
       return error
