@@ -20,7 +20,7 @@ interface IOnRenderImage {
 
 function OnRenderImage({ characterSelected }: IOnRenderImage) {
   if (characterSelected) {
-    const image = charactersImages(10, 10).find(
+    const image = charactersImages(65, 65).find(
       (character) => character.name === characterSelected,
     )
     return image.image
