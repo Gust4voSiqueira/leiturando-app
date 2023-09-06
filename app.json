@@ -27,7 +27,7 @@
     ],
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -49,6 +49,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "98f66c14-6460-4d0d-a736-2ac6efc5f136"
+      }
     }
   }
 }
