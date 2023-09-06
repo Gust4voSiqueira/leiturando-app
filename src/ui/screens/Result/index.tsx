@@ -10,7 +10,7 @@ import { useRedirect } from '../../../hooks/useRedirect'
 type ResultProps = StackScreenProps<RootStackParamList, 'Result'>
 
 export interface IResultProps {
-  word: string
+  content: string
   correct: boolean
 }
 
@@ -22,7 +22,7 @@ export function Result({ route, navigation }: ResultProps) {
     navigation.navigate('Resume', { resume: response })
   }
 
-  const corrects = response.filter((word) => word.correct)
+  const corrects = response.filter((result) => result.correct)
 
   return (
     <View style={globalStyles.container}>

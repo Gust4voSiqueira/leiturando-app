@@ -34,7 +34,7 @@ export function ButtonsSection({
         onPress={() => onAlterWord(indexWord + 1)}
       >
         {indexWord === total - 1 ? (
-          <FlagCheckered size={45} color="#FFF" />
+          <FlagCheckered size={45} color="#FFF" weight="fill" />
         ) : (
           <CaretRight size={45} color="#FFF" />
         )}

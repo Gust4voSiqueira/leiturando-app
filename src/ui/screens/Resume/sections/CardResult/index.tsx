@@ -6,15 +6,15 @@ import { colors } from '../../../../../../global/themes/default'
 
 interface ICardResult {
   isCorrect: boolean
-  word: String
+  content: String
 }
 
-export function CardResult({ isCorrect, word }: ICardResult) {
+export function CardResult({ isCorrect, content }: ICardResult) {
   return (
     <View style={styles.cardContainer}>
       <View style={{ width: 30, height: 30 }}></View>
 
-      <Text style={styles.textResume}>{word}</Text>
+      <Text style={styles.textResume}>{content}</Text>
 
       <View
         style={

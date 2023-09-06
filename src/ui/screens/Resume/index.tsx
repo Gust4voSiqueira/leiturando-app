@@ -18,8 +18,12 @@ interface IHandleCards {
 function HandleCards({ resume }: IHandleCards) {
   return (
     <View>
-      {resume.map((word, index) => (
-        <CardResult key={index} word={word.word} isCorrect={word.correct} />
+      {resume.map((result, index) => (
+        <CardResult
+          key={index}
+          content={result.content}
+          isCorrect={result.correct}
+        />
       ))}
     </View>
   )
@@ -28,9 +32,6 @@ function HandleCards({ resume }: IHandleCards) {
 export function Resume({ route, navigation }: ResumeProps) {
   const { resume } = route.params
   const redirect = useRedirect()
-
-  const incorrects = resume.filter((word) => !word.correct)
-  const corrects = resume.filter((word) => word.correct)
 
   function onRedirect() {
     navigation.navigate('Result', { response: resume })
@@ -41,11 +42,7 @@ export function Resume({ route, navigation }: ResumeProps) {
       <Header
         title="Relatório"
         isRedirect
-        textSpeech={`
-        Você acertou as palavras 
-        ${corrects.map((correct) => correct)},
-        e errou as palavras 
-        ${incorrects.map((incorrect) => incorrect)}`}
+        textSpeech="Você acertou os ítens que estão em verde, e errou os que estão em vermelho"
       />
 
       <ScrollView style={styles.scrollViewResume}>
