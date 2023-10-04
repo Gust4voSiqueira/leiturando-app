@@ -12,17 +12,17 @@ interface IPhrasesCart {
   }: IOnRedirectProps) => void
 }
 
-export function PhrasesCard({ onRedirectFunction }: IPhrasesCart) {
+export function ConnectWordsCard({ onRedirectFunction }: IPhrasesCart) {
   return (
     <CardMatches
-      title="Frases"
-      readerText="Modo Frases"
+      title="Ligue as palavras"
+      readerText="Ligue as palavras"
       navigationFunction={() =>
         onRedirectFunction({
-          title: 'Frases',
-          description: 'Leia as frases corretamente para somar pontos',
-          screen: 'Phrases',
-          textSpeech: 'Leia as frases corretamente para somar pontos',
+          title: 'Ligue as palavras',
+          description: 'Ligue as palavras para somar pontos',
+          screen: 'connectWords',
+          textSpeech: 'Ligue as palavras para somar pontos',
         })
       }
     >

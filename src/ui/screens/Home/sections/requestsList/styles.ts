@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     right: 10,
     top: 140,
     maxWidth: 300,
-    height: 300,
+    height: 360,
     borderRadius: 11,
     paddingVertical: 13,
     paddingHorizontal: 10,
@@ -40,5 +40,17 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+  },
+  viewAllFriends: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: colors['black-500'],
+    width: '100%',
+    alignItems: 'center',
+  },
+  viewAllFriendsText: {
+    color: colors.white,
+    paddingVertical: 10,
+    fontWeight: 'bold',
   },
 })

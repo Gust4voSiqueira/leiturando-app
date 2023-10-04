@@ -14,6 +14,12 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: 'bold',
   },
+  error: {
+    fontSize: fontsSize.xxxlarge,
+    color: colors.white,
+    borderWidth: 1,
+    borderColor: colors['red-600'],
+  },
   lineResult: {
     height: 1.5,
     width: '70%',

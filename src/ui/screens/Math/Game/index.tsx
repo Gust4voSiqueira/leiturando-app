@@ -2,36 +2,43 @@ import { Text, View } from 'react-native'
 import { styles } from './styles'
 import { Header } from '../../../components'
 import { useEffect, useState } from 'react'
-import { IOperations, useMath } from '../../../../hooks/useMath'
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../../routes/types'
+import { useMath } from '../../../../hooks/useMath'
 import { Loading } from '../../Loading'
 import { ButtonsSection } from './sections/buttons'
 import { OperationsContainer } from './sections/operations'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
-type ResumeProps = StackScreenProps<RootStackParamList, 'Math'>
+type Operations = 'SUBTRACTION' | 'ADDITION' | 'MULTIPLICATION' | 'DIVISION'
+
+type IOperations = {
+  operations: Array<Operations>
+}
 
 interface IOperationsResponse {
   number1: number
   number2: number
-  operation: IOperations
+  operation: Operations
 }
 
 export interface IResponses {
   [key: string]: {
     number1: number
     number2: number
-    operation: IOperations
+    operation: Operations
     response: string
   }
 }
 
-export function MathScreen({ route, navigation }: ResumeProps) {
+export function MathScreen() {
   const [data, setData] = useState<IOperationsResponse[]>([])
   const [index, setIndex] = useState(0)
   const [responses, setResponses] = useState<IResponses>({})
+  const [error, setError] = useState(false)
   const { getMath, finnalyMath } = useMath()
-  const { operations } = route.params
+
+  const navigation = useNavigation()
+  const routes = useRoute()
+  const { operations } = routes.params as IOperations
 
   useEffect(() => {
     async function onGetMaths() {
@@ -50,7 +57,7 @@ export function MathScreen({ route, navigation }: ResumeProps) {
   function onChangeResponse(
     number1: number,
     number2: number,
-    operation: IOperations,
+    operation: Operations,
     response: string,
   ) {
     const newResponse = {
@@ -66,16 +73,25 @@ export function MathScreen({ route, navigation }: ResumeProps) {
   }
 
   async function onAlterOperation(newIndex: number) {
+    const response = responses[`response${index}`]?.response.trim()
+
+    if (!response) {
+      setError(true)
+      return
+    }
+
     if (newIndex >= 0 && newIndex < 7) {
       setIndex(newIndex)
+      setError(false)
     }
 
     if (newIndex === 7) {
       try {
         const response = await finnalyMath(responses)
 
-        navigation.navigate('Result', {
-          response,
+        navigation.navigate('result', {
+          response: response.results,
+          score: response.score,
         })
       } catch (err) {
         console.log(err)
@@ -97,6 +113,7 @@ export function MathScreen({ route, navigation }: ResumeProps) {
           operation={data[index].operation}
           onChangeResponse={onChangeResponse}
           valueInput={responses[`response${index}`]?.response || ''}
+          isError={error}
         />
 
         <ButtonsSection

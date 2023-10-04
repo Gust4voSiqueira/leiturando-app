@@ -4,12 +4,12 @@ import { styles } from './styles'
 import { SignOut, UserPlus } from 'phosphor-react-native'
 import { colors } from '../../../../../../global/themes/default'
 import { progressActual } from '../../../../../utils/progressActual'
-import { useRedirect } from '../../../../../hooks/useRedirect'
 import { IUserData } from '../..'
 import React, { useContext, useEffect } from 'react'
 import { TokenContext } from '../../../../../contexts/TokenContext'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { UserContext } from '../../../../../contexts/UserDataContext'
+import { useNavigation } from '@react-navigation/native'
 
 export interface IRequestCard {
   image: React.JSX.Element
@@ -23,7 +23,7 @@ interface ICardProfile {
 }
 
 export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
-  const { onRedirect } = useRedirect()
+  const navigation = useNavigation()
   const { requests, onLoadRequests } = useContext(RequestsContext)
   const { removeToken } = useContext(TokenContext)
   const { userData, removeUserData } = useContext(UserContext)
@@ -80,7 +80,7 @@ export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
 
         <Pressable
           style={customStyles.buttonProfile}
-          onPress={() => onRedirect('/MyProfile')}
+          onPress={() => navigation.navigate('myProfile')}
         >
           <Text style={customStyles.textButtonProfile}>Visualizar Perfil</Text>
         </Pressable>

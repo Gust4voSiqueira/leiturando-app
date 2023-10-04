@@ -20,9 +20,9 @@ export function WordsCard({ onRedirectFunction }: IWordsCart) {
       navigationFunction={() =>
         onRedirectFunction({
           title: 'Palavras',
-          description: 'Leia as palavras corretamente para somar pontos',
-          screen: 'Words',
-          textSpeech: 'Leia as palavras corretamente para somar pontos',
+          description: 'Leia as palavras para somar pontos',
+          screen: 'words',
+          textSpeech: 'Leia as palavras para somar pontos',
         })
       }
     >

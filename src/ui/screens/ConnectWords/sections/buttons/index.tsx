@@ -1,27 +1,27 @@
 import { CaretLeft, CaretRight, FlagCheckered } from 'phosphor-react-native'
 import { Pressable, Text, View } from 'react-native'
-import { colors } from '../../../../../../../global/themes/default'
 import { styles } from './styles'
+import { colors } from '../../../../../../global/themes/default'
 
 interface IButtonsSection {
-  onAlterOperation: (newIndex: number) => void
+  nextIndexFunction: (newIndex: number) => void
   index: number
   totalIndex: number
 }
 
 export function ButtonsSection({
   index,
-  onAlterOperation,
+  nextIndexFunction,
   totalIndex,
 }: IButtonsSection) {
   const stylesButtonPrevious =
-    index - 1 >= 0 ? styles.alterOperation : styles.alterOperationTransparent
+    index - 1 >= 0 ? styles.nextButton : styles.nextButtonTransparent
 
   return (
     <View style={styles.buttonsContainer}>
       <Pressable
         style={stylesButtonPrevious}
-        onPress={() => onAlterOperation(index - 1)}
+        onPress={() => nextIndexFunction(index - 1)}
       >
         <CaretLeft size={50} color={colors.white} />
       </Pressable>
@@ -31,10 +31,10 @@ export function ButtonsSection({
       </Text>
 
       <Pressable
-        style={styles.alterOperation}
-        onPress={() => onAlterOperation(index + 1)}
+        style={styles.nextButton}
+        onPress={() => nextIndexFunction(index + 1)}
       >
-        {index !== 6 ? (
+        {index !== 4 ? (
           <CaretRight size={50} color={colors.white} />
         ) : (
           <FlagCheckered size={50} color={colors.white} weight="fill" />

@@ -8,11 +8,11 @@ import { UserContext } from '../../../contexts/UserDataContext'
 import { ModalSelectImage } from '../../components/ModalCharacters'
 import { Characters } from '../Register'
 import { useUserRequest } from '../../../hooks/useUserRequest'
-import { useRedirect } from '../../../hooks/useRedirect'
 import { TokenContext } from '../../../contexts/TokenContext'
 import { FieldsEditProfile, onErrorInput, validateInputs } from './validate'
 import { handleDateChange } from '../../../utils/handleDateChange'
 import { charactersImages } from '../../../utils/charactersImages'
+import { useNavigation } from '@react-navigation/native'
 
 interface IFields {
   key: string
@@ -36,9 +36,9 @@ export function EditProfile() {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const { userData, removeUserData } = useContext(UserContext)
   const { removeToken } = useContext(TokenContext)
-  const [inputFocused, setInputFocused] = useState<String>()
+  const [inputFocused, setInputFocused] = useState<string>()
   const { editProfile } = useUserRequest()
-  const redirect = useRedirect()
+  const redirect = useNavigation()
 
   const renderProfileImage = () => {
     if (inputs.characterName !== '') {
@@ -103,9 +103,9 @@ export function EditProfile() {
         if (inputs.email !== '') {
           removeToken()
           removeUserData()
-          redirect.onRedirect('/Login')
+          redirect.navigate('login')
         } else {
-          redirect.onRedirect('/Home')
+          redirect.navigate('home')
         }
       }
     } catch (error) {

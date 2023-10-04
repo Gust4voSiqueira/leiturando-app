@@ -15,9 +15,9 @@ export function MathCard({ onRedirectFunction }: IShieldsCard) {
       navigationFunction={() =>
         onRedirectFunction({
           title: 'Matemática',
-          description: 'Resolva as operações corretamente para somar pontos',
-          screen: 'Operations',
-          textSpeech: 'Resolva as operações corretamente para somar pontos',
+          description: 'Resolva as operações para somar pontos',
+          screen: 'operations',
+          textSpeech: 'Resolva as operações para somar pontos',
         })
       }
     >

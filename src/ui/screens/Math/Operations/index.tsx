@@ -6,12 +6,10 @@ import { ButtonNext, Header } from '../../../components'
 import { Divide, Minus, Plus, X } from 'phosphor-react-native'
 import { colors } from '../../../../../global/themes/default'
 import { IOperations } from '../../../../hooks/useMath'
-import { RootStackParamList } from '../../../../routes/types'
-import { StackScreenProps } from '@react-navigation/stack'
+import { useNavigation } from '@react-navigation/native'
 
-type MathProps = StackScreenProps<RootStackParamList, 'Math'>
-
-export function Operations({ navigation }: MathProps) {
+export function Operations() {
+  const navigation = useNavigation()
   const [selectedOperations, setOperationsSelected] = useState<IOperations[]>(
     [],
   )
@@ -37,7 +35,7 @@ export function Operations({ navigation }: MathProps) {
     if (selectedOperations.length === 0) {
       setError(!error)
     } else {
-      navigation.navigate('Math', { operations: selectedOperations })
+      navigation.navigate('math', { operations: selectedOperations })
     }
   }
 

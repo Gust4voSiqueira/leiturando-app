@@ -4,10 +4,11 @@ import { btoa } from 'react-native-quick-base64'
 import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
 import { convertData } from '../utils/convertData'
+import { RequestsContext } from '../contexts/RequestsContext'
 
 interface ILogin {
-  email: String
-  password: String
+  email: string
+  password: string
 }
 
 interface IUserRegister {
@@ -28,6 +29,7 @@ interface IEditProfile {
 
 export const useUserRequest = () => {
   const { removeToken, addToken, token } = useContext(TokenContext)
+  const { onLoadRequests } = useContext(RequestsContext)
   const { saveUserData } = useContext(UserContext)
 
   async function register(userRegister: IUserRegister) {
@@ -88,6 +90,8 @@ export const useUserRequest = () => {
       saveUserData(response.data)
       return response.data
     } catch (error) {
+      console.log(error)
+
       removeToken()
       throw new Error(error)
     }
@@ -114,10 +118,40 @@ export const useUserRequest = () => {
     }
   }
 
+  async function searchUser(search: string) {
+    try {
+      const response = await api.get(`/user/searchUsers/${search}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      return error
+    }
+  }
+
+  async function unfriend(idUser: number) {
+    try {
+      const response = await api.delete(`/user/unfriend/${idUser}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (response.status === 200) onLoadRequests()
+    } catch (error) {
+      return error
+    }
+  }
+
   return {
     register,
     login,
     myUser,
     editProfile,
+    searchUser,
+    unfriend,
   }
 }

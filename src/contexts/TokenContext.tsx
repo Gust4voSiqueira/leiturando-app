@@ -1,9 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ReactNode, createContext, useState } from 'react'
 
 interface TokenContextType {
-  token: String
-  addToken: (newToken: String) => void
+  token: string
+  addToken: (newToken: string) => void
   removeToken: () => void
+  getToken: () => Promise<string>
 }
 
 export const TokenContext = createContext({} as TokenContextType)
@@ -13,18 +15,35 @@ interface TokenContextProviderProps {
 }
 
 export function TokenContextProvider({ children }: TokenContextProviderProps) {
-  const [token, setToken] = useState<String>('')
+  const [token, setToken] = useState<string>(getToken())
 
-  function addToken(newToken: String) {
-    setToken(newToken)
+  async function addToken(newToken: string) {
+    try {
+      await AsyncStorage.setItem('@leiturando:token', newToken)
+      setToken(newToken)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  function removeToken() {
+  async function removeToken() {
+    await AsyncStorage.removeItem('@leiturando:token')
     setToken('')
   }
 
+  async function getToken() {
+    try {
+      const response = await AsyncStorage.getItem('@leiturando:token')
+      setToken(response)
+
+      return token
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <TokenContext.Provider value={{ token, addToken, removeToken }}>
+    <TokenContext.Provider value={{ token, addToken, removeToken, getToken }}>
       {children}
     </TokenContext.Provider>
   )

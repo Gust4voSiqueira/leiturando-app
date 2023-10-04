@@ -5,7 +5,9 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/types'
 import { styles } from './styles'
 import { CardProfile } from './sections/CardProfile'
-import { useRedirect } from '../../../hooks/useRedirect'
+import { useContext } from 'react'
+import { UserContext } from '../../../contexts/UserDataContext'
+import { useNavigation } from '@react-navigation/native'
 
 type ResultProps = StackScreenProps<RootStackParamList, 'Result'>
 
@@ -14,12 +16,13 @@ export interface IResultProps {
   correct: boolean
 }
 
-export function Result({ route, navigation }: ResultProps) {
-  const redirect = useRedirect()
-  const { response } = route.params
+export function Result({ route }: ResultProps) {
+  const navigation = useNavigation()
+  const { userData } = useContext(UserContext)
+  const { response, score } = route.params
 
   function onRedirect() {
-    navigation.navigate('Resume', { resume: response })
+    navigation.navigate('resume', { resume: response, score })
   }
 
   const corrects = response.filter((result) => result.correct)
@@ -29,9 +32,9 @@ export function Result({ route, navigation }: ResultProps) {
       <View style={styles.resultContainer}>
         <Header
           title="Resultado"
-          textSpeech={`Parabéns, você acertou ${corrects.length} de ${
-            response.length
-          }, e conquistou ${corrects.length * 2} pontos.`}
+          textSpeech={`Parabéns ${userData.name}, você acertou ${
+            corrects.length
+          } de ${response.length}, e conquistou ${corrects.length * 2} pontos.`}
         />
 
         <View style={styles.contentContainer}>
@@ -43,13 +46,13 @@ export function Result({ route, navigation }: ResultProps) {
 
           <CardProfile />
 
-          <Text style={styles.scoreText}>+{corrects.length * 2} pontos</Text>
+          <Text style={styles.scoreText}>+{score} pontos</Text>
         </View>
 
         <View style={styles.buttonsContainer}>
           <ButtonNext
             text="Página Inicial"
-            onClickFunction={() => redirect.onRedirect('/Home')}
+            onClickFunction={() => navigation.navigate('home')}
           />
           <ButtonNext text="Relatório" onClickFunction={onRedirect} />
         </View>

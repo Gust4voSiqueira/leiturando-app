@@ -4,9 +4,9 @@ import { Text, View, Pressable } from 'react-native'
 import { styles } from './styles'
 import { CaretLeft, PencilSimple } from 'phosphor-react-native'
 import { colors } from '../../../../../../global/themes/default'
-import { useRedirect } from '../../../../../hooks/useRedirect'
 
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 function dateFormatter(date: Date) {
   const monthList = [
@@ -39,18 +39,21 @@ interface ICardProfile {
 }
 
 export function CardProfile({ name, character, createdAt }: ICardProfile) {
-  const { onRedirect } = useRedirect()
+  const navigation = useNavigation()
 
   return (
     <View style={styles.cardProfileContainer}>
-      <Pressable style={styles.iconBack} onPress={() => onRedirect('/Home')}>
+      <Pressable
+        style={styles.iconBack}
+        onPress={() => navigation.navigate('home')}
+      >
         <CaretLeft size={30} weight="bold" color={colors['black-400']} />
       </Pressable>
 
       {character}
       <Pressable
         style={styles.iconPencil}
-        onPress={() => onRedirect('/EditProfile')}
+        onPress={() => navigation.navigate('editProfile')}
       >
         <PencilSimple size={25} color={colors['black-400']} weight="fill" />
       </Pressable>

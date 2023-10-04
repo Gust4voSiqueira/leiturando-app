@@ -22,6 +22,7 @@ interface IOperationsSection {
     response: string,
   ) => void
   valueInput: string
+  isError: boolean
 }
 
 export function OperationsContainer({
@@ -30,6 +31,7 @@ export function OperationsContainer({
   operation,
   valueInput,
   onChangeResponse,
+  isError,
 }: IOperationsSection) {
   return (
     <View style={styles.operationContainer}>
@@ -45,7 +47,7 @@ export function OperationsContainer({
       <View style={styles.lineResult} />
 
       <TextInput
-        style={styles.resultOperation}
+        style={[styles.resultOperation, isError && styles.error]}
         onChangeText={(newText) =>
           onChangeResponse(number1, number2, operation, newText)
         }

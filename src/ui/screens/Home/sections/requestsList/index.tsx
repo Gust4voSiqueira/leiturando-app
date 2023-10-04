@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
@@ -11,7 +12,11 @@ import { colors } from '../../../../../../global/themes/default'
 import { useContext, useEffect, useState } from 'react'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 
-export function RequestsList() {
+interface IRequestsList {
+  redirectToAllRequests: () => void
+}
+
+export function RequestsList({ redirectToAllRequests }: IRequestsList) {
   const [selectInput, setSelectInput] = useState(false)
   const { requests, onLoadRequests } = useContext(RequestsContext)
 
@@ -28,7 +33,12 @@ export function RequestsList() {
   return (
     <View style={styles.listRequestsContainer}>
       <Text style={styles.listRequestsTitle}>Solicitações</Text>
-      <ScrollView scrollEnabled style={{ width: '100%' }}>
+
+      <ScrollView
+        scrollEnabled
+        style={{ width: '100%' }}
+        showsVerticalScrollIndicator={false}
+      >
         <TextInput
           style={
             selectInput
@@ -72,8 +82,9 @@ export function RequestsList() {
           />
         ))}
       </ScrollView>
+      <Pressable style={styles.viewAllFriends} onPress={redirectToAllRequests}>
+        <Text style={styles.viewAllFriendsText}>Ver Todos</Text>
+      </Pressable>
     </View>
   )
 }
-
-//

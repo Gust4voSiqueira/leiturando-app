@@ -10,10 +10,9 @@ import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
 import { colors } from '../../../../global/themes/default'
-import { Link } from '@react-navigation/native'
+import { Link, useNavigation } from '@react-navigation/native'
 import { useUserRequest } from '../../../hooks/useUserRequest'
 import { useEffect, useState } from 'react'
-import { useRedirect } from '../../../hooks/useRedirect'
 
 interface IInputsFields {
   email: string
@@ -22,7 +21,7 @@ interface IInputsFields {
 
 export function Login() {
   const { login } = useUserRequest()
-  const { onRedirect } = useRedirect()
+  const navigation = useNavigation()
   const [isDisbaledButton, setIsDisabledButton] = useState(false)
   const [error, setError] = useState(false)
   const [inputs, setInputs] = useState<IInputsFields>({
@@ -44,7 +43,7 @@ export function Login() {
 
       await login(loginData)
 
-      onRedirect('/Home')
+      navigation.navigate('home')
     } catch (error) {
       setError(true)
       setIsDisabledButton(false)

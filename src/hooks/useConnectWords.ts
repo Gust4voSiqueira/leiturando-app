@@ -1,21 +1,16 @@
 import { useContext } from 'react'
 import { api } from '../lib/axios'
 import { TokenContext } from '../contexts/TokenContext'
-import { IWord } from '../ui/screens/Words'
 import { UserContext } from '../contexts/UserDataContext'
+import { IResponses } from '../ui/screens/ConnectWords'
 
-interface IFinnally {
-  wordIds: number[]
-  responses: string[]
-}
-
-export const useWords = () => {
+export const useConnectWords = () => {
   const { token } = useContext(TokenContext)
   const { updateUserLevelData } = useContext(UserContext)
 
-  async function getWords() {
+  async function getWordsToConnect() {
     try {
-      const response = await api.get('/words', {
+      const response = await api.get('/connectWords', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,14 +22,9 @@ export const useWords = () => {
     }
   }
 
-  async function finallyWords(words: IWord[], responses: string[]) {
+  async function finallyConnectWords(responses: IResponses[]) {
     try {
-      const request: IFinnally = {
-        wordIds: words.map((word) => word.id),
-        responses,
-      }
-
-      const response = await api.post('/words', request, {
+      const response = await api.post('/connectWords', responses, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -50,7 +40,7 @@ export const useWords = () => {
   }
 
   return {
-    getWords,
-    finallyWords,
+    getWordsToConnect,
+    finallyConnectWords,
   }
 }

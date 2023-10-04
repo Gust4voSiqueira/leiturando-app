@@ -2,14 +2,15 @@ import { Microphone, Pause } from 'phosphor-react-native'
 import { Pressable } from 'react-native'
 import { colors } from '../../../../../../global/themes/default'
 import { styles } from './styles'
-import { useEffect } from 'react'
+import { useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 
 import Voice from '@react-native-voice/voice'
 
 interface IIconsSectionProps {
   isRecording: boolean
   onRecordingVoice: () => void
-  onAlterWordVoice: (newVoice: String) => void
+  onAlterWordVoice: (newVoice: string) => void
 }
 
 export function IconsSection({
@@ -27,13 +28,15 @@ export function IconsSection({
     }
   }
 
-  useEffect(() => {
-    Voice.onSpeechResults = (e) => {
-      if (!e.value[0]) return
+  useFocusEffect(
+    useCallback(() => {
+      Voice.onSpeechResults = (e) => {
+        if (!e.value[0]) return
 
-      onAlterWordVoice(e.value[0])
-    }
-  }, [])
+        onAlterWordVoice(e.value[0])
+      }
+    }, []),
+  )
 
   return (
     <Pressable style={styles.microphoneIconContainer} onPress={recordVoice}>

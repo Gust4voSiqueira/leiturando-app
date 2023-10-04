@@ -119,13 +119,10 @@ export function RequestsContextProvider({
 
   async function onSendRequest(id: number) {
     try {
-      const response = await sendRequest(id)
+      const user = await sendRequest(id)
 
-      const user = requests.usersRecommended.find(
-        (user) => user.id === response?.id,
-      )
       const newUsersRecommended = requests.usersRecommended.filter(
-        (userRecommended) => userRecommended !== user,
+        (userRecommended) => userRecommended.id !== user.id,
       )
 
       setRequests({

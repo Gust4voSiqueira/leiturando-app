@@ -4,28 +4,25 @@ import { View } from 'react-native'
 
 import { styles } from './styles'
 
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../routes/types'
-
 import { ButtonsSection, IconsSection, WordSection } from './sections'
 import { Header } from '../../components'
 import { useWords } from '../../../hooks/useWords'
 import { Loading } from '../Loading'
+import { useNavigation } from '@react-navigation/native'
 
 export interface IWord {
   id: number
   word: string
 }
 
-type WordsProps = StackScreenProps<RootStackParamList, 'Result'>
-
-export function Words({ navigation }: WordsProps) {
+export function Words() {
   const [indexWord, setIndexWord] = useState(0)
   const [isRecording, setIsRecording] = useState(false)
-  const [voice, setVoice] = useState<String>('')
-  const [responses, setResponses] = useState<String[]>([])
+  const [voice, setVoice] = useState<string>('')
+  const [responses, setResponses] = useState<string[]>([])
   const [words, setWords] = useState<IWord[]>([])
   const { getWords, finallyWords } = useWords()
+  const navigation = useNavigation()
 
   useEffect(() => {
     async function onGetWords() {
@@ -45,11 +42,11 @@ export function Words({ navigation }: WordsProps) {
     setIsRecording(!isRecording)
   }
 
-  function onAlterWordVoice(newVoice: String) {
+  function onAlterWordVoice(newVoice: string) {
     setVoice(newVoice)
   }
 
-  function onResponseUser(response: String, index: number) {
+  function onResponseUser(response: string, index: number) {
     if (!response) return
 
     setResponses([
@@ -63,8 +60,9 @@ export function Words({ navigation }: WordsProps) {
     try {
       const response = await finallyWords(words, responses)
 
-      navigation.navigate('Result', {
-        response,
+      navigation.navigate('result', {
+        response: response.words,
+        score: response.score,
       })
     } catch (err) {
       console.log(err)

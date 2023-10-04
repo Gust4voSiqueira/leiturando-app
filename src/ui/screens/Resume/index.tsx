@@ -6,8 +6,8 @@ import { ButtonNext, Header } from '../../components'
 import { CardResult } from './sections/CardResult'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../routes/types'
-import { useRedirect } from '../../../hooks/useRedirect'
 import { IResultProps } from '../Result'
+import { useNavigation } from '@react-navigation/native'
 
 type ResumeProps = StackScreenProps<RootStackParamList, 'Resume'>
 
@@ -29,12 +29,12 @@ function HandleCards({ resume }: IHandleCards) {
   )
 }
 
-export function Resume({ route, navigation }: ResumeProps) {
-  const { resume } = route.params
-  const redirect = useRedirect()
+export function Resume({ route }: ResumeProps) {
+  const { resume, score } = route.params
+  const navigation = useNavigation()
 
   function onRedirect() {
-    navigation.navigate('Result', { response: resume })
+    navigation.navigate('result', { response: resume, score })
   }
 
   return (
@@ -54,7 +54,7 @@ export function Resume({ route, navigation }: ResumeProps) {
       <View style={styles.buttonsContainer}>
         <ButtonNext
           text="Página Inicial"
-          onClickFunction={() => redirect.onRedirect('/Home')}
+          onClickFunction={() => navigation.navigate('home')}
         />
         <ButtonNext text="Resultado" onClickFunction={onRedirect} />
       </View>
