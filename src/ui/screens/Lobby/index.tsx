@@ -4,13 +4,10 @@ import { ButtonNext, Header } from '../../components'
 
 import { styles } from './styles'
 
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../routes/types'
-
 import Words from '../../../../assets/words.svg'
 import Shields from '../../../../assets/shield.svg'
 import Jupiter from '../../../../assets/jupiter.svg'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 interface ILobby {
   description: string
@@ -31,11 +28,10 @@ interface ILobby {
   textSpeech: string
 }
 
-type LobbyProps = StackScreenProps<RootStackParamList, 'Lobby'>
-
-export function Lobby({ route }: LobbyProps) {
+export function Lobby() {
+  const routes = useRoute()
   const navigate = useNavigation()
-  const { description, title, screen, textSpeech } = route.params as ILobby
+  const { description, title, screen, textSpeech } = routes.params as ILobby
 
   const image = {
     words: <Words width={500} height="25%" />,
@@ -54,7 +50,7 @@ export function Lobby({ route }: LobbyProps) {
         <View style={styles.buttonContainer}>
           <ButtonNext
             text="Começar"
-            onClickFunction={() => navigate.navigate(screen)}
+            onPress={() => navigate.navigate(screen)}
           />
         </View>
       </View>

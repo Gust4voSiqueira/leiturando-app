@@ -1,8 +1,8 @@
 import { SpeakerSimpleHigh } from 'phosphor-react-native'
-import { Pressable, View } from 'react-native'
+import { View } from 'react-native'
 import { styles } from './styles'
-import { colors } from '../../../../../../global/themes/default'
 import { IResponses } from '../..'
+import { Button, theme } from 'native-base'
 
 export type IAudio = {
   id: number
@@ -33,9 +33,20 @@ export function AudiosSection({
     <View>
       {audios.map((audio) => {
         return isSelectedAudio(audio.id) ? (
-          <Pressable style={[styles.cardAudio]} key={audio.id} />
+          <Button
+            bg={'gray.700'}
+            _pressed={{
+              bg: 'gray.700',
+            }}
+            style={[styles.cardAudio]}
+            key={audio.id}
+          />
         ) : (
-          <Pressable
+          <Button
+            bg={'gray.700'}
+            _pressed={{
+              bg: 'gray.700',
+            }}
             style={[
               styles.cardAudio,
               selected?.word === audio.word && styles.selected,
@@ -43,8 +54,12 @@ export function AudiosSection({
             key={audio.id}
             onPress={() => onSpeechAudio(audio.word, audio.id)}
           >
-            <SpeakerSimpleHigh size={45} weight="fill" color={colors.white} />
-          </Pressable>
+            <SpeakerSimpleHigh
+              size={45}
+              weight="fill"
+              color={theme.colors.white}
+            />
+          </Button>
         )
       })}
     </View>

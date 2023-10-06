@@ -1,7 +1,7 @@
 import { CaretLeft, CaretRight, FlagCheckered } from 'phosphor-react-native'
-import { Pressable, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { styles } from './styles'
-import { colors } from '../../../../../../global/themes/default'
+import { Button, theme } from 'native-base'
 
 interface IButtonsSection {
   nextIndexFunction: (newIndex: number) => void
@@ -14,32 +14,34 @@ export function ButtonsSection({
   nextIndexFunction,
   totalIndex,
 }: IButtonsSection) {
-  const stylesButtonPrevious =
-    index - 1 >= 0 ? styles.nextButton : styles.nextButtonTransparent
-
   return (
     <View style={styles.buttonsContainer}>
-      <Pressable
-        style={stylesButtonPrevious}
+      <Button
+        padding={15}
+        opacity={index - 1 >= 0 ? 1 : 0}
+        backgroundColor={'gray.700'}
+        borderRadius={100}
         onPress={() => nextIndexFunction(index - 1)}
       >
-        <CaretLeft size={50} color={colors.white} />
-      </Pressable>
+        <CaretLeft size={50} color={theme.colors.white} />
+      </Button>
 
       <Text style={styles.indexMath}>
         {index + 1}/{totalIndex}
       </Text>
 
-      <Pressable
-        style={styles.nextButton}
+      <Button
+        padding={15}
+        backgroundColor={'gray.700'}
+        borderRadius={100}
         onPress={() => nextIndexFunction(index + 1)}
       >
         {index !== 4 ? (
-          <CaretRight size={50} color={colors.white} />
+          <CaretRight size={50} color={theme.colors.white} />
         ) : (
-          <FlagCheckered size={50} color={colors.white} weight="fill" />
+          <FlagCheckered size={50} color={theme.colors.white} weight="fill" />
         )}
-      </Pressable>
+      </Button>
     </View>
   )
 }

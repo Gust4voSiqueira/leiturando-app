@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react'
 import { RequestsContext } from '../../../contexts/RequestsContext'
 import { useUserRequest } from '../../../hooks/useUserRequest'
 import { RenderLists } from './renderLists'
+import { Box } from 'native-base'
 
 export type filters = 'All' | 'Requests' | 'Friends'
 
@@ -50,7 +51,7 @@ export function FriendsScreen() {
   }, [])
 
   return (
-    <View style={styles.friendsContainer}>
+    <Box bg={'gray.900'} style={styles.friendsContainer}>
       <Header title="Amigos" isRedirect />
 
       <FiltersSection
@@ -89,6 +90,6 @@ export function FriendsScreen() {
           )}
         </ScrollView>
       </View>
-    </View>
+    </Box>
   )
 }

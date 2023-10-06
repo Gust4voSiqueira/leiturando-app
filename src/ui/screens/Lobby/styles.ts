@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../global/themes/default'
+import { theme } from 'native-base'
 
 export const styles = StyleSheet.create({
   textLobby: {
-    color: colors.white,
-    fontSize: fontsSize.large,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
     fontWeight: 'bold',
     textAlign: 'center',
     width: '90%',
@@ -14,14 +14,14 @@ export const styles = StyleSheet.create({
     width: '65%',
     height: 45,
     borderRadius: 7,
-    backgroundColor: colors['black-700'],
+    backgroundColor: theme.colors.gray[700],
     justifyContent: 'center',
     marginTop: 40,
   },
   textStart: {
     textAlign: 'center',
-    color: colors.white,
-    fontSize: fontsSize.xmedium,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
     fontWeight: 'bold',
   },
   LobbyContainer: {

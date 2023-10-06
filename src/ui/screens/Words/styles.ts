@@ -1,5 +1,5 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors } from '../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   wordsContainer: {
@@ -9,6 +9,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    backgroundColor: colors['black-900'],
+    backgroundColor: theme.colors.gray[900],
   },
 })

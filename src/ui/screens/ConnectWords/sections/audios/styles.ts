@@ -1,9 +1,8 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors } from '../../../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   cardAudio: {
-    backgroundColor: colors['black-700'],
     height: 60,
     width: 90,
     marginVertical: 8,
@@ -14,6 +13,6 @@ export const styles = StyleSheet.create({
   },
   selected: {
     borderWidth: 1,
-    borderColor: colors['green-600'],
+    borderColor: theme.colors.green[600],
   },
 })

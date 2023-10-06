@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 
 import { CardProfile } from './sections/cardProfile'
 
@@ -8,10 +8,12 @@ import { WordsCard } from './sections/words'
 import { MathCard } from './sections/math'
 import { RequestsList } from './sections/requestsList'
 import { useUserRequest } from '../../../hooks/useUserRequest'
-import { Loading } from '../Loading'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { ConnectWordsCard } from './sections/connectWords'
 import { useNavigation } from '@react-navigation/native'
+import { ScrollView } from 'native-base'
+import { globalStyles } from '../../../../global/global'
+import { HomeSkeleton } from './HomeSkeleton'
 
 export interface IUserData {
   breakthrough: number
@@ -63,12 +65,11 @@ export function Home() {
     setCartList(false)
   }
 
-  if (!userData) return <Loading />
+  if (!userData) return <HomeSkeleton />
 
   return (
-    <View>
+    <View style={globalStyles.container}>
       <ScrollView
-        style={styles.scrollViewContainer}
         nestedScrollEnabled={cardList}
         scrollEnabled={!cardList}
         showsVerticalScrollIndicator={false}

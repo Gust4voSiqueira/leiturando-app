@@ -10,6 +10,7 @@ import {
 } from './buttons'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { useUserRequest } from '../../../../../hooks/useUserRequest'
+import { Box } from 'native-base'
 
 interface ICardFiendsSection {
   id: number
@@ -84,13 +85,13 @@ export function CardFriendsSection({
 
   if (isLoading)
     return (
-      <View style={styles.cardFriendsContainer}>
+      <Box bg={'gray.700'} style={styles.cardFriendsContainer}>
         <ActivityIndicator size="small" style={styles.load} />
-      </View>
+      </Box>
     )
 
   return (
-    <View style={styles.cardFriendsContainer}>
+    <Box bg={'gray.700'} style={styles.cardFriendsContainer}>
       <View style={styles.imageUserRequest}>{characterImage}</View>
 
       <View style={styles.infoRequestContainer}>
@@ -109,6 +110,6 @@ export function CardFriendsSection({
           )}
         </View>
       </View>
-    </View>
+    </Box>
   )
 }

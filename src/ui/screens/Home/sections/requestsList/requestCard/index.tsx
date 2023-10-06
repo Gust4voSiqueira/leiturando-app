@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
-import { ActivityIndicator, Pressable, Text, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { styles } from './styles'
 import { Check, X } from 'phosphor-react-native'
-import { colors } from '../../../../../../../global/themes/default'
 import { RequestsContext } from '../../../../../../contexts/RequestsContext'
 import { charactersImages } from '../../../../../../utils/charactersImages'
+import { Box, Pressable, Text, theme } from 'native-base'
 
 interface IHandleButton {
   idUser: number
@@ -30,19 +30,28 @@ function HandleButton({
           style={styles.responseFriendButtonReject}
           onPress={deleteRequest}
         >
-          <X size={18} color={colors.white} />
+          <X size={18} color={theme.colors.white} />
         </Pressable>
         <Pressable
           style={styles.responseFriendButtonAccept}
           onPress={() => acceptRequest(idUser)}
         >
-          <Check size={18} color={colors.white} />
+          <Check size={18} color={theme.colors.white} />
         </Pressable>
       </>
     )
   } else if (typeCard === 'SubmittedRequest') {
     return (
-      <Pressable style={styles.cancelRequestButton} onPress={cancelRequest}>
+      <Pressable
+        bg={'red.600'}
+        paddingX={2}
+        borderRadius={3}
+        marginX={5}
+        onPress={cancelRequest}
+        _pressed={{
+          bg: 'gray.500',
+        }}
+      >
         <Text style={styles.responseFriendText}>Cancelar</Text>
       </Pressable>
     )
@@ -50,8 +59,14 @@ function HandleButton({
 
   return (
     <Pressable
-      style={styles.responseFriendButton}
+      bg={'gray.500'}
+      paddingX={2}
+      borderRadius={3}
+      marginX={5}
       onPress={() => sendRequest(idUser)}
+      _pressed={{
+        bg: 'gray.500',
+      }}
     >
       <Text style={styles.responseFriendText}>Adicionar</Text>
     </Pressable>
@@ -99,13 +114,13 @@ export function RequestCard({
 
   if (isLoading)
     return (
-      <View style={styles.requestCardLoad}>
+      <Box bg={'gray.700'} style={styles.requestCardLoad}>
         <ActivityIndicator size="small" style={styles.load} />
-      </View>
+      </Box>
     )
 
   return (
-    <View style={styles.requestCard}>
+    <Box bg={'gray.700'} style={styles.requestCard}>
       <View style={styles.imageUserRequest}>{characterImage}</View>
 
       <View style={styles.infoRequestContainer}>
@@ -131,6 +146,6 @@ export function RequestCard({
           />
         </View>
       </View>
-    </View>
+    </Box>
   )
 }

@@ -2,7 +2,6 @@ import { Pressable, Text, View } from 'react-native'
 import { Card } from '../../../../components'
 import { styles } from './styles'
 import { SignOut, UserPlus } from 'phosphor-react-native'
-import { colors } from '../../../../../../global/themes/default'
 import { progressActual } from '../../../../../utils/progressActual'
 import { IUserData } from '../..'
 import React, { useContext, useEffect } from 'react'
@@ -10,6 +9,7 @@ import { TokenContext } from '../../../../../contexts/TokenContext'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { UserContext } from '../../../../../contexts/UserDataContext'
 import { useNavigation } from '@react-navigation/native'
+import { theme } from 'native-base'
 
 export interface IRequestCard {
   image: React.JSX.Element
@@ -57,13 +57,13 @@ export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
               </View>
             )}
 
-            <UserPlus size={27} color={colors.white} weight="regular" />
+            <UserPlus size={27} color={theme.colors.white} weight="regular" />
             <Text style={customStyles.requestsText}>Solicitações</Text>
           </Pressable>
         )}
 
         <Pressable style={customStyles.logoutButton} onPress={onLoggout}>
-          <SignOut size={30} color={colors.white} weight="regular" />
+          <SignOut size={30} color={theme.colors.white} weight="regular" />
           <Text style={customStyles.requestsText}>Sair</Text>
         </Pressable>
 

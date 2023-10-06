@@ -1,9 +1,8 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   cardWord: {
-    backgroundColor: colors['black-700'],
     height: 60,
     width: 180,
     marginVertical: 8,
@@ -13,8 +12,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textWord: {
-    color: colors.white,
-    fontSize: fontsSize.large,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
     fontWeight: 'bold',
   },
 })

@@ -1,5 +1,6 @@
-import { Pressable as ButtonReact, Text } from 'react-native'
+import { Text } from 'react-native'
 import { styles } from './styles'
+import { Pressable } from 'native-base'
 
 interface IButtonStartProps {
   onClickFunction?: () => void
@@ -7,8 +8,12 @@ interface IButtonStartProps {
 
 export function ButtonStart({ onClickFunction }: IButtonStartProps) {
   return (
-    <ButtonReact style={styles.buttonContainer} onPress={onClickFunction}>
+    <Pressable
+      bg={'gray.500'}
+      style={styles.buttonContainer}
+      onPress={onClickFunction}
+    >
       <Text style={styles.textButton}>Iniciar</Text>
-    </ButtonReact>
+    </Pressable>
   )
 }

@@ -1,18 +1,18 @@
-import { View, Pressable, Text, TextInput } from 'react-native'
+import { View, Pressable, Text } from 'react-native'
 
-import { Link } from '@react-navigation/native'
-import { ButtonNext } from '../../../components'
-
-import { colors } from '../../../../../global/themes/default'
+import { useNavigation } from '@react-navigation/native'
+import { ButtonNext, InputRegister } from '../../../components'
 
 import { styles } from './styles'
 
 import ImageProfileDefault from '../../../../../assets/profileDefault.svg'
-import React, { useState } from 'react'
 import { Characters as CharactersType } from '..'
-import { FieldsRegisterNewUser, onErrorInput, validateInputs } from './validate'
 import { handleDateChange } from '../../../../utils/handleDateChange'
 import { charactersImages } from '../../../../utils/charactersImages'
+
+import * as yup from 'yup'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 interface IOnRenderImage {
   characterSelected: CharactersType
@@ -29,7 +29,7 @@ function OnRenderImage({ characterSelected }: IOnRenderImage) {
   }
 }
 
-export interface IInputs {
+export interface IInputRegisters {
   name: string
   email: string
   password: string
@@ -40,34 +40,42 @@ export interface IInputs {
 interface IFormRegisterProps {
   onOpenModal: () => void
   characterSelected: CharactersType
-  onRegisterFunction: (inputs: IInputs) => void
+  onRegisterFunction: (InputRegisters: IInputRegisters) => void
 }
+
+const registerSchema = yup.object({
+  name: yup.string().required('Informe o nome.'),
+  email: yup.string().required('Informe o e-mail.').email('E-mail inválido'),
+  dateOfBirth: yup.string().required('Informe a data de nascimento.').max(10),
+  password: yup
+    .string()
+    .required('Informe a senha.')
+    .min(6, 'A senha deve ter no mínimo 6 dígitos.'),
+  confirmPassword: yup
+    .string()
+    .required('Confirme a senha.')
+    .oneOf([yup.ref('password'), null], 'A confirmação da senha não confere'),
+})
 
 export function FormRegister({
   onOpenModal,
   characterSelected,
   onRegisterFunction,
 }: IFormRegisterProps) {
-  const [error, setError] = useState([])
-  const [inputs, setInputs] = useState<IInputs>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    dateOfBirth: '',
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
   })
 
-  const onRegister = () => {
-    const errors = Object.keys(inputs).filter(
-      (input: FieldsRegisterNewUser) => !validateInputs(input, inputs),
-    )
+  const navigation = useNavigation()
 
-    setError([...errors])
-
-    if (errors.length === 0) {
-      onRegisterFunction(inputs)
-    }
+  function handleLogin() {
+    navigation.navigate('login')
   }
+
   return (
     <View style={styles.formLogin}>
       <View style={styles.buttonSelectImage}>
@@ -76,73 +84,85 @@ export function FormRegister({
         </Pressable>
         <Text style={styles.imageProfileText}>Foto de perfil</Text>
       </View>
-      <TextInput
-        style={[styles.input, onErrorInput('name', error) && styles.inputError]}
-        placeholder="Nome ou Apelido"
-        placeholderTextColor={colors['black-300']}
-        autoCapitalize="none"
-        onChangeText={(newText) => setInputs({ ...inputs, name: newText })}
+
+      <Controller
+        control={control}
+        name="name"
+        render={({ field: { onChange, value } }) => (
+          <InputRegister
+            placeholder="Nome ou Apelido"
+            isErrors={!!errors.name}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
 
-      <TextInput
-        style={[
-          styles.input,
-          onErrorInput('email', error) && styles.inputError,
-        ]}
-        placeholder="Email"
-        autoCapitalize="none"
-        placeholderTextColor={colors['black-300']}
-        onChangeText={(newText) => setInputs({ ...inputs, email: newText })}
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, value } }) => (
+          <InputRegister
+            placeholder="Email"
+            isErrors={!!errors.email}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
       />
 
-      <TextInput
-        secureTextEntry={true}
-        style={[
-          styles.input,
-          onErrorInput('password', error) && styles.inputError,
-        ]}
-        placeholder="Senha"
-        autoCapitalize="none"
-        placeholderTextColor={colors['black-300']}
-        onChangeText={(newText) => setInputs({ ...inputs, password: newText })}
+      <Controller
+        control={control}
+        name="dateOfBirth"
+        rules={{
+          maxLength: 10,
+        }}
+        render={({ field: { onChange, value } }) => (
+          <InputRegister
+            placeholder="Data de nascimento"
+            isErrors={!!errors.dateOfBirth}
+            onChangeText={(newText) => onChange(handleDateChange(newText))}
+            value={value}
+          />
+        )}
       />
 
-      <TextInput
-        secureTextEntry={true}
-        style={[
-          styles.input,
-          onErrorInput('confirmPassword', error) && styles.inputError,
-        ]}
-        placeholder="Confirmar Senha"
-        autoCapitalize="none"
-        placeholderTextColor={colors['black-300']}
-        onChangeText={(newText) =>
-          setInputs({ ...inputs, confirmPassword: newText })
-        }
-      />
-      <TextInput
-        style={[
-          styles.input,
-          onErrorInput('dateOfBirth', error) && styles.inputError,
-        ]}
-        placeholder="Data de nascimento"
-        autoCapitalize="none"
-        value={inputs.dateOfBirth}
-        maxLength={10}
-        placeholderTextColor={colors['black-300']}
-        onChangeText={(newText) =>
-          setInputs({
-            ...inputs,
-            dateOfBirth: handleDateChange(newText),
-          })
-        }
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, value } }) => (
+          <InputRegister
+            placeholder="Senha"
+            isErrors={!!errors.password}
+            onChangeText={onChange}
+            value={value}
+            secureTextEntry={true}
+          />
+        )}
       />
 
-      <Text style={styles.textRegister}>
-        Já possui cadastro?
-        <Link to="/Login"> Entrar</Link>
-      </Text>
-      <ButtonNext text="Cadastre-se" onClickFunction={onRegister} />
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({ field: { onChange, value } }) => (
+          <InputRegister
+            placeholder="Senha"
+            isErrors={!!errors.confirmPassword}
+            onChangeText={onChange}
+            value={value}
+            secureTextEntry={true}
+          />
+        )}
+      />
+
+      <Pressable onPress={handleLogin}>
+        <Text style={styles.textRegister}>Já possui cadastro? Entrar</Text>
+      </Pressable>
+
+      <ButtonNext
+        text="Cadastre-se"
+        onPress={handleSubmit(onRegisterFunction)}
+      />
     </View>
   )
 }

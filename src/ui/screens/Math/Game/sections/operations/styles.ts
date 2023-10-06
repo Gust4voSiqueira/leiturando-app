@@ -1,5 +1,5 @@
+import { theme } from 'native-base'
 import { Dimensions, StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../../global/themes/default'
 
 const windowWidth = Dimensions.get('window').width
 
@@ -10,32 +10,20 @@ export const styles = StyleSheet.create({
     width: windowWidth,
   },
   operationText: {
-    fontSize: fontsSize.xxxlarge,
-    color: colors.white,
+    fontSize: theme.fontSizes['7xl'],
+    color: theme.colors.white,
     fontWeight: 'bold',
   },
   error: {
-    fontSize: fontsSize.xxxlarge,
-    color: colors.white,
+    fontSize: theme.fontSizes['7xl'],
+    color: theme.colors.white,
     borderWidth: 1,
-    borderColor: colors['red-600'],
+    borderColor: theme.colors.red[600],
   },
   lineResult: {
     height: 1.5,
     width: '70%',
-    backgroundColor: colors.white,
-    borderRadius: 5,
-  },
-  resultOperation: {
-    width: '70%',
-    height: 120,
-    marginTop: 15,
-    backgroundColor: colors['black-700'],
-
-    fontSize: fontsSize.xxxlarge,
-    color: colors.white,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    backgroundColor: theme.colors.white,
     borderRadius: 5,
   },
   line1container: {
@@ -46,7 +34,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   simbol: {
-    fontSize: fontsSize.xxxlarge,
+    fontSize: theme.fontSizes['7xl'],
     fontWeight: 'bold',
     opacity: 0,
   },

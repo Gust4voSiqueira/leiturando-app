@@ -1,11 +1,15 @@
-import { View } from 'react-native'
 import { styles } from './styles'
 import React from 'react'
+import { Box } from 'native-base'
 
 interface ICardProps {
   children: React.ReactNode
 }
 
 export function Card({ children }: ICardProps) {
-  return <View style={styles.container}>{children}</View>
+  return (
+    <Box bg={'gray.700'} style={styles.container}>
+      {children}
+    </Box>
+  )
 }

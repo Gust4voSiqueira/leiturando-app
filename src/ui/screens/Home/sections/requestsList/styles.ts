@@ -1,5 +1,5 @@
-import { Platform, StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
+import { theme } from 'native-base'
+import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   listRequestsContainer: {
@@ -12,31 +12,9 @@ export const styles = StyleSheet.create({
     borderRadius: 11,
     paddingVertical: 13,
     paddingHorizontal: 10,
-    backgroundColor: colors['black-500'],
-  },
-  inputSearchUsers: {
-    backgroundColor: colors['black-700'],
-    height: Platform.OS === 'ios' ? 30 : 25,
-    color: colors.white,
-    paddingLeft: 10,
-    borderRadius: 2,
-    borderWidth: 1,
-    borderColor: colors['black-900'],
-    fontSize: fontsSize.xmini,
-  },
-  inputSearchUsersSelected: {
-    backgroundColor: colors['black-700'],
-    width: '100%',
-    height: Platform.OS === 'ios' ? 30 : 25,
-    color: colors.white,
-    paddingLeft: 10,
-    borderRadius: 2,
-    borderWidth: 1,
-    borderColor: colors['green-600'],
-    fontSize: fontsSize.xmini,
   },
   listRequestsTitle: {
-    color: colors.white,
+    color: theme.colors.white,
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
@@ -44,12 +22,11 @@ export const styles = StyleSheet.create({
   viewAllFriends: {
     position: 'absolute',
     bottom: 0,
-    backgroundColor: colors['black-500'],
     width: '100%',
     alignItems: 'center',
   },
   viewAllFriendsText: {
-    color: colors.white,
+    color: theme.colors.white,
     paddingVertical: 10,
     fontWeight: 'bold',
   },

@@ -4,7 +4,11 @@ import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
 import { IResponses } from '../ui/screens/Math/Game'
 
-type IOperations = 'SUBTRACTION' | 'ADDITION' | 'MULTIPLICATION' | 'DIVISION'
+export type IOperations =
+  | 'SUBTRACTION'
+  | 'ADDITION'
+  | 'MULTIPLICATION'
+  | 'DIVISION'
 
 const operationMapping = {
   ADDITION: 'ADDITION',

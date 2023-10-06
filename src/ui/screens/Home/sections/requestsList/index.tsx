@@ -1,37 +1,25 @@
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from 'react-native'
+import { ActivityIndicator, ScrollView, Text } from 'react-native'
 import { styles } from './styles'
 import { RequestCard } from './requestCard'
-import { colors } from '../../../../../../global/themes/default'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
+import { Box, Input, Pressable, theme } from 'native-base'
 
 interface IRequestsList {
   redirectToAllRequests: () => void
 }
 
 export function RequestsList({ redirectToAllRequests }: IRequestsList) {
-  const [selectInput, setSelectInput] = useState(false)
   const { requests, onLoadRequests } = useContext(RequestsContext)
 
   useEffect(() => {
     onLoadRequests()
   }, [])
 
-  function onSelectInput() {
-    setSelectInput(!selectInput)
-  }
-
   if (!requests) return <ActivityIndicator size="large" />
 
   return (
-    <View style={styles.listRequestsContainer}>
+    <Box bg={'gray.500'} style={styles.listRequestsContainer}>
       <Text style={styles.listRequestsTitle}>Solicitações</Text>
 
       <ScrollView
@@ -39,15 +27,17 @@ export function RequestsList({ redirectToAllRequests }: IRequestsList) {
         style={{ width: '100%' }}
         showsVerticalScrollIndicator={false}
       >
-        <TextInput
-          style={
-            selectInput
-              ? styles.inputSearchUsersSelected
-              : styles.inputSearchUsers
-          }
+        <Input
+          bg={'gray.700'}
+          borderWidth={0}
+          color={'white'}
+          _focus={{
+            borderWidth: 1,
+            borderColor: 'green.600',
+            bg: 'gray.700',
+          }}
           placeholder="Buscar usuário"
-          placeholderTextColor={colors['black-300']}
-          onFocus={onSelectInput}
+          placeholderTextColor={theme.colors.gray[300]}
         />
         {requests?.requests.map((request) => (
           <RequestCard
@@ -82,9 +72,13 @@ export function RequestsList({ redirectToAllRequests }: IRequestsList) {
           />
         ))}
       </ScrollView>
-      <Pressable style={styles.viewAllFriends} onPress={redirectToAllRequests}>
+      <Pressable
+        bg={'gray.500'}
+        style={styles.viewAllFriends}
+        onPress={redirectToAllRequests}
+      >
         <Text style={styles.viewAllFriendsText}>Ver Todos</Text>
       </Pressable>
-    </View>
+    </Box>
   )
 }

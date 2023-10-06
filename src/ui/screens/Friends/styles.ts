@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { colors } from '../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   friendsContainer: {
@@ -7,7 +6,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 80,
-    backgroundColor: colors['black-900'],
   },
   scrollStyles: {
     width: '100%',

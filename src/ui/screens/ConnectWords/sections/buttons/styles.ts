@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
+import { theme } from 'native-base'
 
 export const styles = StyleSheet.create({
   buttonsContainer: {
@@ -12,18 +12,18 @@ export const styles = StyleSheet.create({
   },
   nextButton: {
     padding: 15,
-    backgroundColor: colors['black-700'],
+    backgroundColor: theme.colors.gray[700],
     borderRadius: 100,
   },
   nextButtonTransparent: {
-    backgroundColor: colors['black-700'],
+    backgroundColor: theme.colors.gray[700],
     opacity: 0,
     borderRadius: 50,
     padding: 10,
   },
   indexMath: {
-    color: colors.white,
-    fontSize: fontsSize.xlarge,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes['2xl'],
     fontWeight: 'bold',
   },
 })

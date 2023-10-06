@@ -1,12 +1,11 @@
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
+import { theme } from 'native-base'
 
 export const styles = StyleSheet.create({
   cardFriendsContainer: {
     width: '85%',
     height: 100,
     alignItems: 'center',
-    backgroundColor: colors['black-700'],
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 10,
@@ -21,14 +20,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nameUserRequest: {
-    color: colors.white,
+    color: theme.colors.white,
     textAlign: 'center',
     fontWeight: 'bold',
   },
   quantitiFriendsCommon: {
-    color: colors.white,
+    color: theme.colors.white,
     textAlign: 'center',
-    fontSize: fontsSize.small,
+    fontSize: theme.fontSizes['2xs'],
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -36,7 +35,7 @@ export const styles = StyleSheet.create({
     marginTop: 5,
   },
   responseFriendButtonAccept: {
-    backgroundColor: colors['green-700'],
+    backgroundColor: theme.colors.green[700],
     paddingHorizontal: 10,
     borderRadius: 3,
     marginHorizontal: 5,
@@ -45,7 +44,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   responseFriendButtonReject: {
-    backgroundColor: colors['red-600'],
+    backgroundColor: theme.colors.red[600],
     paddingHorizontal: 10,
     borderRadius: 3,
     marginHorizontal: 5,
@@ -54,7 +53,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   requestSend: {
-    backgroundColor: colors['black-500'],
     paddingHorizontal: 10,
     borderRadius: 3,
     marginHorizontal: 5,
@@ -65,18 +63,17 @@ export const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 3,
     marginHorizontal: 5,
-    backgroundColor: colors['red-600'],
+    backgroundColor: theme.colors.red[600],
   },
   responseFriendButton: {
-    backgroundColor: colors['black-500'],
     paddingHorizontal: 10,
     paddingVertical: 3,
     borderRadius: 3,
     marginHorizontal: 5,
   },
   responseFriendText: {
-    color: colors.white,
-    fontSize: fontsSize.small,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes['2xs'],
   },
   load: {
     width: 5,

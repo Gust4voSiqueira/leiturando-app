@@ -1,101 +1,122 @@
-import {
-  View,
-  TextInput,
-  Text,
-  Pressable,
-  ActivityIndicator,
-} from 'react-native'
+import { View, Text, Pressable, ActivityIndicator } from 'react-native'
 import { styles } from './styles'
 import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
-import { colors } from '../../../../global/themes/default'
-import { Link, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { useUserRequest } from '../../../hooks/useUserRequest'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
+import * as yup from 'yup'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { InputRegister } from '../../components'
+import { theme, useToast } from 'native-base'
 
 interface IInputsFields {
   email: string
   password: string
 }
 
+const loginSchema = yup.object({
+  email: yup.string().required('Informe o e-mail.').email('E-mail inválido'),
+  password: yup
+    .string()
+    .required('Informe a senha.')
+    .min(6, 'A senha deve ter no mínimo 6 dígitos.'),
+})
+
 export function Login() {
   const { login } = useUserRequest()
   const navigation = useNavigation()
   const [isDisbaledButton, setIsDisabledButton] = useState(false)
-  const [error, setError] = useState(false)
-  const [inputs, setInputs] = useState<IInputsFields>({
-    email: '',
-    password: '',
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
   })
+
+  const toast = useToast()
+
   const stylesButtonDisabled = isDisbaledButton
     ? styles.buttonContainerDisable
     : styles.buttonContainer
-  const stylesInputError = error ? styles.inputError : styles.input
 
-  async function loginFunction() {
+  function showToast() {
+    return toast.show({
+      title: 'E-mail ou senha incorretos',
+      placement: 'top',
+      bgColor: 'red.500',
+    })
+  }
+
+  async function loginFunction(data: IInputsFields) {
     try {
       setIsDisabledButton(true)
-      const loginData = {
-        email: inputs.email as string,
-        password: inputs.password as string,
-      }
 
-      await login(loginData)
+      await login(data)
 
       navigation.navigate('home')
+      setIsDisabledButton(false)
     } catch (error) {
-      setError(true)
+      showToast()
       setIsDisabledButton(false)
     }
   }
 
-  useEffect(() => {
-    setInputs({
-      email: '',
-      password: '',
-    })
-    setIsDisabledButton(false)
-  }, [])
+  function handleUserRegister() {
+    navigation.navigate('register')
+  }
 
   return (
     <View style={globalStyles.container}>
       <Logo width={280} height="25%" />
 
       <View style={styles.formLogin}>
-        <TextInput
-          style={stylesInputError}
-          placeholder="Email"
-          placeholderTextColor={colors['black-300']}
-          autoCapitalize="none"
-          value={inputs.email as string}
-          onChangeText={(newText) => setInputs({ ...inputs, email: newText })}
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, value } }) => (
+            <InputRegister
+              placeholder="Email"
+              isErrors={!!errors.email}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
         />
 
-        <TextInput
-          secureTextEntry={true}
-          style={stylesInputError}
-          placeholder="Senha"
-          placeholderTextColor={colors['black-300']}
-          autoCapitalize="none"
-          value={inputs.password as string}
-          onChangeText={(newText) =>
-            setInputs({ ...inputs, password: newText })
-          }
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, value } }) => (
+            <InputRegister
+              placeholder="Senha"
+              isErrors={!!errors.password}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={true}
+            />
+          )}
         />
 
-        <Text style={styles.textRegister}>
-          Novo por aqui?
-          <Link to="/Register"> Cadastre-se</Link>
-        </Text>
-        <Pressable style={stylesButtonDisabled} onPress={loginFunction}>
+        <Pressable onPress={handleUserRegister}>
+          <Text style={styles.textRegister}>Novo por aqui? Cadastre-se</Text>
+        </Pressable>
+        <Pressable
+          style={stylesButtonDisabled}
+          onPress={handleSubmit(loginFunction)}
+        >
           {!isDisbaledButton ? (
             <Text style={styles.textButton}>Entrar</Text>
           ) : (
             <ActivityIndicator
               size="small"
               style={styles.load}
-              color={colors.black}
+              color={theme.colors.black}
             />
           )}
         </Pressable>

@@ -1,5 +1,5 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
 
 interface StyleProps {
   progressActualBarProgress: number
@@ -20,30 +20,30 @@ export const styles = (props: StyleProps) =>
       alignItems: 'center',
     },
     requestsText: {
-      color: colors.white,
+      color: theme.colors.white,
       fontSize: 9,
     },
     nameUser: {
-      fontSize: fontsSize.large,
+      fontSize: theme.fontSizes.xl,
       fontWeight: '600',
-      color: colors.white,
+      color: theme.colors.white,
     },
     levelContainer: {
       marginTop: 8,
     },
     levelText: {
-      color: colors.white,
+      color: theme.colors.white,
       textAlign: 'center',
       marginBottom: 5,
     },
     levelTotal: {
-      backgroundColor: colors.white,
+      backgroundColor: theme.colors.white,
       height: 5,
       width: 180,
       borderRadius: 8,
     },
     progressActual: {
-      backgroundColor: colors['green-500'],
+      backgroundColor: theme.colors.green[500],
       height: 5,
       width: `${props.progressActualBarProgress}%`,
       borderRadius: 8,
@@ -52,7 +52,7 @@ export const styles = (props: StyleProps) =>
       position: 'absolute',
       right: 0,
       top: -10,
-      backgroundColor: colors['red-600'],
+      backgroundColor: theme.colors.red[600],
       borderRadius: 50,
       width: 15,
       height: 15,
@@ -61,7 +61,7 @@ export const styles = (props: StyleProps) =>
       alignItems: 'center',
     },
     quantitieRequestsText: {
-      color: colors.white,
+      color: theme.colors.white,
       fontSize: 10,
       fontWeight: 'bold',
       textAlign: 'center',

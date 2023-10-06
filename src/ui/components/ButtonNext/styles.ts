@@ -1,18 +1,18 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     height: 45,
     borderRadius: 7,
-    backgroundColor: colors['green-600'],
+    backgroundColor: theme.colors.green[500],
     justifyContent: 'center',
   },
   textButton: {
-    color: colors.black,
+    color: theme.colors.black,
     fontWeight: '700',
-    fontSize: fontsSize.medium,
+    fontSize: theme.fontSizes.md,
     textAlign: 'center',
   },
 })

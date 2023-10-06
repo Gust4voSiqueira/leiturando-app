@@ -1,5 +1,5 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   buttonsContainer: {
@@ -9,20 +9,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  buttonNext: {
-    backgroundColor: colors['black-700'],
-    borderRadius: 50,
-    padding: 10,
-  },
   buttonNextTransparent: {
-    backgroundColor: colors['black-700'],
+    backgroundColor: theme.colors.gray[700],
     opacity: 0,
     borderRadius: 50,
     padding: 10,
   },
   textNumberWord: {
-    color: colors.white,
-    fontSize: fontsSize.large,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
     fontWeight: 'bold',
   },
 })

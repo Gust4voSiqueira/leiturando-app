@@ -1,5 +1,5 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   filtersContainer: {
@@ -18,15 +18,15 @@ export const styles = StyleSheet.create({
     top: 7,
   },
   inputFilter: {
-    backgroundColor: colors['black-700'],
-    color: colors['black-300'],
+    backgroundColor: theme.colors.gray[700],
+    color: theme.colors.gray[300],
     fontWeight: 'bold',
     width: '100%',
     height: 40,
     marginBottom: 10,
     borderRadius: 5,
     paddingLeft: 15,
-    fontSize: fontsSize.xmini,
+    fontSize: theme.fontSizes.xs,
   },
   cardsFilterContainer: {
     flexDirection: 'row',
@@ -34,18 +34,18 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   cardFilter: {
-    backgroundColor: colors['black-700'],
+    backgroundColor: theme.colors.gray[700],
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   filterSelected: {
-    backgroundColor: colors['black-500'],
+    backgroundColor: theme.colors.gray[500],
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   cardFilterText: {
-    color: colors.white,
+    color: theme.colors.white,
   },
 })

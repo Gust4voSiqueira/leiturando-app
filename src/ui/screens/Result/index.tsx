@@ -1,25 +1,27 @@
 import { Text, View } from 'react-native'
 import { globalStyles } from '../../../../global/global'
 import { ButtonNext, Header } from '../../components'
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../routes/types'
 import { styles } from './styles'
 import { CardProfile } from './sections/CardProfile'
 import { useContext } from 'react'
 import { UserContext } from '../../../contexts/UserDataContext'
-import { useNavigation } from '@react-navigation/native'
-
-type ResultProps = StackScreenProps<RootStackParamList, 'Result'>
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 export interface IResultProps {
   content: string
   correct: boolean
 }
 
-export function Result({ route }: ResultProps) {
+interface IProps {
+  response: IResultProps[]
+  score: number
+}
+
+export function Result() {
   const navigation = useNavigation()
   const { userData } = useContext(UserContext)
-  const { response, score } = route.params
+  const routes = useRoute()
+  const { response, score } = routes.params as IProps
 
   function onRedirect() {
     navigation.navigate('resume', { resume: response, score })
@@ -52,9 +54,9 @@ export function Result({ route }: ResultProps) {
         <View style={styles.buttonsContainer}>
           <ButtonNext
             text="Página Inicial"
-            onClickFunction={() => navigation.navigate('home')}
+            onPress={() => navigation.navigate('home')}
           />
-          <ButtonNext text="Relatório" onClickFunction={onRedirect} />
+          <ButtonNext text="Relatório" onPress={onRedirect} />
         </View>
       </View>
     </View>

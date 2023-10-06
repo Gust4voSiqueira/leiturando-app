@@ -23,12 +23,12 @@ export type IResponses = {
 }
 
 export function ConnectWords() {
+  const [loading, setLoading] = useState(false)
   const [selectedAudio, setSelectedAudio] = useState<IAudio>()
   const [responses, setResponses] = useState<IResponses[]>([])
   const { speech } = useSpeech()
   const [data, setData] = useState<IWordsToConnect[]>([])
   const [index, setIndex] = useState(0)
-  const [error, setError] = useState(false)
   const { getWordsToConnect, finallyConnectWords } = useConnectWords()
   const navigation = useNavigation()
 
@@ -56,7 +56,7 @@ export function ConnectWords() {
   }
 
   function onSelectWord(word: string) {
-    if (selectedAudio !== null) {
+    if (selectedAudio) {
       const response = {
         idWord: selectedAudio.id,
         response: word,
@@ -70,22 +70,24 @@ export function ConnectWords() {
   async function onAlterIndex(newIndex: number) {
     if (newIndex === 5) {
       try {
+        setLoading(true)
         const response = await finallyConnectWords(responses)
 
         navigation.navigate('result', {
           response: response.words,
           score: response.score,
         })
+        setLoading(false)
       } catch (error) {
+        setLoading(false)
         console.log(error)
       }
     } else if (newIndex >= 0) {
       setIndex(newIndex)
-      setError(false)
     }
   }
 
-  if (data.length === 0) return <Loading />
+  if (data.length === 0 || loading) return <Loading />
 
   return (
     <View style={styles.wordsContainer}>

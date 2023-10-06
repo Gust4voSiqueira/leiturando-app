@@ -1,5 +1,4 @@
-import { Text, View } from 'react-native'
-import { styles } from './styles'
+import { Text } from 'react-native'
 import { Header } from '../../../components'
 import { useEffect, useState } from 'react'
 import { useMath } from '../../../../hooks/useMath'
@@ -7,6 +6,7 @@ import { Loading } from '../../Loading'
 import { ButtonsSection } from './sections/buttons'
 import { OperationsContainer } from './sections/operations'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { Center } from 'native-base'
 
 type Operations = 'SUBTRACTION' | 'ADDITION' | 'MULTIPLICATION' | 'DIVISION'
 
@@ -34,6 +34,7 @@ export function MathScreen() {
   const [index, setIndex] = useState(0)
   const [responses, setResponses] = useState<IResponses>({})
   const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { getMath, finnalyMath } = useMath()
 
   const navigation = useNavigation()
@@ -87,6 +88,7 @@ export function MathScreen() {
 
     if (newIndex === 7) {
       try {
+        setLoading(true)
         const response = await finnalyMath(responses)
 
         navigation.navigate('result', {
@@ -94,34 +96,33 @@ export function MathScreen() {
           score: response.score,
         })
       } catch (err) {
+        setLoading(false)
         console.log(err)
       }
     }
   }
 
-  if (data.length === 0) return <Loading />
+  if (data.length === 0 || loading) return <Loading />
 
   return (
-    <View style={styles.mathContainer}>
+    <Center bg={'gray.900'} flex={1}>
       <Header title="Matemática" />
-      <View>
-        <Text />
+      <Text />
 
-        <OperationsContainer
-          number1={data[index].number1}
-          number2={data[index].number2}
-          operation={data[index].operation}
-          onChangeResponse={onChangeResponse}
-          valueInput={responses[`response${index}`]?.response || ''}
-          isError={error}
-        />
+      <OperationsContainer
+        number1={data[index].number1}
+        number2={data[index].number2}
+        operation={data[index].operation}
+        onChangeResponse={onChangeResponse}
+        valueInput={responses[`response${index}`]?.response || ''}
+        isError={error}
+      />
 
-        <ButtonsSection
-          onAlterOperation={onAlterOperation}
-          index={index}
-          totalIndex={data.length}
-        />
-      </View>
-    </View>
+      <ButtonsSection
+        onAlterOperation={onAlterOperation}
+        index={index}
+        totalIndex={data.length}
+      />
+    </Center>
   )
 }

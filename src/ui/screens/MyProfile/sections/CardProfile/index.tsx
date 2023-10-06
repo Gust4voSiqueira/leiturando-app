@@ -3,10 +3,10 @@ import { Text, View, Pressable } from 'react-native'
 
 import { styles } from './styles'
 import { CaretLeft, PencilSimple } from 'phosphor-react-native'
-import { colors } from '../../../../../../global/themes/default'
 
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { Box, theme } from 'native-base'
 
 function dateFormatter(date: Date) {
   const monthList = [
@@ -42,12 +42,12 @@ export function CardProfile({ name, character, createdAt }: ICardProfile) {
   const navigation = useNavigation()
 
   return (
-    <View style={styles.cardProfileContainer}>
+    <Box bg={'gray.700'} style={styles.cardProfileContainer}>
       <Pressable
         style={styles.iconBack}
         onPress={() => navigation.navigate('home')}
       >
-        <CaretLeft size={30} weight="bold" color={colors['black-400']} />
+        <CaretLeft size={30} weight="bold" color={theme.colors.gray[400]} />
       </Pressable>
 
       {character}
@@ -55,7 +55,7 @@ export function CardProfile({ name, character, createdAt }: ICardProfile) {
         style={styles.iconPencil}
         onPress={() => navigation.navigate('editProfile')}
       >
-        <PencilSimple size={25} color={colors['black-400']} weight="fill" />
+        <PencilSimple size={25} color={theme.colors.gray[400]} weight="fill" />
       </Pressable>
 
       <Text style={styles.nameUser}>{name}</Text>
@@ -65,6 +65,6 @@ export function CardProfile({ name, character, createdAt }: ICardProfile) {
           MEMBRO DESDE: {dateFormatter(createdAt)}
         </Text>
       </View>
-    </View>
+    </Box>
   )
 }

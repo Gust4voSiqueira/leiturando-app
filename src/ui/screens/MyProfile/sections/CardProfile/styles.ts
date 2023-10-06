@@ -1,5 +1,5 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   cardProfileContainer: {
@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    backgroundColor: colors['black-700'],
     width: '100%',
     borderRadius: 4,
 
@@ -25,9 +24,9 @@ export const styles = StyleSheet.create({
     left: 10,
   },
   nameUser: {
-    fontSize: fontsSize.large,
+    fontSize: theme.fontSizes.xl,
     fontWeight: '600',
-    color: colors.white,
+    color: theme.colors.white,
   },
   imageProfile: {
     width: 70,
@@ -42,11 +41,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 40,
     borderTopWidth: 1.5,
-    borderTopColor: colors['black-900'],
+    borderTopColor: theme.colors.gray[900],
   },
   textFooterCard: {
     fontSize: 8,
-    color: colors['black-400'],
+    color: theme.colors.gray[400],
     fontWeight: 'bold',
     textAlign: 'center',
   },

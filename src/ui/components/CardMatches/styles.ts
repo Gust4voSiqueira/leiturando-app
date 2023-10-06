@@ -1,9 +1,8 @@
+import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../global/themes/default'
 
 export const styles = StyleSheet.create({
   cardMatchesContainer: {
-    backgroundColor: colors['black-700'],
     width: 320,
     borderRadius: 13,
     marginBottom: 20,
@@ -16,9 +15,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   titleSection: {
-    fontSize: fontsSize.medium,
+    fontSize: theme.fontSizes.md,
     fontWeight: '600',
-    color: colors.white,
+    color: theme.colors.white,
     marginLeft: 10,
   },
   ImageContainer: {

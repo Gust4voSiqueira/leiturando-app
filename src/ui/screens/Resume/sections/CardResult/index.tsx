@@ -2,11 +2,11 @@ import { Text, View } from 'react-native'
 
 import { styles } from './styles'
 import { Check, X } from 'phosphor-react-native'
-import { colors } from '../../../../../../global/themes/default'
+import { theme } from 'native-base'
 
 interface ICardResult {
   isCorrect: boolean
-  content: String
+  content: string
 }
 
 export function CardResult({ isCorrect, content }: ICardResult) {
@@ -22,9 +22,9 @@ export function CardResult({ isCorrect, content }: ICardResult) {
         }
       >
         {isCorrect ? (
-          <Check size={25} color={colors.white} weight="bold" />
+          <Check size={25} color={theme.colors.white} weight="bold" />
         ) : (
-          <X size={25} color={colors.white} weight="bold" />
+          <X size={25} color={theme.colors.white} weight="bold" />
         )}
       </View>
     </View>

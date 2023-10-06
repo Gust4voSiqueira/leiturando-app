@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import { Text, View, Pressable } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { styles } from './styles'
 import { ButtonNext, Header } from '../../../components'
 import { Divide, Minus, Plus, X } from 'phosphor-react-native'
-import { colors } from '../../../../../global/themes/default'
 import { IOperations } from '../../../../hooks/useMath'
 import { useNavigation } from '@react-navigation/native'
+import { Box, Pressable, theme } from 'native-base'
+
+const icons = {
+  ADDITION: <Plus size={40} color={theme.colors.white} weight="bold" />,
+  SUBTRACTION: <Minus size={40} color={theme.colors.white} weight="bold" />,
+  MULTIPLICATION: <X size={40} color={theme.colors.white} weight="bold" />,
+  DIVISION: <Divide size={40} color={theme.colors.white} weight="bold" />,
+}
 
 export function Operations() {
   const navigation = useNavigation()
@@ -39,8 +46,26 @@ export function Operations() {
     }
   }
 
+  function renderButtons(operation: IOperations) {
+    return (
+      <Pressable
+        bg={'gray.700'}
+        borderColor={'gray.700'}
+        style={[
+          styles.buttonSelect,
+          selectedOperations.some((selected) => selected === operation) &&
+            styles.buttonSelected,
+          error && styles.errorSelected,
+        ]}
+        onPress={() => onSelectOperation(operation)}
+      >
+        {icons[operation]}
+      </Pressable>
+    )
+  }
+
   return (
-    <View style={styles.operationsContainer}>
+    <Box bg={'gray.900'} style={styles.operationsContainer}>
       <Header
         title="Matemática"
         textSpeech="Selecione as operações que deseja:"
@@ -53,56 +78,13 @@ export function Operations() {
         </Text>
 
         <View style={styles.selectionContainer}>
-          <Pressable
-            style={[
-              styles.buttonSelect,
-              selectedOperations.some((selected) => selected === 'ADDITION') &&
-                styles.buttonSelected,
-              error && styles.errorSelected,
-            ]}
-            onPress={() => onSelectOperation('ADDITION')}
-          >
-            <Plus size={40} color={colors.white} weight="bold" />
-          </Pressable>
-          <Pressable
-            style={[
-              styles.buttonSelect,
-              selectedOperations.some(
-                (selected) => selected === 'SUBTRACTION',
-              ) && styles.buttonSelected,
-              error && styles.errorSelected,
-            ]}
-            onPress={() => onSelectOperation('SUBTRACTION')}
-          >
-            <Minus size={40} color={colors.white} weight="bold" />
-          </Pressable>
-          <Pressable
-            style={[
-              styles.buttonSelect,
-              selectedOperations.some(
-                (selected) => selected === 'MULTIPLICATION',
-              ) && styles.buttonSelected,
-              error && styles.errorSelected,
-            ]}
-            onPress={() => onSelectOperation('MULTIPLICATION')}
-          >
-            <X size={40} color={colors.white} weight="bold" />
-          </Pressable>
-          <Pressable
-            style={[
-              styles.buttonSelect,
-              selectedOperations.some((selected) => selected === 'DIVISION') &&
-                styles.buttonSelected,
-              error && styles.errorSelected,
-            ]}
-            onPress={() => onSelectOperation('DIVISION')}
-          >
-            <Divide size={40} color={colors.white} weight="bold" />
-          </Pressable>
+          {Object.keys(icons).map((operation: IOperations) => {
+            return renderButtons(operation)
+          })}
         </View>
 
-        <ButtonNext text="Começar" onClickFunction={onStartMathMode} />
+        <ButtonNext text="Começar" onPress={onStartMathMode} />
       </View>
-    </View>
+    </Box>
   )
 }

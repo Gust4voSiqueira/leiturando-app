@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { colors, fontsSize } from '../../../../global/themes/default'
+import { theme } from 'native-base'
 
 export const styles = StyleSheet.create({
   headerContainer: {
@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerTitle: {
-    color: colors.white,
-    fontSize: fontsSize.xlarge,
+    color: theme.colors.white,
+    fontSize: theme.fontSizes['2xl'],
     fontWeight: 'bold',
   },
 })

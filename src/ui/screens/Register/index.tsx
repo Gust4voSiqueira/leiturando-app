@@ -7,15 +7,8 @@ import { useState } from 'react'
 import { FormRegister, IInputs } from './Form'
 import { useUserRequest } from '../../../hooks/useUserRequest'
 import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParamList } from '../../../routes/types'
 import { View } from 'react-native'
 import { ModalSelectImage } from '../../components/ModalCharacters'
-
-type LoginScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Login'
->
 
 export type Characters =
   | 'batman'
@@ -32,7 +25,7 @@ export function Register() {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [characterName, setCharacterName] = useState<Characters>()
   const { register } = useUserRequest()
-  const navigation = useNavigation<LoginScreenNavigationProp>()
+  const navigation = useNavigation()
 
   function toggleModal() {
     setIsOpenModal(!isOpenModal)
@@ -52,7 +45,7 @@ export function Register() {
     const response = register(dataRegister)
 
     if (response) {
-      navigation.navigate('Login')
+      navigation.navigate('login')
     }
   }
 

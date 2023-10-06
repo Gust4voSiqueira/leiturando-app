@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native'
-import { colors } from '../../../../global/themes/default'
+import { theme } from 'native-base'
 
 const { width, height } = Dimensions.get('window')
 
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     opacity: 0.5,
     width,
     height,
-    backgroundColor: colors.black,
+    backgroundColor: theme.colors.black,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -20,14 +20,14 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     width: '90%',
-    backgroundColor: colors['black-900'],
+    backgroundColor: theme.colors.gray[900],
 
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
   textSelect: {
-    color: colors.white,
+    color: theme.colors.white,
     marginTop: 5,
   },
   image: {
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     marginVertical: 15,
   },
   cancelSelection: {
-    backgroundColor: colors['green-600'],
+    backgroundColor: theme.colors.green[500],
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 4,

@@ -1,4 +1,3 @@
-import React from 'react'
 import { CardMatches } from '../../../../components'
 import Words from '../../../../../../assets/words.svg'
 import { IOnRedirectProps } from '../..'

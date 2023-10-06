@@ -1,6 +1,7 @@
-import { Pressable, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { styles } from './styles'
 import { IResponses } from '../..'
+import { Button } from 'native-base'
 
 interface IWordsToConnectSection {
   words: {
@@ -24,17 +25,28 @@ export function WordsSection({
     <View>
       {words.map((word) => {
         return isSelectedWord(word.word) ? (
-          <Pressable style={styles.cardWord} key={word.id}>
+          <Button
+            bg={'gray.700'}
+            _pressed={{
+              bg: 'gray.700',
+            }}
+            style={styles.cardWord}
+            key={word.id}
+          >
             <Text style={styles.textWord} />
-          </Pressable>
+          </Button>
         ) : (
-          <Pressable
+          <Button
+            bg={'gray.700'}
+            _pressed={{
+              bg: 'gray.700',
+            }}
             style={styles.cardWord}
             key={word.id}
             onPress={() => onSelectWord(word.word)}
           >
             <Text style={styles.textWord}>{word.word}</Text>
-          </Pressable>
+          </Button>
         )
       })}
     </View>

@@ -1,14 +1,14 @@
-import { Text, TextInput, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { styles } from './styles'
 import { IOperations } from '../../../../../../hooks/useMath'
 import { Divide, Minus, Plus, X } from 'phosphor-react-native'
-import { colors } from '../../../../../../../global/themes/default'
+import { Box, Input, theme } from 'native-base'
 
 const operationsSimbols = {
-  SUBTRACTION: <Minus size={60} color={colors.white} weight="bold" />,
-  ADDITION: <Plus size={60} color={colors.white} weight="bold" />,
-  MULTIPLICATION: <X size={60} color={colors.white} weight="bold" />,
-  DIVISION: <Divide size={60} color={colors.white} weight="bold" />,
+  SUBTRACTION: <Minus size={60} color={theme.colors.white} weight="bold" />,
+  ADDITION: <Plus size={60} color={theme.colors.white} weight="bold" />,
+  MULTIPLICATION: <X size={60} color={theme.colors.white} weight="bold" />,
+  DIVISION: <Divide size={60} color={theme.colors.white} weight="bold" />,
 }
 
 interface IOperationsSection {
@@ -34,7 +34,7 @@ export function OperationsContainer({
   isError,
 }: IOperationsSection) {
   return (
-    <View style={styles.operationContainer}>
+    <Box bg={'gray.900'} style={styles.operationContainer}>
       <View style={styles.line1container}>
         <Text style={styles.simbol}>+</Text>
         <Text style={styles.operationText}>{number1}</Text>
@@ -46,14 +46,29 @@ export function OperationsContainer({
 
       <View style={styles.lineResult} />
 
-      <TextInput
-        style={[styles.resultOperation, isError && styles.error]}
+      <Input
+        bg={'gray.700'}
+        w={'70%'}
+        h={120}
+        mt={15}
+        fontSize={theme.fontSizes['7xl']}
+        color={theme.colors.white}
+        fontWeight={'bold'}
+        textAlign={'center'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        borderRadius={5}
+        borderWidth={0}
+        _focus={{
+          bg: 'gray.700',
+        }}
+        style={isError && styles.error}
         onChangeText={(newText) =>
           onChangeResponse(number1, number2, operation, newText)
         }
         keyboardType="numeric"
         value={valueInput}
       />
-    </View>
+    </Box>
   )
 }
