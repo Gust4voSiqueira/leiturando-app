@@ -1,30 +1,31 @@
-import { Text } from 'react-native'
-import { Header } from '../../../components'
 import { useEffect, useState } from 'react'
+import { Text } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { Center } from 'native-base'
+
+import { Header } from '../../../components'
 import { useMath } from '../../../../hooks/useMath'
 import { Loading } from '../../Loading'
 import { ButtonsSection } from './sections/buttons'
 import { OperationsContainer } from './sections/operations'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { Center } from 'native-base'
+import { ResultSkeleton } from '../../Result/ResultSkeleton'
+import { IOperations } from '../../../../dtos/MathDTO'
 
-type Operations = 'SUBTRACTION' | 'ADDITION' | 'MULTIPLICATION' | 'DIVISION'
-
-type IOperations = {
-  operations: Array<Operations>
+interface IOperationsProps {
+  operations: Array<IOperations>
 }
 
 interface IOperationsResponse {
   number1: number
   number2: number
-  operation: Operations
+  operation: IOperations
 }
 
 export interface IResponses {
   [key: string]: {
     number1: number
     number2: number
-    operation: Operations
+    operation: IOperations
     response: string
   }
 }
@@ -34,12 +35,12 @@ export function MathScreen() {
   const [index, setIndex] = useState(0)
   const [responses, setResponses] = useState<IResponses>({})
   const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [isFinnally, setIsFinnally] = useState(false)
   const { getMath, finnalyMath } = useMath()
 
   const navigation = useNavigation()
   const routes = useRoute()
-  const { operations } = routes.params as IOperations
+  const { operations } = routes.params as IOperationsProps
 
   useEffect(() => {
     async function onGetMaths() {
@@ -47,9 +48,7 @@ export function MathScreen() {
         const response = await getMath(operations)
 
         setData(response)
-      } catch (err) {
-        console.log(err)
-      }
+      } catch (err) {}
     }
 
     onGetMaths()
@@ -58,7 +57,7 @@ export function MathScreen() {
   function onChangeResponse(
     number1: number,
     number2: number,
-    operation: Operations,
+    operation: IOperations,
     response: string,
   ) {
     const newResponse = {
@@ -88,7 +87,7 @@ export function MathScreen() {
 
     if (newIndex === 7) {
       try {
-        setLoading(true)
+        setIsFinnally(true)
         const response = await finnalyMath(responses)
 
         navigation.navigate('result', {
@@ -96,13 +95,14 @@ export function MathScreen() {
           score: response.score,
         })
       } catch (err) {
-        setLoading(false)
-        console.log(err)
+        setIsFinnally(false)
       }
     }
   }
 
-  if (data.length === 0 || loading) return <Loading />
+  if (data.length === 0) return <Loading />
+
+  if (isFinnally) return <ResultSkeleton />
 
   return (
     <Center bg={'gray.900'} flex={1}>

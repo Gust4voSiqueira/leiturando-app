@@ -49,6 +49,7 @@ export function Operations() {
   function renderButtons(operation: IOperations) {
     return (
       <Pressable
+        key={operation}
         bg={'gray.700'}
         borderColor={'gray.700'}
         style={[

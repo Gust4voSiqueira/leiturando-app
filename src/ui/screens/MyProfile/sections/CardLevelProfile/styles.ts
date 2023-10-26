@@ -35,7 +35,6 @@ export const styles = (props: StyleProps) =>
       borderRadius: 8,
     },
     progressActual: {
-      backgroundColor: theme.colors.green[500],
       height: 5,
       width: `${props.progressActualBarProgress}%`,
       borderRadius: 8,

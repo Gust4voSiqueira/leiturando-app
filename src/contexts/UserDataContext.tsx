@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useState } from 'react'
 
-import { charactersImages } from '../utils/charactersImages'
+import { charactersImages } from '../utils/CharactersImages'
 
 interface IUserRequest {
   image: string

@@ -2,7 +2,7 @@ import { CardMatches } from '../../../../components'
 import Words from '../../../../../../assets/words.svg'
 import { IOnRedirectProps } from '../..'
 
-interface IWordsCart {
+interface IWordsCard {
   onRedirectFunction: ({
     title,
     description,
@@ -11,7 +11,7 @@ interface IWordsCart {
   }: IOnRedirectProps) => void
 }
 
-export function WordsCard({ onRedirectFunction }: IWordsCart) {
+export function WordsCard({ onRedirectFunction }: IWordsCard) {
   return (
     <CardMatches
       title="Palavras"

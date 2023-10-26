@@ -1,11 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { AppRoutes } from './src/routes/routes'
-import { StatusBar } from 'react-native'
 import { THEME } from './global/theme'
 import { TokenContextProvider } from './src/contexts/TokenContext'
 import { RequestsContextProvider } from './src/contexts/RequestsContext'
 import { UserContextProvider } from './src/contexts/UserDataContext'
-import { NativeBaseProvider, theme } from 'native-base'
+import { NativeBaseProvider, StatusBar } from 'native-base'
+import { Routes } from './src/routes'
 
 export default function App() {
   return (
@@ -14,10 +13,10 @@ export default function App() {
         <UserContextProvider>
           <RequestsContextProvider>
             <NavigationContainer>
-              <AppRoutes />
+              <Routes />
               <StatusBar
                 barStyle="light-content"
-                backgroundColor={theme.colors.gray[900]}
+                backgroundColor={'gray.900'}
                 translucent
               />
             </NavigationContainer>

@@ -1,5 +1,4 @@
 import { Platform, StyleSheet } from 'react-native'
-import { theme } from 'native-base'
 
 export const styles = StyleSheet.create({
   editProfileContainer: {
@@ -20,21 +19,8 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
   },
   buttonsContainer: {
+    justifyContent: 'space-between',
     width: '90%',
-    marginTop: 5,
-  },
-  buttonEditProfile: {
-    width: '100%',
-    height: 40,
-    borderRadius: 4,
-    backgroundColor: theme.colors.green[500],
-    justifyContent: 'center',
-    marginBottom: 8,
-  },
-  textButton: {
-    color: theme.colors.black,
-    fontSize: 14.5,
-    textAlign: 'center',
-    fontWeight: '700',
+    height: 95,
   },
 })

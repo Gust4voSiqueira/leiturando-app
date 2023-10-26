@@ -1,9 +1,8 @@
 import { Microphone, Pause } from 'phosphor-react-native'
-import { useCallback } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import { useEffect } from 'react'
 
-import Voice from '@react-native-voice/voice'
-import { Button, theme } from 'native-base'
+import Voice, { SpeechResultsEvent } from '@react-native-voice/voice'
+import { Pressable, theme } from 'native-base'
 
 interface IIconsSectionProps {
   isRecording: boolean
@@ -19,6 +18,7 @@ export function IconsSection({
   async function recordVoice() {
     if (await Voice.isRecognizing()) {
       Voice.stop()
+
       onRecordingVoice()
     } else {
       onRecordingVoice()
@@ -26,18 +26,20 @@ export function IconsSection({
     }
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      Voice.onSpeechResults = (e) => {
-        if (!e.value[0]) return
+  useEffect(() => {
+    Voice.onSpeechResults = (e: SpeechResultsEvent) => {
+      if (!e.value[0] || e.value[0] === '') return
 
-        onAlterWordVoice(e.value[0])
-      }
-    }, []),
-  )
+      onAlterWordVoice(e.value[0])
+    }
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners)
+    }
+  }, [])
 
   return (
-    <Button
+    <Pressable
       bg={'gray.700'}
       padding={15}
       marginY={10}
@@ -49,6 +51,6 @@ export function IconsSection({
       ) : (
         <Microphone size={50} weight="regular" color={theme.colors.white} />
       )}
-    </Button>
+    </Pressable>
   )
 }

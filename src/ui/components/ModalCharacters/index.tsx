@@ -1,10 +1,11 @@
-import { Pressable, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { styles } from './styles'
-import { charactersImages } from '../../../utils/charactersImages'
+import { charactersImages } from '../../../utils/CharactersImages'
+import { Pressable } from 'native-base'
 
 interface IModalSelectImage {
-  onSelectCharacter: (character: String) => void
+  onSelectCharacter: (character: string) => void
   onCloseModal: () => void
 }
 
@@ -29,7 +30,11 @@ export function ModalSelectImage({
         })}
 
         <View style={styles.cancelSelectionContainer}>
-          <Pressable style={styles.cancelSelection} onPress={onCloseModal}>
+          <Pressable
+            bgColor={'green.500'}
+            style={styles.cancelSelection}
+            onPress={onCloseModal}
+          >
             <Text>Cancelar</Text>
           </Pressable>
         </View>

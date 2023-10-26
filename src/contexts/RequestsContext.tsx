@@ -26,6 +26,7 @@ interface RequestsContextType {
   onAcceptRequest: (id: number) => void
   onLoadRequests: () => void
   onSendRequest: (id: number) => void
+  clearRequests: () => void
 }
 
 export const RequestsContext = createContext({} as RequestsContextType)
@@ -53,11 +54,9 @@ export function RequestsContextProvider({
 
   async function onRemoveRequestReceived(id: number) {
     try {
-      const response = await removeRequest(id)
+      await removeRequest(id)
 
-      const user = requests.requests.find(
-        (request) => request.id === response?.id,
-      )
+      const user = requests.requests.find((request) => request.id === id)
 
       const newRequestsReceived = requests.requests.filter(
         (request) => request !== user,
@@ -75,11 +74,9 @@ export function RequestsContextProvider({
 
   async function onRemoveRequestSend(id: number) {
     try {
-      const response = await removeRequest(id)
+      await removeRequest(id)
 
-      const user = requests.requestsSend.find(
-        (request) => request.id === response?.id,
-      )
+      const user = requests.requestsSend.find((request) => request.id === id)
 
       const newRequestsSend = requests.requestsSend.filter(
         (request) => request !== user,
@@ -97,11 +94,9 @@ export function RequestsContextProvider({
 
   async function onAcceptRequest(id: number) {
     try {
-      const response = await acceptRequest(id)
+      await acceptRequest(id)
 
-      const user = requests.requests.find(
-        (request) => request.id === response?.id,
-      )
+      const user = requests.requests.find((request) => request.id === id)
 
       const newRequestsReceived = requests.requests.filter(
         (request) => request !== user,
@@ -119,10 +114,12 @@ export function RequestsContextProvider({
 
   async function onSendRequest(id: number) {
     try {
-      const user = await sendRequest(id)
+      await sendRequest(id)
+
+      const user = requests.usersRecommended.find((user) => user.id === id)
 
       const newUsersRecommended = requests.usersRecommended.filter(
-        (userRecommended) => userRecommended.id !== user.id,
+        (userRecommended) => userRecommended.id !== id,
       )
 
       setRequests({
@@ -135,6 +132,10 @@ export function RequestsContextProvider({
     }
   }
 
+  function clearRequests() {
+    setRequests({} as IRequests)
+  }
+
   return (
     <RequestsContext.Provider
       value={{
@@ -144,6 +145,7 @@ export function RequestsContextProvider({
         onAcceptRequest,
         onLoadRequests,
         onSendRequest,
+        clearRequests,
       }}
     >
       {children}

@@ -4,48 +4,53 @@ import Logo from '../../../../assets/logo.svg'
 
 import { useState } from 'react'
 
-import { FormRegister, IInputs } from './Form'
-import { useUserRequest } from '../../../hooks/useUserRequest'
-import { useNavigation } from '@react-navigation/native'
+import { FormRegister } from './Form'
 import { View } from 'react-native'
 import { ModalSelectImage } from '../../components/ModalCharacters'
-
-export type Characters =
-  | 'batman'
-  | 'robin'
-  | 'superman'
-  | 'wonderMan'
-  | 'thor'
-  | 'spiderMan'
-  | 'joker'
-  | 'harry'
-  | 'wolverine'
+import { AppError } from '../../../utils/AppError'
+import { useToast } from 'native-base'
+import { validateDate } from '../../../utils/ValidateData'
+import { CharactersDTO, IUserRegisterDTO } from '../../../dtos/UserDTO'
+import { useUser } from '../../../hooks/useUser'
 
 export function Register() {
   const [isOpenModal, setIsOpenModal] = useState(false)
-  const [characterName, setCharacterName] = useState<Characters>()
-  const { register } = useUserRequest()
-  const navigation = useNavigation()
+  const [characterName, setCharacterName] = useState<CharactersDTO>()
+  const { register, login } = useUser()
+  const toast = useToast()
 
   function toggleModal() {
     setIsOpenModal(!isOpenModal)
   }
 
-  function onSelectCharacter(character: Characters) {
+  function onSelectCharacter(character: CharactersDTO) {
     setCharacterName(character)
     toggleModal()
   }
 
-  function onSubmitRegister(inputs: IInputs) {
-    const dataRegister = {
-      ...inputs,
-      characterName,
-    }
+  async function onSubmitRegister(inputs: IUserRegisterDTO) {
+    try {
+      const dataRegister = {
+        ...inputs,
+        characterName,
+      }
 
-    const response = register(dataRegister)
+      validateDate(inputs.dateOfBirth)
 
-    if (response) {
-      navigation.navigate('login')
+      await register(dataRegister)
+      await login(dataRegister.email, dataRegister.password)
+    } catch (error) {
+      const isAppError = error instanceof AppError
+
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível cadastrar-se. Tente novamente mais tarde.'
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500',
+      })
     }
   }
 

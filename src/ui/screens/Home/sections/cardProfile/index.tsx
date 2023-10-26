@@ -1,15 +1,14 @@
-import { Pressable, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Card } from '../../../../components'
 import { styles } from './styles'
 import { SignOut, UserPlus } from 'phosphor-react-native'
-import { progressActual } from '../../../../../utils/progressActual'
-import { IUserData } from '../..'
+import { progressActual } from '../../../../../utils/ProgressActual'
 import React, { useContext, useEffect } from 'react'
-import { TokenContext } from '../../../../../contexts/TokenContext'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { UserContext } from '../../../../../contexts/UserDataContext'
 import { useNavigation } from '@react-navigation/native'
-import { theme } from 'native-base'
+import { Box, Pressable, theme } from 'native-base'
+import { IUserDataDTO } from '../../../../../dtos/UserDTO'
 
 export interface IRequestCard {
   image: React.JSX.Element
@@ -19,25 +18,24 @@ export interface IRequestCard {
 
 interface ICardProfile {
   onCloseModalRequests?: () => void
-  user?: IUserData
+  user?: IUserDataDTO
+  handleLoggout: () => void
 }
 
-export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
+export function CardProfile({
+  onCloseModalRequests,
+  user,
+  handleLoggout,
+}: ICardProfile) {
   const navigation = useNavigation()
   const { requests, onLoadRequests } = useContext(RequestsContext)
-  const { removeToken } = useContext(TokenContext)
-  const { userData, removeUserData } = useContext(UserContext)
+  const { userData } = useContext(UserContext)
 
   const progressActualBarProgress = progressActual(user.breakthrough)
 
   useEffect(() => {
     onLoadRequests()
   }, [])
-
-  function onLoggout() {
-    removeUserData()
-    removeToken()
-  }
 
   const customStyles = styles({ progressActualBarProgress })
 
@@ -49,7 +47,7 @@ export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
             style={customStyles.requestsContainer}
             onPress={onCloseModalRequests}
           >
-            {requests?.requests.length > 0 && (
+            {requests?.requests?.length > 0 && (
               <View style={customStyles.quantitieRequestsCircle}>
                 <Text style={customStyles.quantitieRequestsText}>
                   {requests.requests.length}
@@ -62,7 +60,7 @@ export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
           </Pressable>
         )}
 
-        <Pressable style={customStyles.logoutButton} onPress={onLoggout}>
+        <Pressable style={customStyles.logoutButton} onPress={handleLoggout}>
           <SignOut size={30} color={theme.colors.white} weight="regular" />
           <Text style={customStyles.requestsText}>Sair</Text>
         </Pressable>
@@ -74,11 +72,12 @@ export function CardProfile({ onCloseModalRequests, user }: ICardProfile) {
         <View style={customStyles.levelContainer}>
           <Text style={customStyles.levelText}>Nível {user.level}</Text>
           <View style={customStyles.levelTotal}>
-            <View style={customStyles.progressActual}></View>
+            <Box style={customStyles.progressActual} bgColor={'green.500'} />
           </View>
         </View>
 
         <Pressable
+          bgColor={'green.500'}
           style={customStyles.buttonProfile}
           onPress={() => navigation.navigate('myProfile')}
         >

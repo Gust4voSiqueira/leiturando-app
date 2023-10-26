@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 45,
     borderRadius: 7,
-    backgroundColor: theme.colors.green[500],
     justifyContent: 'center',
   },
   textButton: {

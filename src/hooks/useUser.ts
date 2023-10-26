@@ -3,36 +3,16 @@ import { api } from '../lib/axios'
 import { btoa } from 'react-native-quick-base64'
 import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
-import { convertData } from '../utils/convertData'
+import { convertData } from '../utils/ConvertData'
 import { RequestsContext } from '../contexts/RequestsContext'
+import { IEditProfileDTO, IUserRegisterDTO } from '../dtos/UserDTO'
 
-interface ILogin {
-  email: string
-  password: string
-}
-
-interface IUserRegister {
-  characterName?: string
-  name: string
-  email: string
-  dateOfBirth: string
-  password: string
-  confirmPassword: string
-}
-
-interface IEditProfile {
-  characterName?: string
-  name?: string
-  email?: string
-  dateOfBirth?: string
-}
-
-export const useUserRequest = () => {
-  const { removeToken, addToken, token } = useContext(TokenContext)
+export const useUser = () => {
+  const { addToken, token } = useContext(TokenContext)
   const { onLoadRequests } = useContext(RequestsContext)
   const { saveUserData } = useContext(UserContext)
 
-  async function register(userRegister: IUserRegister) {
+  async function register(userRegister: IUserRegisterDTO) {
     try {
       const userRequest = {
         ...userRegister,
@@ -47,11 +27,11 @@ export const useUserRequest = () => {
 
       return response.data
     } catch (error) {
-      throw new Error(error)
+      throw error
     }
   }
 
-  async function login({ email, password }: ILogin) {
+  async function login(email: string, password: string) {
     try {
       const credentials = btoa('client' + ':' + 123)
       const basicAuth = 'Basic ' + credentials
@@ -75,7 +55,7 @@ export const useUserRequest = () => {
 
       return response
     } catch (error) {
-      throw new Error(error)
+      throw error
     }
   }
 
@@ -90,14 +70,11 @@ export const useUserRequest = () => {
       saveUserData(response.data)
       return response.data
     } catch (error) {
-      console.log(error)
-
-      removeToken()
-      throw new Error(error)
+      throw error
     }
   }
 
-  async function editProfile(newUser: IEditProfile) {
+  async function editProfile(newUser: IEditProfileDTO) {
     try {
       const userRequest = {
         ...newUser,
@@ -114,7 +91,7 @@ export const useUserRequest = () => {
 
       saveUserData(response.data)
     } catch (error) {
-      throw new Error(error)
+      throw error
     }
   }
 

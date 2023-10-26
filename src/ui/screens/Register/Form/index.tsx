@@ -6,16 +6,17 @@ import { ButtonNext, InputRegister } from '../../../components'
 import { styles } from './styles'
 
 import ImageProfileDefault from '../../../../../assets/profileDefault.svg'
-import { Characters as CharactersType } from '..'
-import { handleDateChange } from '../../../../utils/handleDateChange'
-import { charactersImages } from '../../../../utils/charactersImages'
+import { handleDateChange } from '../../../../utils/HandleDateChange'
+import { charactersImages } from '../../../../utils/CharactersImages'
 
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { CharactersDTO, IUserRegisterDTO } from '../../../../dtos/UserDTO'
+import { useState } from 'react'
 
 interface IOnRenderImage {
-  characterSelected: CharactersType
+  characterSelected: CharactersDTO
 }
 
 function OnRenderImage({ characterSelected }: IOnRenderImage) {
@@ -29,18 +30,10 @@ function OnRenderImage({ characterSelected }: IOnRenderImage) {
   }
 }
 
-export interface IInputRegisters {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-  dateOfBirth: string
-}
-
 interface IFormRegisterProps {
   onOpenModal: () => void
-  characterSelected: CharactersType
-  onRegisterFunction: (InputRegisters: IInputRegisters) => void
+  characterSelected: CharactersDTO
+  onRegisterFunction: (InputRegisters: IUserRegisterDTO) => void
 }
 
 const registerSchema = yup.object({
@@ -62,6 +55,7 @@ export function FormRegister({
   characterSelected,
   onRegisterFunction,
 }: IFormRegisterProps) {
+  const [isLoading, setIsLoading] = useState(false)
   const {
     control,
     handleSubmit,
@@ -74,6 +68,18 @@ export function FormRegister({
 
   function handleLogin() {
     navigation.navigate('login')
+  }
+
+  async function onSubmit(data: IUserRegisterDTO) {
+    try {
+      setIsLoading(true)
+
+      await onRegisterFunction(data)
+    } catch (error) {
+      setIsLoading(false)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -100,19 +106,6 @@ export function FormRegister({
 
       <Controller
         control={control}
-        name="email"
-        render={({ field: { onChange, value } }) => (
-          <InputRegister
-            placeholder="Email"
-            isErrors={!!errors.email}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
         name="dateOfBirth"
         rules={{
           maxLength: 10,
@@ -122,6 +115,19 @@ export function FormRegister({
             placeholder="Data de nascimento"
             isErrors={!!errors.dateOfBirth}
             onChangeText={(newText) => onChange(handleDateChange(newText))}
+            value={value}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, value } }) => (
+          <InputRegister
+            placeholder="Email"
+            isErrors={!!errors.email}
+            onChangeText={onChange}
             value={value}
           />
         )}
@@ -146,7 +152,7 @@ export function FormRegister({
         name="confirmPassword"
         render={({ field: { onChange, value } }) => (
           <InputRegister
-            placeholder="Senha"
+            placeholder="Confirme a senha"
             isErrors={!!errors.confirmPassword}
             onChangeText={onChange}
             value={value}
@@ -160,8 +166,9 @@ export function FormRegister({
       </Pressable>
 
       <ButtonNext
-        text="Cadastre-se"
-        onPress={handleSubmit(onRegisterFunction)}
+        isDisabled={isLoading}
+        text="Cadastrar e acessar"
+        onPress={handleSubmit(onSubmit)}
       />
     </View>
   )

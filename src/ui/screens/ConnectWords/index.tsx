@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 
 import { styles } from './styles'
 
@@ -39,7 +39,16 @@ export function ConnectWords() {
 
         setData(response)
       } catch (err) {
-        console.log(err)
+        Alert.alert(
+          'Falha ao buscar as palavras',
+          'Por favor, tente novamente mais tarde.',
+          [
+            {
+              text: 'Ok',
+              onPress: () => navigation.navigate('home'),
+            },
+          ],
+        )
       }
     }
 
@@ -80,7 +89,6 @@ export function ConnectWords() {
         setLoading(false)
       } catch (error) {
         setLoading(false)
-        console.log(error)
       }
     } else if (newIndex >= 0) {
       setIndex(newIndex)

@@ -39,6 +39,10 @@ export function Lobby() {
     connectWords: <Jupiter width={300} height="20%" />,
   }
 
+  function handleRedirect() {
+    navigate.navigate(screen)
+  }
+
   return (
     <View style={globalStyles.container}>
       <View style={styles.LobbyContainer}>
@@ -48,10 +52,7 @@ export function Lobby() {
         <Text style={styles.textLobby}>{description}</Text>
 
         <View style={styles.buttonContainer}>
-          <ButtonNext
-            text="Começar"
-            onPress={() => navigate.navigate(screen)}
-          />
+          <ButtonNext text="Começar" onPress={handleRedirect} />
         </View>
       </View>
     </View>

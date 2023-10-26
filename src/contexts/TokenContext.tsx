@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { ReactNode, createContext, useState } from 'react'
+import { ReactNode, createContext, useEffect, useState } from 'react'
 
 interface TokenContextType {
   token: string
@@ -15,15 +15,17 @@ interface TokenContextProviderProps {
 }
 
 export function TokenContextProvider({ children }: TokenContextProviderProps) {
-  const [token, setToken] = useState<string>(getToken())
+  const [token, setToken] = useState<string>()
+
+  useEffect(() => {
+    getToken()
+  }, [])
 
   async function addToken(newToken: string) {
     try {
       await AsyncStorage.setItem('@leiturando:token', newToken)
       setToken(newToken)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   async function removeToken() {
@@ -34,12 +36,11 @@ export function TokenContextProvider({ children }: TokenContextProviderProps) {
   async function getToken() {
     try {
       const response = await AsyncStorage.getItem('@leiturando:token')
+
       setToken(response)
 
       return token
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   return (

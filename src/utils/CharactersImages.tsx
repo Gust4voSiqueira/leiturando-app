@@ -9,7 +9,7 @@ import Spiderman from '../../assets/spiderman.svg'
 import Wolverine from '../../assets/wolverine.svg'
 import ProfileDefault from '../../assets/profileDefault.svg'
 
-export const charactersImages = (width, height) => [
+export const charactersImages = (width: number, height: number) => [
   {
     name: 'NoImage',
     image: <ProfileDefault width={width} height={height} />,

@@ -1,3 +1,5 @@
+import { IOperations } from '../dtos/MathDTO'
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {

@@ -1,6 +1,6 @@
 import { ActivityIndicator, Text, View } from 'react-native'
 import { styles } from './styles'
-import { charactersImages } from '../../../../../utils/charactersImages'
+import { charactersImages } from '../../../../../utils/CharactersImages'
 import { useContext, useState } from 'react'
 import {
   DefaultButton,
@@ -9,7 +9,7 @@ import {
   RequestSendButton,
 } from './buttons'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
-import { useUserRequest } from '../../../../../hooks/useUserRequest'
+import { useUser } from '../../../../../hooks/useUser'
 import { Box } from 'native-base'
 
 interface ICardFiendsSection {
@@ -35,7 +35,7 @@ export function CardFriendsSection({
     onRemoveRequestReceived,
     onAcceptRequest,
   } = useContext(RequestsContext)
-  const { unfriend } = useUserRequest()
+  const { unfriend } = useUser()
   const [isLoading, setIsLoading] = useState(false)
   const characterImage = charactersImages(60, 60).find(
     (character) => character.name === image,

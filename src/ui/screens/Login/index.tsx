@@ -1,17 +1,18 @@
-import { View, Text, Pressable, ActivityIndicator } from 'react-native'
+import { View, Text } from 'react-native'
 import { styles } from './styles'
 import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
 import { useNavigation } from '@react-navigation/native'
-import { useUserRequest } from '../../../hooks/useUserRequest'
+import { useUser } from '../../../hooks/useUser'
 import { useState } from 'react'
 
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { InputRegister } from '../../components'
-import { theme, useToast } from 'native-base'
+import { ButtonNext, InputRegister } from '../../components'
+import { Pressable, useToast } from 'native-base'
+import { AppError } from '../../../utils/AppError'
 
 interface IInputsFields {
   email: string
@@ -27,9 +28,9 @@ const loginSchema = yup.object({
 })
 
 export function Login() {
-  const { login } = useUserRequest()
+  const { login } = useUser()
   const navigation = useNavigation()
-  const [isDisbaledButton, setIsDisabledButton] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     control,
@@ -41,29 +42,27 @@ export function Login() {
 
   const toast = useToast()
 
-  const stylesButtonDisabled = isDisbaledButton
-    ? styles.buttonContainerDisable
-    : styles.buttonContainer
-
-  function showToast() {
-    return toast.show({
-      title: 'E-mail ou senha incorretos',
-      placement: 'top',
-      bgColor: 'red.500',
-    })
-  }
-
   async function loginFunction(data: IInputsFields) {
     try {
-      setIsDisabledButton(true)
+      setIsLoading(true)
 
-      await login(data)
+      await login(data.email, data.password)
 
-      navigation.navigate('home')
-      setIsDisabledButton(false)
+      setIsLoading(false)
     } catch (error) {
-      showToast()
-      setIsDisabledButton(false)
+      const isAppError = error instanceof AppError
+
+      const title = isAppError
+        ? 'E-mail e/ou senha inválidos.'
+        : 'Não foi possível entrar. Tente novamente mais tarde.'
+
+      setIsLoading(false)
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500',
+      })
     }
   }
 
@@ -106,20 +105,11 @@ export function Login() {
         <Pressable onPress={handleUserRegister}>
           <Text style={styles.textRegister}>Novo por aqui? Cadastre-se</Text>
         </Pressable>
-        <Pressable
-          style={stylesButtonDisabled}
+        <ButtonNext
+          isDisabled={isLoading}
+          text="Entrar"
           onPress={handleSubmit(loginFunction)}
-        >
-          {!isDisbaledButton ? (
-            <Text style={styles.textButton}>Entrar</Text>
-          ) : (
-            <ActivityIndicator
-              size="small"
-              style={styles.load}
-              color={theme.colors.black}
-            />
-          )}
-        </Pressable>
+        />
       </View>
     </View>
   )

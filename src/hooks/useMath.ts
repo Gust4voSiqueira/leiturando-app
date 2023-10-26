@@ -3,12 +3,7 @@ import { api } from '../lib/axios'
 import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
 import { IResponses } from '../ui/screens/Math/Game'
-
-export type IOperations =
-  | 'SUBTRACTION'
-  | 'ADDITION'
-  | 'MULTIPLICATION'
-  | 'DIVISION'
+import { IOperations } from '../dtos/MathDTO'
 
 const operationMapping = {
   ADDITION: 'ADDITION',

@@ -5,9 +5,10 @@ import { FiltersSection } from './sections/Filter'
 import { CardFriendsSection } from './sections/CardFriend'
 import { useContext, useEffect, useState } from 'react'
 import { RequestsContext } from '../../../contexts/RequestsContext'
-import { useUserRequest } from '../../../hooks/useUserRequest'
+import { useUser } from '../../../hooks/useUser'
 import { RenderLists } from './renderLists'
-import { Box } from 'native-base'
+import { Box, useToast } from 'native-base'
+import { AppError } from '../../../utils/AppError'
 
 export type filters = 'All' | 'Requests' | 'Friends'
 
@@ -20,10 +21,12 @@ interface IResultSearch {
 }
 
 export function FriendsScreen() {
-  const { requests, onLoadRequests } = useContext(RequestsContext)
-  const { searchUser } = useUserRequest()
   const [filters, setFilters] = useState<filters>('All')
+  const { requests, onLoadRequests } = useContext(RequestsContext)
+  const { searchUser } = useUser()
   const [resultSearch, setResultSearch] = useState<IResultSearch[]>([])
+
+  const toast = useToast()
 
   function alterFilter(newFilter: filters) {
     if (newFilter === 'All') {
@@ -42,7 +45,17 @@ export function FriendsScreen() {
 
       setResultSearch(response)
     } catch (error) {
-      console.log(error)
+      const isAppError = error instanceof AppError
+
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível entrar. Tente novamente mais tarde.'
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500',
+      })
     }
   }
 

@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
     marginVertical: 15,
   },
   cancelSelection: {
-    backgroundColor: theme.colors.green[500],
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 4,

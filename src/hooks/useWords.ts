@@ -1,13 +1,8 @@
 import { useContext } from 'react'
 import { api } from '../lib/axios'
 import { TokenContext } from '../contexts/TokenContext'
-import { IWord } from '../ui/screens/Words'
 import { UserContext } from '../contexts/UserDataContext'
-
-interface IFinnally {
-  wordIds: number[]
-  responses: string[]
-}
+import { IFinnallyWordsDTO, IWordDTO } from '../dtos/WordDTO'
 
 export const useWords = () => {
   const { token } = useContext(TokenContext)
@@ -27,9 +22,9 @@ export const useWords = () => {
     }
   }
 
-  async function finallyWords(words: IWord[], responses: string[]) {
+  async function finallyWords(words: IWordDTO[], responses: string[]) {
     try {
-      const request: IFinnally = {
+      const request: IFinnallyWordsDTO = {
         wordIds: words.map((word) => word.id),
         responses,
       }

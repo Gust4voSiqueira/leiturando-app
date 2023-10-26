@@ -1,20 +1,22 @@
-import { Pressable, Text, View } from 'react-native'
-import { Header } from '../../components'
+import { Pressable, View } from 'react-native'
+import { ButtonNext, Header } from '../../components'
 import { styles } from './styles'
 import { useContext, useState } from 'react'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { ModalSelectImage } from '../../components/ModalCharacters'
-import { Characters } from '../Register'
-import { useUserRequest } from '../../../hooks/useUserRequest'
-import { handleDateChange } from '../../../utils/handleDateChange'
-import { charactersImages } from '../../../utils/charactersImages'
+import { useUser } from '../../../hooks/useUser'
+import { handleDateChange } from '../../../utils/HandleDateChange'
+import { charactersImages } from '../../../utils/CharactersImages'
 import { useNavigation } from '@react-navigation/native'
-import { Box, Center } from 'native-base'
+import { Box, Center, useToast } from 'native-base'
 
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { InputEditProfile } from '../../components/InputEditProfile'
+import { CharactersDTO } from '../../../dtos/UserDTO'
+import { validateDate } from '../../../utils/ValidateData'
+import { AppError } from '../../../utils/AppError'
 
 interface IFields {
   name: string
@@ -22,8 +24,8 @@ interface IFields {
 }
 
 const editprofileSchema = yup.object({
-  name: yup.string().max(10),
-  dateOfBirth: yup.string().max(10),
+  name: yup.string().min(2).max(10),
+  dateOfBirth: yup.string().min(10).max(10),
 })
 
 export function EditProfile() {
@@ -35,11 +37,14 @@ export function EditProfile() {
     resolver: yupResolver(editprofileSchema),
   })
 
+  const [isLoading, setIsLoading] = useState(false)
   const [characterName, setCharacterName] = useState('')
   const [isOpenModal, setIsOpenModal] = useState(false)
   const { userData } = useContext(UserContext)
-  const { editProfile } = useUserRequest()
+  const { editProfile } = useUser()
   const redirect = useNavigation()
+
+  const toast = useToast()
 
   const renderProfileImage = () => {
     if (characterName !== '') {
@@ -56,18 +61,40 @@ export function EditProfile() {
     setIsOpenModal(!isOpenModal)
   }
 
-  function onSelectCharacter(character: Characters) {
+  function onSelectCharacter(character: CharactersDTO) {
     setCharacterName(character)
     toggleModal()
   }
 
   async function onEditProfile(data: IFields) {
     try {
-      await editProfile(data)
+      setIsLoading(true)
+      if (data.dateOfBirth) {
+        validateDate(data.dateOfBirth)
+      }
+
+      const userRequest = {
+        ...data,
+        characterName,
+      }
+
+      await editProfile(userRequest)
 
       redirect.navigate('home')
     } catch (error) {
-      return error
+      const isAppError = error instanceof AppError
+
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível atualizar seus dados agora. Tente novamente mais tarde.'
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500',
+      })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -118,15 +145,16 @@ export function EditProfile() {
         </Center>
 
         <View style={styles.buttonsContainer}>
-          <Pressable
-            style={styles.buttonEditProfile}
+          <ButtonNext
+            text="Salvar Informações"
             onPress={handleSubmit(onEditProfile)}
-          >
-            <Text style={styles.textButton}>Salvar Informações</Text>
-          </Pressable>
-          <Pressable style={styles.buttonEditProfile}>
-            <Text style={styles.textButton}>Alterar Senha</Text>
-          </Pressable>
+            isDisabled={isLoading}
+          />
+
+          <ButtonNext
+            text="Alterar Senha"
+            // onPress={handleSubmit(onEditProfile)}
+          />
         </View>
       </Box>
     </Box>

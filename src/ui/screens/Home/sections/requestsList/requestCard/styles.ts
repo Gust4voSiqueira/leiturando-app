@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   requestCardLoad: {
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: theme.colors.gray[700],
     paddingVertical: 10,
     maxWidth: 230,
     paddingHorizontal: 10,

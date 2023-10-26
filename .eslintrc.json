@@ -5,6 +5,8 @@
   ],
   "rules": {
     "no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-useless-catch": "off",
     "@typescript-eslint/no-unused-vars": [
         "error",
         { "argsIgnorePattern": "^_" }

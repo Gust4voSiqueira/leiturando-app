@@ -1,30 +1,58 @@
-import { ActivityIndicator, ScrollView, Text } from 'react-native'
+import { ActivityIndicator, Alert, ScrollView } from 'react-native'
 import { styles } from './styles'
 import { RequestCard } from './requestCard'
 import { useContext, useEffect } from 'react'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
-import { Box, Input, Pressable, theme } from 'native-base'
+import { Box, Center, Input, Pressable, Text, theme } from 'native-base'
 
 interface IRequestsList {
   redirectToAllRequests: () => void
+  handleCloseModal: () => void
 }
 
-export function RequestsList({ redirectToAllRequests }: IRequestsList) {
+export function RequestsList({
+  redirectToAllRequests,
+  handleCloseModal,
+}: IRequestsList) {
   const { requests, onLoadRequests } = useContext(RequestsContext)
 
   useEffect(() => {
-    onLoadRequests()
+    try {
+      onLoadRequests()
+    } catch (error) {
+      Alert.alert(
+        'Falha ao buscar solicitações',
+        'Tivemos uma falha no servidor. Por favor tente novamente mais tarde.',
+        [
+          {
+            text: 'Ok',
+            onPress: handleCloseModal,
+          },
+        ],
+      )
+    }
   }, [])
 
-  if (!requests) return <ActivityIndicator size="large" />
+  if (!requests.requests)
+    return (
+      <Box bg={'gray.500'} width={200} style={styles.listRequestsContainer}>
+        <Text style={styles.listRequestsTitle}>Solicitações</Text>
+        <Center height={'90%'} justifyContent={'center'} alignItems={'center'}>
+          <ActivityIndicator size="large" color={'white'} />
+          <Text color={'white'} mt={2}>
+            Buscando
+          </Text>
+        </Center>
+      </Box>
+    )
 
   return (
-    <Box bg={'gray.500'} style={styles.listRequestsContainer}>
+    <Box bg={'gray.500'} width={200} style={styles.listRequestsContainer}>
       <Text style={styles.listRequestsTitle}>Solicitações</Text>
 
       <ScrollView
         scrollEnabled
-        style={{ width: '100%' }}
+        style={{ width: '100%', marginBottom: 20 }}
         showsVerticalScrollIndicator={false}
       >
         <Input
@@ -39,7 +67,7 @@ export function RequestsList({ redirectToAllRequests }: IRequestsList) {
           placeholder="Buscar usuário"
           placeholderTextColor={theme.colors.gray[300]}
         />
-        {requests?.requests.map((request) => (
+        {requests.requests?.map((request) => (
           <RequestCard
             key={request.id}
             id={request.id}
@@ -47,10 +75,11 @@ export function RequestsList({ redirectToAllRequests }: IRequestsList) {
             image={request.image}
             mutualFriends={request.mutualFriends}
             typeCard="Request"
+            handleCloseModal={handleCloseModal}
           />
         ))}
 
-        {requests?.requestsSend.map((request) => (
+        {requests.requestsSend?.map((request) => (
           <RequestCard
             key={request.id}
             id={request.id}
@@ -58,10 +87,11 @@ export function RequestsList({ redirectToAllRequests }: IRequestsList) {
             image={request.image}
             mutualFriends={request.mutualFriends}
             typeCard="SubmittedRequest"
+            handleCloseModal={handleCloseModal}
           />
         ))}
 
-        {requests?.usersRecommended.map((user) => (
+        {requests.usersRecommended?.map((user) => (
           <RequestCard
             key={user.id}
             id={user.id}
@@ -69,6 +99,7 @@ export function RequestsList({ redirectToAllRequests }: IRequestsList) {
             image={user.image}
             mutualFriends={user.mutualFriends}
             typeCard="Recommended Friend"
+            handleCloseModal={handleCloseModal}
           />
         ))}
       </ScrollView>

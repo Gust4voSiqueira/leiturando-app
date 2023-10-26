@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { useCallback, useEffect, useState } from 'react'
+import { Alert, View } from 'react-native'
 
 import { styles } from './styles'
 
@@ -9,18 +8,17 @@ import { Header } from '../../components'
 import { useWords } from '../../../hooks/useWords'
 import { Loading } from '../Loading'
 import { useNavigation } from '@react-navigation/native'
-
-export interface IWord {
-  id: number
-  word: string
-}
+import { ResultSkeleton } from '../Result/ResultSkeleton'
+import { Text } from 'native-base'
+import { IWordDTO } from '../../../dtos/WordDTO'
 
 export function Words() {
   const [indexWord, setIndexWord] = useState(0)
   const [isRecording, setIsRecording] = useState(false)
+  const [isFinnaly, setIsFinnaly] = useState(false)
   const [voice, setVoice] = useState<string>('')
   const [responses, setResponses] = useState<string[]>([])
-  const [words, setWords] = useState<IWord[]>([])
+  const [words, setWords] = useState<IWordDTO[]>([])
   const { getWords, finallyWords } = useWords()
   const navigation = useNavigation()
 
@@ -31,55 +29,88 @@ export function Words() {
 
         setWords(response)
       } catch (err) {
-        console.log(err)
+        Alert.alert('Busca', 'Falha ao buscar as palavras.', [
+          {
+            text: 'Ok',
+            onPress: () => navigation.navigate('home'),
+          },
+        ])
       }
     }
 
     onGetWords()
   }, [])
 
-  function onRecordingVoice() {
+  function handleRecordingVoice() {
     setIsRecording(!isRecording)
   }
 
-  function onAlterWordVoice(newVoice: string) {
-    setVoice(newVoice)
-  }
+  useEffect(() => {
+    return () => setVoice('')
+  }, [])
+
+  const handleAlterWordVoice = useCallback((newVoice: string) => {
+    if (newVoice !== '') {
+      setVoice(newVoice)
+    }
+  }, [])
+
+  // function handleAlterWordVoice(newVoice: string) {
+  //   if (newVoice !== '') {
+  //     setVoice(newVoice)
+  //   }
+  // }
 
   function onResponseUser(response: string, index: number) {
     if (!response) return
 
-    setResponses([
-      ...responses.slice(0, index),
-      response,
-      ...responses.slice(index + 1),
-    ])
+    setResponses((state) => {
+      return [...state.slice(0, index), response, ...state.slice(index + 1)]
+    })
   }
 
-  async function finallyGame() {
+  async function finallyGame(lastWord: string) {
     try {
+      setIsFinnaly(true)
+
+      const result = {
+        ...responses,
+        lastWord,
+      }
+
       const response = await finallyWords(words, responses)
 
       navigation.navigate('result', {
         response: response.words,
         score: response.score,
       })
+      setIsFinnaly(false)
     } catch (err) {
-      console.log(err)
+      Alert.alert('Contagem de pontos', 'Falha ao contabilizar pontos.', [
+        {
+          text: 'Ok',
+          onPress: () => navigation.navigate('home'),
+        },
+      ])
+      setIsFinnaly(false)
     }
   }
 
   function onAlterWord(newWordIndex: number) {
     if (newWordIndex < 0) return
 
-    setIndexWord(newWordIndex)
-    setVoice(responses[newWordIndex])
-    onResponseUser(voice, indexWord)
-
-    if (newWordIndex === 7) finallyGame()
+    if (newWordIndex === 7) {
+      finallyGame(voice)
+    } else {
+      setIndexWord(newWordIndex)
+      setVoice(responses[newWordIndex])
+      onResponseUser(voice, indexWord)
+    }
   }
 
-  if (words.length === 0 || indexWord === 7) return <Loading />
+  if (isFinnaly) return <ResultSkeleton />
+
+  if (words.length === 0) return <Loading />
 
   return (
     <View style={styles.wordsContainer}>
@@ -88,10 +119,11 @@ export function Words() {
       <WordSection word={words[indexWord].word} />
       <IconsSection
         isRecording={isRecording}
-        onRecordingVoice={onRecordingVoice}
-        onAlterWordVoice={onAlterWordVoice}
+        onRecordingVoice={handleRecordingVoice}
+        onAlterWordVoice={handleAlterWordVoice}
       />
-      <WordSection word={voice} />
+      <Text color={'white'}>{voice}</Text>
+      {/* <WordSection word={voice} /> */}
       <ButtonsSection
         indexWord={indexWord}
         onAlterWord={onAlterWord}

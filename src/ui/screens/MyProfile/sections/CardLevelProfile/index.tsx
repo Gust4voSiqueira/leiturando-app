@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native'
 import { styles } from './styles'
-import { progressActual } from '../../../../../utils/progressActual'
+import { progressActual } from '../../../../../utils/ProgressActual'
 import { Box } from 'native-base'
 
 interface ICardLevelProfile {
@@ -19,7 +19,7 @@ export function CardLevelProfile({ level, actualPoints }: ICardLevelProfile) {
       <View style={customStyles.barLevelProfileContainer}>
         <Text style={customStyles.levelProfileText}>Nível {level}</Text>
         <View style={customStyles.levelTotal}>
-          <View style={customStyles.progressActual}></View>
+          <Box bg={'green.500'} style={customStyles.progressActual} />
         </View>
       </View>
     </Box>
