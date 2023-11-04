@@ -2,9 +2,13 @@ import * as Speech from 'expo-speech'
 
 export function useSpeech() {
   const speech = (text: string) => {
-    Speech.speak(text, {
-      language: 'pt-BR',
-    })
+    try {
+      Speech.speak(text, {
+        language: 'pt-BR',
+      })
+    } catch (error) {
+      return error
+    }
   }
 
   return { speech }
