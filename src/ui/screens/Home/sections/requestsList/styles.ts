@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     borderRadius: 11,
     paddingVertical: 13,
     paddingHorizontal: 10,
+    zIndex: 10,
   },
   listRequestsTitle: {
     color: theme.colors.white,

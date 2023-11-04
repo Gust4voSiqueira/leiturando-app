@@ -1,8 +1,8 @@
 import { Text, View } from 'react-native'
 import { styles } from './styles'
-import { IOperations } from '../../../../../../hooks/useMath'
 import { Divide, Minus, Plus, X } from 'phosphor-react-native'
 import { Box, Input, theme } from 'native-base'
+import { IOperations } from '../../../../../../dtos/MathDTO'
 
 const operationsSimbols = {
   SUBTRACTION: <Minus size={60} color={theme.colors.white} weight="bold" />,

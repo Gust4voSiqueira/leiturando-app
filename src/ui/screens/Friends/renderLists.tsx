@@ -18,8 +18,8 @@ export function RenderLists({
       {(filters === 'All' || filters === 'Requests') &&
         requests?.requests.map((request) => (
           <CardFriendsSection
-            key={request.id}
             id={request.id}
+            key={request.id}
             name={request.name}
             image={request.image}
             mutualFriends={request.mutualFriends}
@@ -42,8 +42,8 @@ export function RenderLists({
       {(filters === 'All' || filters === 'Requests') &&
         requests?.usersRecommended.map((user) => (
           <CardFriendsSection
-            key={user.id}
             id={user.id}
+            key={user.id}
             name={user.name}
             image={user.image}
             mutualFriends={user.mutualFriends}

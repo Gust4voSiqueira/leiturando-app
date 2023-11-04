@@ -20,7 +20,7 @@ export function Words() {
   const [responses, setResponses] = useState<string[]>([])
   const [words, setWords] = useState<IWordDTO[]>([])
   const { getWords, finallyWords } = useWords()
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
 
   useEffect(() => {
     async function onGetWords() {
@@ -32,7 +32,7 @@ export function Words() {
         Alert.alert('Busca', 'Falha ao buscar as palavras.', [
           {
             text: 'Ok',
-            onPress: () => navigation.navigate('home'),
+            onPress: () => navigate('home'),
           },
         ])
       }
@@ -80,7 +80,7 @@ export function Words() {
 
       const response = await finallyWords(words, responses)
 
-      navigation.navigate('result', {
+      navigate('result', {
         response: response.words,
         score: response.score,
       })
@@ -89,7 +89,7 @@ export function Words() {
       Alert.alert('Contagem de pontos', 'Falha ao contabilizar pontos.', [
         {
           text: 'Ok',
-          onPress: () => navigation.navigate('home'),
+          onPress: () => navigate('home'),
         },
       ])
       setIsFinnaly(false)

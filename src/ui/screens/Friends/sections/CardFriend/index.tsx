@@ -11,6 +11,11 @@ import {
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { useUser } from '../../../../../hooks/useUser'
 import { Box } from 'native-base'
+import Animated, {
+  Layout,
+  SlideInRight,
+  SlideOutRight,
+} from 'react-native-reanimated'
 
 interface ICardFiendsSection {
   id: number
@@ -91,7 +96,12 @@ export function CardFriendsSection({
     )
 
   return (
-    <Box bg={'gray.700'} style={styles.cardFriendsContainer}>
+    <Animated.View
+      style={styles.cardFriendsContainer}
+      entering={SlideInRight}
+      exiting={SlideOutRight}
+      layout={Layout.springify()}
+    >
       <View style={styles.imageUserRequest}>{characterImage}</View>
 
       <View style={styles.infoRequestContainer}>
@@ -110,6 +120,6 @@ export function CardFriendsSection({
           )}
         </View>
       </View>
-    </Box>
+    </Animated.View>
   )
 }

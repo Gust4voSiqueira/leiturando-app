@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     top: 7,
   },
   inputFilter: {
-    backgroundColor: theme.colors.gray[700],
+    backgroundColor: theme.colors.gray[800],
     color: theme.colors.gray[300],
     fontWeight: 'bold',
     width: '100%',
@@ -34,13 +34,15 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   cardFilter: {
-    backgroundColor: theme.colors.gray[700],
+    backgroundColor: theme.colors.gray[800],
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   filterSelected: {
-    backgroundColor: theme.colors.gray[500],
+    borderWidth: 1,
+    borderColor: theme.colors.green[500],
+    backgroundColor: theme.colors.gray[900],
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

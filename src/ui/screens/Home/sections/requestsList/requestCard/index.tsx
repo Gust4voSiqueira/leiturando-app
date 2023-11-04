@@ -1,10 +1,16 @@
 import { useContext, useState } from 'react'
 import { ActivityIndicator, Alert, View } from 'react-native'
-import { styles } from './styles'
+
 import { RequestsContext } from '../../../../../../contexts/RequestsContext'
 import { charactersImages } from '../../../../../../utils/CharactersImages'
 import { Box, Text } from 'native-base'
-import { RenderButtons } from './renderButton'
+import { styles } from './styles'
+import { RenderButtons } from './RenderButton'
+import Animated, {
+  Layout,
+  SlideInRight,
+  SlideOutRight,
+} from 'react-native-reanimated'
 
 interface IRequestCard {
   id: number
@@ -96,24 +102,30 @@ export function RequestCard({
     )
 
   return (
-    <Box bg={'gray.700'} height={20} style={styles.requestCard}>
-      <View style={styles.imageUserRequest}>{characterImage}</View>
+    <Animated.View
+      entering={SlideInRight}
+      exiting={SlideOutRight}
+      layout={Layout.springify()}
+    >
+      <Box bg={'gray.700'} height={20} style={styles.requestCard}>
+        <View style={styles.imageUserRequest}>{characterImage}</View>
 
-      <View style={styles.infoRequestContainer}>
-        <Text style={styles.nameUserRequest}>{name}</Text>
-        <Text style={styles.quantitiFriendsCommon}>{textMutualFriends}</Text>
+        <View style={styles.infoRequestContainer}>
+          <Text style={styles.nameUserRequest}>{name}</Text>
+          <Text style={styles.quantitiFriendsCommon}>{textMutualFriends}</Text>
 
-        <View style={styles.buttonsContainer}>
-          <RenderButtons
-            idUser={id}
-            sendRequest={handleSendRequest}
-            cancelRequest={handleCancelRequest}
-            deleteRequest={handleRemoveRequest}
-            acceptRequest={handleAcceptRequest}
-            typeCard={typeCard}
-          />
+          <View style={styles.buttonsContainer}>
+            <RenderButtons
+              idUser={id}
+              sendRequest={handleSendRequest}
+              cancelRequest={handleCancelRequest}
+              deleteRequest={handleRemoveRequest}
+              acceptRequest={handleAcceptRequest}
+              typeCard={typeCard}
+            />
+          </View>
         </View>
-      </View>
-    </Box>
+      </Box>
+    </Animated.View>
   )
 }

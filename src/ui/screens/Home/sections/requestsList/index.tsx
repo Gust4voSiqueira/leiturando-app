@@ -1,9 +1,9 @@
 import { ActivityIndicator, Alert, ScrollView } from 'react-native'
-import { styles } from './styles'
-import { RequestCard } from './requestCard'
+import { RequestCard } from './RequestCard'
 import { useContext, useEffect } from 'react'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { Box, Center, Input, Pressable, Text, theme } from 'native-base'
+import { styles } from './styles'
 
 interface IRequestsList {
   redirectToAllRequests: () => void
@@ -69,8 +69,8 @@ export function RequestsList({
         />
         {requests.requests?.map((request) => (
           <RequestCard
-            key={request.id}
             id={request.id}
+            key={request.id}
             name={request.name}
             image={request.image}
             mutualFriends={request.mutualFriends}

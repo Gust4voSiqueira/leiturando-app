@@ -34,15 +34,16 @@ export function AudiosSection({
       {audios.map((audio) => {
         return isSelectedAudio(audio.id) ? (
           <Button
+            key={audio.id}
             bg={'gray.700'}
             _pressed={{
               bg: 'gray.700',
             }}
             style={[styles.cardAudio]}
-            key={audio.id}
           />
         ) : (
           <Button
+            key={audio.id}
             bg={'gray.700'}
             _pressed={{
               bg: 'gray.700',
@@ -51,7 +52,6 @@ export function AudiosSection({
               styles.cardAudio,
               selected?.word === audio.word && styles.selected,
             ]}
-            key={audio.id}
             onPress={() => onSpeechAudio(audio.word, audio.id)}
           >
             <SpeakerSimpleHigh

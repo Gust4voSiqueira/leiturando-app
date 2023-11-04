@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
     borderRadius: 8,
+    backgroundColor: '#202024',
   },
   imageUserRequest: {
     borderRadius: 50,

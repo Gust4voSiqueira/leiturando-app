@@ -1,15 +1,15 @@
 import { useContext, useEffect, useState } from 'react'
 import { Alert, View } from 'react-native'
 
-import { CardProfile } from './sections/cardProfile'
+import { CardProfile } from './sections/CardProfile'
 
 import { styles } from './styles'
-import { WordsCard } from './sections/words'
-import { MathCard } from './sections/math'
-import { RequestsList } from './sections/requestsList'
+import { WordsCard } from './sections/Words'
+import { MathCard } from './sections/Math'
+import { RequestsList } from './sections/RequestsList'
 import { useUser } from '../../../hooks/useUser'
 import { UserContext } from '../../../contexts/UserDataContext'
-import { ConnectWordsCard } from './sections/connectWords'
+import { ConnectWordsCard } from './sections/ConnectWords'
 import { useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'native-base'
 import { globalStyles } from '../../../../global/global'
@@ -34,7 +34,7 @@ export function Home() {
 
   const [isLoggout, setIsLoggout] = useState(false)
 
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
 
   useEffect(() => {
     async function getMyUserData() {
@@ -63,7 +63,7 @@ export function Home() {
     screen,
     textSpeech,
   }: IOnRedirectProps) {
-    navigation.navigate('lobby', {
+    navigate('lobby', {
       title,
       description,
       screen,
@@ -79,7 +79,7 @@ export function Home() {
   }
 
   function redirectToAllRequests() {
-    navigation.navigate('friends')
+    navigate('friends')
     setCardList(false)
   }
 
