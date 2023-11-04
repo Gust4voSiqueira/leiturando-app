@@ -30,7 +30,7 @@ export function ConnectWords() {
   const [data, setData] = useState<IWordsToConnect[]>([])
   const [index, setIndex] = useState(0)
   const { getWordsToConnect, finallyConnectWords } = useConnectWords()
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
 
   useEffect(() => {
     async function getWords() {
@@ -45,7 +45,7 @@ export function ConnectWords() {
           [
             {
               text: 'Ok',
-              onPress: () => navigation.navigate('home'),
+              onPress: () => navigate('home'),
             },
           ],
         )
@@ -82,7 +82,7 @@ export function ConnectWords() {
         setLoading(true)
         const response = await finallyConnectWords(responses)
 
-        navigation.navigate('result', {
+        navigate('result', {
           response: response.words,
           score: response.score,
         })

@@ -4,9 +4,9 @@ import { Text, View } from 'react-native'
 import { styles } from './styles'
 import { ButtonNext, Header } from '../../../components'
 import { Divide, Minus, Plus, X } from 'phosphor-react-native'
-import { IOperations } from '../../../../hooks/useMath'
 import { useNavigation } from '@react-navigation/native'
 import { Box, Pressable, theme } from 'native-base'
+import { IOperations } from '../../../../dtos/MathDTO'
 
 const icons = {
   ADDITION: <Plus size={40} color={theme.colors.white} weight="bold" />,
@@ -16,7 +16,7 @@ const icons = {
 }
 
 export function Operations() {
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
   const [selectedOperations, setOperationsSelected] = useState<IOperations[]>(
     [],
   )
@@ -42,11 +42,11 @@ export function Operations() {
     if (selectedOperations.length === 0) {
       setError(!error)
     } else {
-      navigation.navigate('math', { operations: selectedOperations })
+      navigate('math', { operations: selectedOperations })
     }
   }
 
-  function renderButtons(operation: IOperations) {
+  function RenderButtons(operation: IOperations) {
     return (
       <Pressable
         key={operation}
@@ -80,7 +80,7 @@ export function Operations() {
 
         <View style={styles.selectionContainer}>
           {Object.keys(icons).map((operation: IOperations) => {
-            return renderButtons(operation)
+            return RenderButtons(operation)
           })}
         </View>
 

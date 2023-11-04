@@ -38,21 +38,9 @@ export function MathScreen() {
   const [isFinnally, setIsFinnally] = useState(false)
   const { getMath, finnalyMath } = useMath()
 
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
   const routes = useRoute()
   const { operations } = routes.params as IOperationsProps
-
-  useEffect(() => {
-    async function onGetMaths() {
-      try {
-        const response = await getMath(operations)
-
-        setData(response)
-      } catch (err) {}
-    }
-
-    onGetMaths()
-  }, [])
 
   function onChangeResponse(
     number1: number,
@@ -90,7 +78,7 @@ export function MathScreen() {
         setIsFinnally(true)
         const response = await finnalyMath(responses)
 
-        navigation.navigate('result', {
+        navigate('result', {
           response: response.results,
           score: response.score,
         })
@@ -99,6 +87,18 @@ export function MathScreen() {
       }
     }
   }
+
+  useEffect(() => {
+    async function onGetMaths() {
+      try {
+        const response = await getMath(operations)
+
+        setData(response)
+      } catch (err) {}
+    }
+
+    onGetMaths()
+  }, [])
 
   if (data.length === 0) return <Loading />
 

@@ -18,13 +18,13 @@ interface IProps {
 }
 
 export function Result() {
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
   const { userData } = useContext(UserContext)
   const routes = useRoute()
   const { response, score } = routes.params as IProps
 
   function onRedirect() {
-    navigation.navigate('resume', { resume: response, score })
+    navigate('resume', { resume: response, score })
   }
 
   const corrects = response.filter((result) => result.correct)
@@ -52,10 +52,7 @@ export function Result() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <ButtonNext
-            text="Página Inicial"
-            onPress={() => navigation.navigate('home')}
-          />
+          <ButtonNext text="Página Inicial" onPress={() => navigate('home')} />
           <ButtonNext text="Relatório" onPress={onRedirect} />
         </View>
       </View>

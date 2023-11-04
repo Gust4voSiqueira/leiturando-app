@@ -39,21 +39,18 @@ interface ICardProfile {
 }
 
 export function CardProfile({ name, character, createdAt }: ICardProfile) {
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
 
   return (
     <Box bg={'gray.700'} style={styles.cardProfileContainer}>
-      <Pressable
-        style={styles.iconBack}
-        onPress={() => navigation.navigate('home')}
-      >
+      <Pressable style={styles.iconBack} onPress={() => navigate('home')}>
         <CaretLeft size={30} weight="bold" color={theme.colors.gray[400]} />
       </Pressable>
 
       {character}
       <Pressable
         style={styles.iconPencil}
-        onPress={() => navigation.navigate('editProfile')}
+        onPress={() => navigate('editProfile')}
       >
         <PencilSimple size={25} color={theme.colors.gray[400]} weight="fill" />
       </Pressable>

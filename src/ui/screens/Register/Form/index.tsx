@@ -64,10 +64,10 @@ export function FormRegister({
     resolver: yupResolver(registerSchema),
   })
 
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
 
   function handleLogin() {
-    navigation.navigate('login')
+    navigate('login')
   }
 
   async function onSubmit(data: IUserRegisterDTO) {

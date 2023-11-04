@@ -33,10 +33,10 @@ function HandleCards({ resume }: IHandleCards) {
 export function Resume() {
   const routes = useRoute()
   const { resume, score } = routes.params as IProps
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
 
   function onRedirect() {
-    navigation.navigate('result', { response: resume, score })
+    navigate('result', { response: resume, score })
   }
 
   return (
@@ -54,10 +54,7 @@ export function Resume() {
       </ScrollView>
 
       <View style={styles.buttonsContainer}>
-        <ButtonNext
-          text="Página Inicial"
-          onPress={() => navigation.navigate('home')}
-        />
+        <ButtonNext text="Página Inicial" onPress={() => navigate('home')} />
         <ButtonNext text="Resultado" onPress={onRedirect} />
       </View>
     </View>

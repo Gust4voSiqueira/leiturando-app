@@ -42,7 +42,7 @@ export function EditProfile() {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const { userData } = useContext(UserContext)
   const { editProfile } = useUser()
-  const redirect = useNavigation()
+  const { navigate } = useNavigation()
 
   const toast = useToast()
 
@@ -80,7 +80,7 @@ export function EditProfile() {
 
       await editProfile(userRequest)
 
-      redirect.navigate('home')
+      navigate('home')
     } catch (error) {
       const isAppError = error instanceof AppError
 

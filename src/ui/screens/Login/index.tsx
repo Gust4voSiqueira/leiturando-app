@@ -29,7 +29,7 @@ const loginSchema = yup.object({
 
 export function Login() {
   const { login } = useUser()
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
 
   const {
@@ -67,7 +67,7 @@ export function Login() {
   }
 
   function handleUserRegister() {
-    navigation.navigate('register')
+    navigate('register')
   }
 
   return (

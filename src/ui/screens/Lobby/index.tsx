@@ -30,7 +30,7 @@ interface ILobby {
 
 export function Lobby() {
   const routes = useRoute()
-  const navigate = useNavigation()
+  const { navigate } = useNavigation()
   const { description, title, screen, textSpeech } = routes.params as ILobby
 
   const image = {
@@ -40,7 +40,7 @@ export function Lobby() {
   }
 
   function handleRedirect() {
-    navigate.navigate(screen)
+    navigate(screen)
   }
 
   return (
