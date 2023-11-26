@@ -10,13 +10,19 @@ import { RequestsList } from './sections/RequestsList'
 import { useUser } from '../../../hooks/useUser'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { ConnectWordsCard } from './sections/ConnectWords'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { ScrollView } from 'native-base'
 import { globalStyles } from '../../../../global/global'
 import { HomeSkeleton } from './HomeSkeleton'
 import { TokenContext } from '../../../contexts/TokenContext'
 import { RequestsContext } from '../../../contexts/RequestsContext'
 import { Loading } from '../Loading'
+import { GlobalRanking } from './sections/GlobalRanking'
+import { FriendsRanking } from './sections/FriendsRanking'
+
+type RouteParamsProps = {
+  isReloadRanking: boolean
+}
 
 export interface IOnRedirectProps {
   title: 'Palavras' | 'Matemática' | 'Ligue as palavras'
@@ -27,12 +33,15 @@ export interface IOnRedirectProps {
 
 export function Home() {
   const { myUser } = useUser()
+  const routes = useRoute()
   const [cardList, setCardList] = useState(false)
   const { userData, removeUserData } = useContext(UserContext)
   const { removeToken } = useContext(TokenContext)
   const { clearRequests } = useContext(RequestsContext)
 
   const [isLoggout, setIsLoggout] = useState(false)
+
+  const { isReloadRanking } = routes.params as RouteParamsProps
 
   const { navigate } = useNavigation()
 
@@ -112,6 +121,8 @@ export function Home() {
           <WordsCard onRedirectFunction={onRedirect} />
           <ConnectWordsCard onRedirectFunction={onRedirect} />
           <MathCard onRedirectFunction={onRedirect} />
+          <GlobalRanking isReloadRanking={isReloadRanking} />
+          <FriendsRanking isReloadRanking={isReloadRanking} />
         </View>
       </ScrollView>
     </View>

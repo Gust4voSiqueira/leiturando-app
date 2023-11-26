@@ -5,7 +5,7 @@ export declare global {
     interface RootParamList {
       login: { email?: string; password?: string }
       register: undefined
-      home: undefined
+      home: { isReloadRanking: boolean }
       lobby: {
         description: string
         title: string

@@ -15,7 +15,7 @@ export function ButtonNext({
   return (
     <Pressable
       style={styles.buttonContainer}
-      bgColor={'green.500'}
+      bgColor={'green.600'}
       disabled={isDisabled}
       {...rest}
     >

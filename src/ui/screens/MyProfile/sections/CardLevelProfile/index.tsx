@@ -19,7 +19,7 @@ export function CardLevelProfile({ level, actualPoints }: ICardLevelProfile) {
       <View style={customStyles.barLevelProfileContainer}>
         <Text style={customStyles.levelProfileText}>Nível {level}</Text>
         <View style={customStyles.levelTotal}>
-          <Box bg={'green.500'} style={customStyles.progressActual} />
+          <Box bg={'green.600'} style={customStyles.progressActual} />
         </View>
       </View>
     </Box>

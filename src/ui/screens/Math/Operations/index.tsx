@@ -84,7 +84,9 @@ export function Operations() {
           })}
         </View>
 
-        <ButtonNext text="Começar" onPress={onStartMathMode} />
+        <Box w={'60%'}>
+          <ButtonNext text="Começar" onPress={onStartMathMode} />
+        </Box>
       </View>
     </Box>
   )

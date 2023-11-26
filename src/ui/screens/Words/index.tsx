@@ -32,7 +32,7 @@ export function Words() {
         Alert.alert('Busca', 'Falha ao buscar as palavras.', [
           {
             text: 'Ok',
-            onPress: () => navigate('home'),
+            onPress: () => navigate('home', { isReloadRanking: false }),
           },
         ])
       }
@@ -89,7 +89,7 @@ export function Words() {
       Alert.alert('Contagem de pontos', 'Falha ao contabilizar pontos.', [
         {
           text: 'Ok',
-          onPress: () => navigate('home'),
+          onPress: () => navigate('home', { isReloadRanking: true }),
         },
       ])
       setIsFinnaly(false)
@@ -106,6 +106,24 @@ export function Words() {
       setVoice(responses[newWordIndex])
       onResponseUser(voice, indexWord)
     }
+  }
+
+  function handleStopGame() {
+    Alert.alert(
+      'Finalizar rodada',
+      'Tem certeza que deseja finalizar a rodada?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim, finalizar',
+          style: 'destructive',
+          onPress: () => navigate('home', { isReloadRanking: false }),
+        },
+      ],
+    )
   }
 
   if (isFinnaly) return <ResultSkeleton />
@@ -128,6 +146,7 @@ export function Words() {
         indexWord={indexWord}
         onAlterWord={onAlterWord}
         total={words.length}
+        handleStopGame={handleStopGame}
       />
     </View>
   )

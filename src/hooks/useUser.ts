@@ -31,6 +31,27 @@ export const useUser = () => {
     }
   }
 
+  async function editProfile(newUser: IEditProfileDTO) {
+    try {
+      const userRequest = {
+        ...newUser,
+        dateOfBirth: newUser.dateOfBirth
+          ? convertData(newUser.dateOfBirth)
+          : newUser.dateOfBirth,
+      }
+
+      const response = await api.put('/edit-profile', userRequest, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      saveUserData(response.data)
+    } catch (error) {
+      return error
+    }
+  }
+
   async function login(email: string, password: string) {
     try {
       const credentials = btoa('client' + ':' + 123)
@@ -68,28 +89,8 @@ export const useUser = () => {
       })
 
       saveUserData(response.data)
+
       return response.data
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function editProfile(newUser: IEditProfileDTO) {
-    try {
-      const userRequest = {
-        ...newUser,
-        dateOfBirth: newUser.dateOfBirth
-          ? convertData(newUser.dateOfBirth)
-          : newUser.dateOfBirth,
-      }
-
-      const response = await api.put('/edit-profile', userRequest, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      saveUserData(response.data)
     } catch (error) {
       throw error
     }
@@ -123,6 +124,34 @@ export const useUser = () => {
     }
   }
 
+  async function getGlobalRanking() {
+    try {
+      const response = await api.get('/user/globalRanking', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      return error
+    }
+  }
+
+  async function getFriendsRanking() {
+    try {
+      const response = await api.get('/user/friendsRanking', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      return error
+    }
+  }
+
   return {
     register,
     login,
@@ -130,5 +159,7 @@ export const useUser = () => {
     editProfile,
     searchUser,
     unfriend,
+    getGlobalRanking,
+    getFriendsRanking,
   }
 }

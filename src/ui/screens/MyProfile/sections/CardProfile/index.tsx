@@ -43,7 +43,10 @@ export function CardProfile({ name, character, createdAt }: ICardProfile) {
 
   return (
     <Box bg={'gray.700'} style={styles.cardProfileContainer}>
-      <Pressable style={styles.iconBack} onPress={() => navigate('home')}>
+      <Pressable
+        style={styles.iconBack}
+        onPress={() => navigate('home', { isReloadRanking: false })}
+      >
         <CaretLeft size={30} weight="bold" color={theme.colors.gray[400]} />
       </Pressable>
 

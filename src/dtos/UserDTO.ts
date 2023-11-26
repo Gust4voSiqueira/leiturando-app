@@ -17,8 +17,10 @@ export interface IUserDataDTO {
 export interface IEditProfileDTO {
   characterName?: string
   name?: string
-  email?: string
   dateOfBirth?: string
+  password: string
+  newPassword?: string
+  confirmNewPassword?: string
 }
 
 export type CharactersDTO =

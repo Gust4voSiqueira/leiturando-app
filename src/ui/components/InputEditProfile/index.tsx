@@ -20,7 +20,7 @@ export function InputEditProfile({
   const invalid = !!errorMessage || isInvalid
 
   return (
-    <FormControl isInvalid={invalid} mb={4}>
+    <FormControl isInvalid={invalid} mb={2}>
       <NativeBaseInput
         bg={'gray.900'}
         borderRadius={4}
@@ -34,7 +34,7 @@ export function InputEditProfile({
         autoCapitalize="none"
         _focus={{
           bg: 'gray.900',
-          borderColor: !isErrors ? 'green.500' : theme.colors.red[700],
+          borderColor: !isErrors ? 'green.600' : theme.colors.red[700],
         }}
         {...rest}
       />

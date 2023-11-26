@@ -54,7 +54,10 @@ export function Resume() {
       </ScrollView>
 
       <View style={styles.buttonsContainer}>
-        <ButtonNext text="Página Inicial" onPress={() => navigate('home')} />
+        <ButtonNext
+          text="Página Inicial"
+          onPress={() => navigate('home', { isReloadRanking: true })}
+        />
         <ButtonNext text="Resultado" onPress={onRedirect} />
       </View>
     </View>

@@ -18,7 +18,11 @@ const { Navigator, Screen } = createNativeStackNavigator()
 export function AppRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="home" component={Home} />
+      <Screen
+        name="home"
+        component={Home}
+        initialParams={{ isReloadRanking: false }}
+      />
       <Screen name="lobby" component={Lobby} />
       <Screen name="words" component={Words} />
       <Screen name="connectWords" component={ConnectWords} />

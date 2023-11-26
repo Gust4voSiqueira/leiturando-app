@@ -52,7 +52,10 @@ export function Result() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <ButtonNext text="Página Inicial" onPress={() => navigate('home')} />
+          <ButtonNext
+            text="Página Inicial"
+            onPress={() => navigate('home', { isReloadRanking: true })}
+          />
           <ButtonNext text="Relatório" onPress={onRedirect} />
         </View>
       </View>

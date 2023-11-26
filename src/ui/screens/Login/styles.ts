@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 45,
     borderRadius: 7,
-    backgroundColor: theme.colors.green[500],
+    backgroundColor: theme.colors.green[600],
     justifyContent: 'center',
     alignItems: 'center',
   },

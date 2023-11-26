@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
   indexMath: {
+    paddingVertical: 18,
     color: theme.colors.white,
     fontSize: theme.fontSizes['2xl'],
     fontWeight: 'bold',

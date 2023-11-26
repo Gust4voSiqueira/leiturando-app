@@ -74,12 +74,12 @@ export function CardProfile({
           <View style={customStyles.levelContainer}>
             <Text style={customStyles.levelText}>Nível {user.level}</Text>
             <View style={customStyles.levelTotal}>
-              <Box style={customStyles.progressActual} bgColor={'green.500'} />
+              <Box style={customStyles.progressActual} bgColor={'green.600'} />
             </View>
           </View>
 
           <Pressable
-            bgColor={'green.500'}
+            bgColor={'green.600'}
             style={customStyles.buttonProfile}
             onPress={() => navigate('myProfile')}
           >

@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   editProfileContainer: {
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
     borderRadius: 4,
-    marginTop: Platform.OS === 'android' && '30%',
+    marginTop: 14,
   },
   imageProfile: {
     borderRadius: 50,
@@ -21,6 +21,6 @@ export const styles = StyleSheet.create({
   buttonsContainer: {
     justifyContent: 'space-between',
     width: '90%',
-    height: 95,
+    marginTop: 10,
   },
 })

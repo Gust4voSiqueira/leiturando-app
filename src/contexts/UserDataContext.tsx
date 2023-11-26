@@ -4,6 +4,7 @@ import { charactersImages } from '../utils/CharactersImages'
 
 interface IUserRequest {
   image: string
+  email: string
   name: string
   level: number
   breakthrough: number
@@ -14,6 +15,7 @@ interface IUserRequest {
 }
 interface IUser {
   image: React.JSX.Element
+  email: string
   name: string
   level: number
   breakthrough: number

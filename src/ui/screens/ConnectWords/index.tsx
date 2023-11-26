@@ -45,7 +45,7 @@ export function ConnectWords() {
           [
             {
               text: 'Ok',
-              onPress: () => navigate('home'),
+              onPress: () => navigate('home', { isReloadRanking: false }),
             },
           ],
         )
@@ -95,6 +95,24 @@ export function ConnectWords() {
     }
   }
 
+  function handleStopGame() {
+    Alert.alert(
+      'Finalizar rodada',
+      'Tem certeza que deseja finalizar a rodada?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim, finalizar',
+          style: 'destructive',
+          onPress: () => navigate('home', { isReloadRanking: false }),
+        },
+      ],
+    )
+  }
+
   if (data.length === 0 || loading) return <Loading />
 
   return (
@@ -120,6 +138,7 @@ export function ConnectWords() {
         nextIndexFunction={onAlterIndex}
         index={index}
         totalIndex={data.length}
+        handleStopGame={handleStopGame}
       />
     </View>
   )

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Text } from 'react-native'
+import { Alert, Text } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Center } from 'native-base'
 
@@ -100,6 +100,24 @@ export function MathScreen() {
     onGetMaths()
   }, [])
 
+  function handleStopGame() {
+    Alert.alert(
+      'Finalizar rodada',
+      'Tem certeza que deseja finalizar a rodada?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim, finalizar',
+          style: 'destructive',
+          onPress: () => navigate('home', { isReloadRanking: false }),
+        },
+      ],
+    )
+  }
+
   if (data.length === 0) return <Loading />
 
   if (isFinnally) return <ResultSkeleton />
@@ -122,6 +140,7 @@ export function MathScreen() {
         onAlterOperation={onAlterOperation}
         index={index}
         totalIndex={data.length}
+        handleStopGame={handleStopGame}
       />
     </Center>
   )

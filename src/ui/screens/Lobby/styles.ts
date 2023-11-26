@@ -32,6 +32,6 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    width: '80%',
+    width: '60%',
   },
 })
