@@ -23,6 +23,7 @@ export declare global {
           | 'math'
           | 'friends'
         textSpeech: string
+        score: number
       }
       words: undefined
       connectWords: undefined

@@ -2,6 +2,7 @@ import { CardMatches } from '../../../../components'
 import Words from '../../../../../../assets/words.svg'
 import { IOnRedirectProps } from '../..'
 import Animated, { FadeInUp } from 'react-native-reanimated'
+import { SCORE_WORDS } from '../../../../../utils/Scores'
 
 interface IWordsCard {
   onRedirectFunction: ({
@@ -23,7 +24,9 @@ export function WordsCard({ onRedirectFunction }: IWordsCard) {
             title: 'Palavras',
             description: 'Leia as palavras para somar pontos',
             screen: 'words',
-            textSpeech: 'Leia as palavras para somar pontos',
+            textSpeech:
+              'Leia as palavras para somar pontos. Cada resposta correta equivale á 2 pontos',
+            score: SCORE_WORDS,
           })
         }
       >

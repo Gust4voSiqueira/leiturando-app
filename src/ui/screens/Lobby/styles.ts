@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     width: '90%',
-    marginVertical: 30,
+    marginTop: 8,
   },
   buttonStart: {
     width: '65%',
@@ -24,7 +24,11 @@ export const styles = StyleSheet.create({
     fontSize: theme.fontSizes.xl,
     fontWeight: 'bold',
   },
-  LobbyContainer: {
+  textLobbyContainer: {
+    marginVertical: 14,
+    alignItems: 'center',
+  },
+  lobbyContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',

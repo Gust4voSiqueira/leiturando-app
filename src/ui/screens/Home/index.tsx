@@ -29,6 +29,7 @@ export interface IOnRedirectProps {
   description: string
   screen: 'words' | 'operations' | 'connectWords'
   textSpeech: string
+  score: number
 }
 
 export function Home() {
@@ -71,12 +72,14 @@ export function Home() {
     description,
     screen,
     textSpeech,
+    score,
   }: IOnRedirectProps) {
     navigate('lobby', {
       title,
       description,
       screen,
       textSpeech,
+      score,
     })
   }
 

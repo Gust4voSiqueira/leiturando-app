@@ -15,4 +15,8 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'capitalize',
   },
+  error: {
+    borderWidth: 1,
+    borderColor: theme.colors.red[600],
+  },
 })

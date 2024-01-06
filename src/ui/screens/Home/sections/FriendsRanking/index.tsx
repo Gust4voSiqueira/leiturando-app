@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react'
+import { ActivityIndicator } from 'react-native'
 import { Box, Center, Pressable, Text, View, useToast } from 'native-base'
+
 import { BarChart } from 'react-native-chart-kit'
 import Animated, { FadeInUp } from 'react-native-reanimated'
-import { useUser } from '../../../../../hooks/useUser'
-import { useEffect, useState } from 'react'
-import { IRankingDataDTO } from '../../../../../dtos/RankingDataDTO'
-
-import { ActivityIndicator } from 'react-native'
 import { ArrowClockwise } from 'phosphor-react-native'
+
+import { useUser } from '../../../../../hooks/useUser'
+import { IRankingDataDTO } from '../../../../../dtos/RankingDataDTO'
 import { THEME } from '../../../../../../global/theme'
 
 interface IFriendsRanking {
@@ -15,6 +16,8 @@ interface IFriendsRanking {
 
 export function FriendsRanking({ isReloadRanking }: IFriendsRanking) {
   const [data, setData] = useState<IRankingDataDTO>()
+  const [isLoading, setIsLoading] = useState(true)
+
   const { getFriendsRanking } = useUser()
 
   const toast = useToast()
@@ -31,6 +34,7 @@ export function FriendsRanking({ isReloadRanking }: IFriendsRanking) {
 
   async function getData() {
     try {
+      setIsLoading(true)
       const response = await getFriendsRanking()
 
       setData(response)
@@ -40,6 +44,8 @@ export function FriendsRanking({ isReloadRanking }: IFriendsRanking) {
         placement: 'top',
         bgColor: 'red.500',
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -65,14 +71,14 @@ export function FriendsRanking({ isReloadRanking }: IFriendsRanking) {
       >
         <View flexDir={'row'} justifyContent={'space-between'} paddingX={2}>
           <Text fontSize="md" fontWeight="600" color="white">
-            Meu Hanking
+            Meu Ranking
           </Text>
 
           <Pressable onPress={getData}>
             <ArrowClockwise size={20} color={THEME.colors.white} />
           </Pressable>
         </View>
-        {!data ? (
+        {!data || isLoading ? (
           <Center w={290} h={168}>
             <ActivityIndicator />
           </Center>

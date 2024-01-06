@@ -17,6 +17,8 @@ interface IGlobalRanking {
 
 export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
   const [data, setData] = useState<IRankingDataDTO>()
+  const [isLoading, setIsLoading] = useState(true)
+
   const { getGlobalRanking } = useUser()
 
   const toast = useToast()
@@ -33,6 +35,7 @@ export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
 
   async function getData() {
     try {
+      setIsLoading(true)
       const response = await getGlobalRanking()
 
       setData(response)
@@ -42,6 +45,8 @@ export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
         placement: 'top',
         bgColor: 'red.500',
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -67,7 +72,7 @@ export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
       >
         <View flexDir={'row'} justifyContent={'space-between'} paddingX={2}>
           <Text fontSize="md" fontWeight="600" color="white">
-            Hanking Global
+            Ranking Global
           </Text>
 
           <Pressable onPress={getData}>
@@ -75,7 +80,7 @@ export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
           </Pressable>
         </View>
 
-        {!data ? (
+        {!data || isLoading ? (
           <Center w={290} h={168}>
             <ActivityIndicator />
           </Center>

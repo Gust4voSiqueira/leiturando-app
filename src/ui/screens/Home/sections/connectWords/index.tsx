@@ -3,6 +3,7 @@ import { CardMatches } from '../../../../components'
 import Jupiter from '../../../../../../assets/jupiter.svg'
 import { IOnRedirectProps } from '../..'
 import Animated, { FadeInUp } from 'react-native-reanimated'
+import { SCORE_CONNECT_WORDS } from '../../../../../utils/Scores'
 
 interface IPhrasesCart {
   onRedirectFunction: ({
@@ -24,7 +25,9 @@ export function ConnectWordsCard({ onRedirectFunction }: IPhrasesCart) {
             title: 'Ligue as palavras',
             description: 'Ligue as palavras para somar pontos',
             screen: 'connectWords',
-            textSpeech: 'Ligue as palavras para somar pontos',
+            textSpeech:
+              'Ligue as palavras para somar pontos. Cada resposta correta equivale á 1 ponto',
+            score: SCORE_CONNECT_WORDS,
           })
         }
       >

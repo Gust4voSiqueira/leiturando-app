@@ -26,12 +26,14 @@ interface ILobby {
     | 'math'
     | 'friends'
   textSpeech: string
+  score: number
 }
 
 export function Lobby() {
   const routes = useRoute()
   const { navigate } = useNavigation()
-  const { description, title, screen, textSpeech } = routes.params as ILobby
+  const { description, title, screen, textSpeech, score } =
+    routes.params as ILobby
 
   const image = {
     words: <Words width={500} height="25%" />,
@@ -45,11 +47,17 @@ export function Lobby() {
 
   return (
     <View style={globalStyles.container}>
-      <View style={styles.LobbyContainer}>
+      <View style={styles.lobbyContainer}>
         <Header title={title} isRedirect textSpeech={textSpeech} />
         {image[screen]}
 
-        <Text style={styles.textLobby}>{description}</Text>
+        <View style={styles.textLobbyContainer}>
+          <Text style={styles.textLobby}>{description}</Text>
+          <Text style={styles.textLobby}>
+            Cada resposta correta equivale á{' '}
+            {score > 1 ? `${score} pontos` : `${score} ponto`}
+          </Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           <ButtonNext text="Começar" onPress={handleRedirect} />

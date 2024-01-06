@@ -24,6 +24,7 @@ export const useWords = () => {
 
   async function finallyWords(words: IWordDTO[], responses: string[]) {
     try {
+      console.log(responses)
       const request: IFinnallyWordsDTO = {
         wordIds: words.map((word) => word.id),
         responses,

@@ -6,6 +6,10 @@ import { UserContextProvider } from './src/contexts/UserDataContext'
 import { NativeBaseProvider, StatusBar } from 'native-base'
 import { Routes } from './src/routes'
 
+import { LogBox } from 'react-native'
+LogBox.ignoreLogs(['new NativeEventEmitter']) // Ignore log notification by message
+LogBox.ignoreAllLogs()
+
 export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>

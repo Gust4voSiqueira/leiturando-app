@@ -8,12 +8,14 @@ interface IIconsSectionProps {
   isRecording: boolean
   onRecordingVoice: () => void
   onAlterWordVoice: (newVoice: string) => void
+  isErrorRecording: boolean
 }
 
 export function IconsSection({
   isRecording,
   onRecordingVoice,
   onAlterWordVoice,
+  isErrorRecording,
 }: IIconsSectionProps) {
   async function recordVoice() {
     if (await Voice.isRecognizing()) {
@@ -45,6 +47,8 @@ export function IconsSection({
       marginY={10}
       borderRadius={'full'}
       onPress={recordVoice}
+      borderWidth={isErrorRecording ? 1 : 0}
+      borderColor={isErrorRecording ? 'red.600' : 'transparent'}
     >
       {isRecording ? (
         <Pause size={50} weight="regular" color={theme.colors.white} />

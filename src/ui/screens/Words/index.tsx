@@ -9,7 +9,7 @@ import { useWords } from '../../../hooks/useWords'
 import { Loading } from '../Loading'
 import { useNavigation } from '@react-navigation/native'
 import { ResultSkeleton } from '../Result/ResultSkeleton'
-import { Text } from 'native-base'
+
 import { IWordDTO } from '../../../dtos/WordDTO'
 
 export function Words() {
@@ -19,6 +19,9 @@ export function Words() {
   const [voice, setVoice] = useState<string>('')
   const [responses, setResponses] = useState<string[]>([])
   const [words, setWords] = useState<IWordDTO[]>([])
+  const [errorEmptyVoice, setErrorEmptyVoice] = useState(false)
+  const [isErrorRecording, setErrorRecording] = useState(false)
+
   const { getWords, finallyWords } = useWords()
   const { navigate } = useNavigation()
 
@@ -55,30 +58,11 @@ export function Words() {
     }
   }, [])
 
-  // function handleAlterWordVoice(newVoice: string) {
-  //   if (newVoice !== '') {
-  //     setVoice(newVoice)
-  //   }
-  // }
-
-  function onResponseUser(response: string, index: number) {
-    if (!response) return
-
-    setResponses((state) => {
-      return [...state.slice(0, index), response, ...state.slice(index + 1)]
-    })
-  }
-
-  async function finallyGame(lastWord: string) {
+  async function finallyGame(responsesRequest: string[]) {
     try {
       setIsFinnaly(true)
 
-      const result = {
-        ...responses,
-        lastWord,
-      }
-
-      const response = await finallyWords(words, responses)
+      const response = await finallyWords(words, responsesRequest)
 
       navigate('result', {
         response: response.words,
@@ -96,15 +80,30 @@ export function Words() {
     }
   }
 
-  function onAlterWord(newWordIndex: number) {
-    if (newWordIndex < 0) return
+  async function onAlterWord(newWordIndex: number) {
+    if (!voice) {
+      setErrorEmptyVoice(true)
+      return
+    }
+
+    if (isRecording) {
+      setErrorRecording(true)
+      return
+    }
+
+    if (newWordIndex >= 0 && newWordIndex < 7) {
+      setErrorEmptyVoice(false)
+      setErrorRecording(false)
+      setIndexWord(newWordIndex)
+    }
+
+    setVoice(responses[indexWord])
+    setResponses([...responses, voice])
 
     if (newWordIndex === 7) {
-      finallyGame(voice)
-    } else {
-      setIndexWord(newWordIndex)
-      setVoice(responses[newWordIndex])
-      onResponseUser(voice, indexWord)
+      const responsesRequest = [...responses, voice]
+
+      finallyGame(responsesRequest)
     }
   }
 
@@ -139,9 +138,10 @@ export function Words() {
         isRecording={isRecording}
         onRecordingVoice={handleRecordingVoice}
         onAlterWordVoice={handleAlterWordVoice}
+        isErrorRecording={isErrorRecording}
       />
-      <Text color={'white'}>{voice}</Text>
-      {/* <WordSection word={voice} /> */}
+
+      <WordSection word={voice} isError={errorEmptyVoice} />
       <ButtonsSection
         indexWord={indexWord}
         onAlterWord={onAlterWord}
