@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>app</string>
+    <string>Leiturando</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -47,9 +47,9 @@
       </dict>
     </dict>
     <key>NSMicrophoneUsageDescription</key>
-    <string>CUSTOM: Allow $(PRODUCT_NAME) to access the microphone</string>
+    <string>CUSTOM: Allow leiturando to access the microphone</string>
     <key>NSSpeechRecognitionUsageDescription</key>
-    <string>CUSTOM: Allow $(PRODUCT_NAME) to securely recognize user speech</string>
+    <string>CUSTOM: Allow leiturando to securely recognize user speech</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
