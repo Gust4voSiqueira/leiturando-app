@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
   selectionContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'center',
     width: '100%',
     gap: 20,
   },
