@@ -1,15 +1,17 @@
 import { Text, View } from 'react-native'
-import { Card } from '../../../../components'
-import { SignOut, UserPlus } from 'phosphor-react-native'
-import { progressActual } from '../../../../../utils/ProgressActual'
-import React, { useContext, useEffect } from 'react'
-import { RequestsContext } from '../../../../../contexts/RequestsContext'
-import { UserContext } from '../../../../../contexts/UserDataContext'
-import { useNavigation } from '@react-navigation/native'
+import { useContext } from 'react'
 import { Box, Pressable, theme } from 'native-base'
-import { IUserDataDTO } from '../../../../../dtos/UserDTO'
-import { styles } from './styles'
+import { useNavigation } from '@react-navigation/native'
+import { SignOut, UserPlus } from 'phosphor-react-native'
 import Animated, { FadeInUp } from 'react-native-reanimated'
+
+import { styles } from './styles'
+
+import { Card } from '../../../../components'
+import { IUserDataDTO } from '../../../../../dtos/UserDTO'
+import { progressActual } from '../../../../../utils/ProgressActual'
+import { UserContext } from '../../../../../contexts/UserDataContext'
+import { RequestsContext } from '../../../../../contexts/RequestsContext'
 
 export interface IRequestCard {
   image: React.JSX.Element
@@ -29,14 +31,10 @@ export function CardProfile({
   handleLoggout,
 }: ICardProfile) {
   const { navigate } = useNavigation()
-  const { requests, onLoadRequests } = useContext(RequestsContext)
+  const { requests } = useContext(RequestsContext)
   const { userData } = useContext(UserContext)
 
   const progressActualBarProgress = progressActual(user.breakthrough)
-
-  useEffect(() => {
-    onLoadRequests()
-  }, [])
 
   const customStyles = styles({ progressActualBarProgress })
 
