@@ -1,10 +1,9 @@
-import { ActivityIndicator, Alert, ScrollView } from 'react-native'
+import { ActivityIndicator, ScrollView } from 'react-native'
 import { RequestCard } from './RequestCard'
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { Box, Center, Input, Pressable, Text, theme } from 'native-base'
 import { styles } from './styles'
-import { useFocusEffect } from '@react-navigation/native'
 
 interface IRequestsList {
   redirectToAllRequests: () => void
@@ -15,26 +14,7 @@ export function RequestsList({
   redirectToAllRequests,
   handleCloseModal,
 }: IRequestsList) {
-  const { requests, onLoadRequests } = useContext(RequestsContext)
-
-  useFocusEffect(
-    useCallback(() => {
-      try {
-        onLoadRequests()
-      } catch (error) {
-        Alert.alert(
-          'Falha ao buscar solicitações',
-          'Tivemos uma falha no servidor. Por favor tente novamente mais tarde.',
-          [
-            {
-              text: 'Ok',
-              onPress: handleCloseModal,
-            },
-          ],
-        )
-      }
-    }, []),
-  )
+  const { requests } = useContext(RequestsContext)
 
   if (!requests.requests)
     return (

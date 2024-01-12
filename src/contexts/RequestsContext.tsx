@@ -1,5 +1,13 @@
-import { ReactNode, createContext, useState } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useRequests } from '../hooks/useRequests'
+import { Alert } from 'react-native'
+import { TokenContext } from './TokenContext'
 
 interface IRequest {
   id: number
@@ -41,6 +49,15 @@ export function RequestsContextProvider({
   const { getRequests } = useRequests()
   const [requests, setRequests] = useState<IRequests>()
   const { removeRequest, acceptRequest, sendRequest } = useRequests()
+  const { token } = useContext(TokenContext)
+
+  useEffect(() => {
+    onLoadRequests()
+  }, [])
+
+  useEffect(() => {
+    onLoadRequests()
+  }, [token])
 
   async function onLoadRequests() {
     try {
@@ -48,7 +65,10 @@ export function RequestsContextProvider({
 
       setRequests(requests)
     } catch (err) {
-      return err
+      Alert.alert(
+        'Falha ao buscar solicitações',
+        'Tivemos uma falha no servidor. Por favor tente novamente mais tarde.',
+      )
     }
   }
 
