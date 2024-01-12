@@ -3,7 +3,7 @@ import { styles } from './styles'
 import { Header } from '../../components'
 import { FiltersSection } from './sections/Filter'
 import { CardFriendsSection } from './sections/CardFriend'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { RequestsContext } from '../../../contexts/RequestsContext'
 import { useUser } from '../../../hooks/useUser'
 import { RenderLists } from './renderLists'
@@ -23,7 +23,7 @@ interface IResultSearch {
 
 export function FriendsScreen() {
   const [filters, setFilters] = useState<filters>('All')
-  const { requests, onLoadRequests } = useContext(RequestsContext)
+  const { requests } = useContext(RequestsContext)
   const { searchUser } = useUser()
   const [resultSearch, setResultSearch] = useState<IResultSearch[]>([])
 
@@ -57,10 +57,6 @@ export function FriendsScreen() {
       })
     }
   }
-
-  useEffect(() => {
-    onLoadRequests()
-  }, [])
 
   return (
     <Box bg={'gray.900'} style={styles.friendsContainer}>
