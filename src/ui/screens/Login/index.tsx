@@ -6,12 +6,13 @@ import Logo from '../../../../assets/logo.svg'
 import { useNavigation } from '@react-navigation/native'
 import { useUser } from '../../../hooks/useUser'
 import { useState } from 'react'
+import Toast from 'react-native-toast-message'
 
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ButtonNext, InputRegister } from '../../components'
-import { Pressable, useToast } from 'native-base'
+import { Pressable } from 'native-base'
 import { AppError } from '../../../utils/AppError'
 
 interface IInputsFields {
@@ -40,8 +41,6 @@ export function Login() {
     resolver: yupResolver(loginSchema),
   })
 
-  const toast = useToast()
-
   async function loginFunction(data: IInputsFields) {
     try {
       setIsLoading(true)
@@ -58,10 +57,10 @@ export function Login() {
 
       setIsLoading(false)
 
-      toast.show({
-        title,
-        placement: 'top',
-        bgColor: 'red.500',
+      Toast.show({
+        type: 'error',
+        text1: title,
+        text2: title,
       })
     }
   }

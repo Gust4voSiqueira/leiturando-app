@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { Box, Center, Pressable, Text, View, useToast } from 'native-base'
-
+import { Box, Center, Pressable, Text, View } from 'native-base'
+import Toast from 'react-native-toast-message'
 import { BarChart } from 'react-native-chart-kit'
 import Animated, { FadeInUp } from 'react-native-reanimated'
 import { ArrowClockwise } from 'phosphor-react-native'
@@ -20,8 +20,6 @@ export function FriendsRanking({ isReloadRanking }: IFriendsRanking) {
 
   const { getFriendsRanking } = useUser()
 
-  const toast = useToast()
-
   const chartConfig = {
     backgroundGradientFrom: '#202024',
     backgroundGradientTo: '#202024',
@@ -39,10 +37,10 @@ export function FriendsRanking({ isReloadRanking }: IFriendsRanking) {
 
       setData(response)
     } catch (error) {
-      toast.show({
-        title: 'Falha ao buscar seu ranking',
-        placement: 'top',
-        bgColor: 'red.500',
+      Toast.show({
+        type: 'error',
+        text1: 'Falha',
+        text2: 'Falha ao buscar seu ranking',
       })
     } finally {
       setIsLoading(false)

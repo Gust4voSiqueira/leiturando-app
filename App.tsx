@@ -4,6 +4,7 @@ import { TokenContextProvider } from './src/contexts/TokenContext'
 import { RequestsContextProvider } from './src/contexts/RequestsContext'
 import { UserContextProvider } from './src/contexts/UserDataContext'
 import { NativeBaseProvider, StatusBar } from 'native-base'
+import Toast from 'react-native-toast-message'
 import { Routes } from './src/routes'
 
 import { LogBox } from 'react-native'
@@ -23,6 +24,8 @@ export default function App() {
                 backgroundColor={'gray.900'}
                 translucent
               />
+
+              <Toast />
             </NavigationContainer>
           </RequestsContextProvider>
         </UserContextProvider>

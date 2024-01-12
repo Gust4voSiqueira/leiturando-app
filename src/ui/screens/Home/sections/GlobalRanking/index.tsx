@@ -1,9 +1,10 @@
-import { Box, Center, Pressable, Text, View, useToast } from 'native-base'
+import { useEffect, useState } from 'react'
+import Toast from 'react-native-toast-message'
+import { Box, Center, Pressable, Text, View } from 'native-base'
 import Animated, { FadeInUp } from 'react-native-reanimated'
 
 import { BarChart } from 'react-native-chart-kit'
 
-import { useEffect, useState } from 'react'
 import { useUser } from '../../../../../hooks/useUser'
 
 import { ActivityIndicator } from 'react-native'
@@ -20,8 +21,6 @@ export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
   const [isLoading, setIsLoading] = useState(true)
 
   const { getGlobalRanking } = useUser()
-
-  const toast = useToast()
 
   const chartConfig = {
     backgroundGradientFrom: '#202024',
@@ -40,10 +39,10 @@ export function GlobalRanking({ isReloadRanking }: IGlobalRanking) {
 
       setData(response)
     } catch (error) {
-      toast.show({
-        title: 'Falha ao buscar ranking global',
-        placement: 'top',
-        bgColor: 'red.500',
+      Toast.show({
+        type: 'error',
+        text1: 'Falha',
+        text2: 'Falha ao buscar ranking global',
       })
     } finally {
       setIsLoading(false)

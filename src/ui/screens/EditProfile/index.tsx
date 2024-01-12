@@ -8,7 +8,8 @@ import { useUser } from '../../../hooks/useUser'
 import { handleDateChange } from '../../../utils/HandleDateChange'
 import { charactersImages } from '../../../utils/CharactersImages'
 import { useNavigation } from '@react-navigation/native'
-import { Box, Center, Input, Text, theme, useToast } from 'native-base'
+import { Box, Center, Input, Text, theme } from 'native-base'
+import Toast from 'react-native-toast-message'
 
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
@@ -60,8 +61,6 @@ export function EditProfile() {
   const { editProfile, login } = useUser()
   const { navigate } = useNavigation()
 
-  const toast = useToast()
-
   const renderProfileImage = () => {
     if (characterName !== '') {
       const newImage = charactersImages(65, 65).find(
@@ -102,20 +101,20 @@ export function EditProfile() {
       const isAppError = error instanceof AppError
 
       if (error?.message?.error_description === 'Bad credentials') {
-        toast.show({
-          title: 'Senha incorreta',
-          placement: 'top',
-          bgColor: 'red.500',
+        Toast.show({
+          type: 'error',
+          text1: 'Falha',
+          text2: 'Senha incorreta',
         })
       } else {
-        const title = isAppError
+        const text2 = isAppError
           ? error.message
           : 'Não foi possível atualizar seus dados agora. Tente novamente mais tarde.'
 
-        toast.show({
-          title,
-          placement: 'top',
-          bgColor: 'red.500',
+        Toast.show({
+          type: 'error',
+          text1: 'Falha',
+          text2,
         })
       }
     } finally {

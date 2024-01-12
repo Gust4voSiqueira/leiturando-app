@@ -7,8 +7,9 @@ import { useContext, useEffect, useState } from 'react'
 import { RequestsContext } from '../../../contexts/RequestsContext'
 import { useUser } from '../../../hooks/useUser'
 import { RenderLists } from './renderLists'
-import { Box, useToast } from 'native-base'
+import { Box } from 'native-base'
 import { AppError } from '../../../utils/AppError'
+import Toast from 'react-native-toast-message'
 
 export type filters = 'All' | 'Requests' | 'Friends'
 
@@ -25,8 +26,6 @@ export function FriendsScreen() {
   const { requests, onLoadRequests } = useContext(RequestsContext)
   const { searchUser } = useUser()
   const [resultSearch, setResultSearch] = useState<IResultSearch[]>([])
-
-  const toast = useToast()
 
   function alterFilter(newFilter: filters) {
     if (newFilter === 'All') {
@@ -47,14 +46,14 @@ export function FriendsScreen() {
     } catch (error) {
       const isAppError = error instanceof AppError
 
-      const title = isAppError
+      const text2 = isAppError
         ? error.message
         : 'Não foi possível entrar. Tente novamente mais tarde.'
 
-      toast.show({
-        title,
-        placement: 'top',
-        bgColor: 'red.500',
+      Toast.show({
+        type: 'error',
+        text1: 'Falha',
+        text2,
       })
     }
   }
