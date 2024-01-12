@@ -1,5 +1,5 @@
 import { styles } from './styles'
-import React from 'react'
+
 import { Box } from 'native-base'
 
 interface ICardProps {
