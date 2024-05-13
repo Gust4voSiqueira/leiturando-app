@@ -33,7 +33,6 @@ export function OperationsContainer({
   onChangeResponse,
   isError,
 }: IOperationsSection) {
-  console.log(operationsSimbols[operation])
   return (
     <Box bg={'gray.900'} style={styles.operationContainer}>
       <View style={styles.line1container}>

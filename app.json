@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Leiturando",
-    "slug": "Leiturando",
+    "name": "leiturando",
+    "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
     "packagerOpts": {
@@ -35,7 +35,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.app"
+      "bundleIdentifier": "com.anonymous.app",
+      "bitcode": false
     },
     "android": {
       "adaptiveIcon": {
