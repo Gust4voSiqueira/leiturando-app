@@ -6,7 +6,6 @@ import { ButtonNext, InputRegister } from '../../../components'
 import { styles } from './styles'
 
 import ImageProfileDefault from '../../../../../assets/profileDefault.svg'
-import { handleDateChange } from '../../../../utils/HandleDateChange'
 import { charactersImages } from '../../../../utils/CharactersImages'
 
 import * as yup from 'yup'
@@ -14,6 +13,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CharactersDTO, IUserRegisterDTO } from '../../../../dtos/UserDTO'
 import { useState } from 'react'
+import { maskDate } from '../../../../utils/maskDate'
 
 interface IOnRenderImage {
   characterSelected: CharactersDTO
@@ -114,7 +114,7 @@ export function FormRegister({
           <InputRegister
             placeholder="Data de nascimento"
             isErrors={!!errors.dateOfBirth}
-            onChangeText={(newText) => onChange(handleDateChange(newText))}
+            onChangeText={(newText) => onChange(maskDate(newText))}
             value={value}
           />
         )}

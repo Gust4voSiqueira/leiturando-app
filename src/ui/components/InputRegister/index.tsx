@@ -26,11 +26,10 @@ export function InputRegister({
         borderRadius={4}
         color={theme.colors.gray[900]}
         width={'100%'}
-        height={Platform.OS === 'ios' ? 45 : 40}
+        height={Platform.OS === 'ios' ? 45 : 12}
         fontSize={theme.fontSizes.sm}
         borderWidth={!isErrors ? 1 : 2}
         borderColor={!isErrors ? theme.colors.white : theme.colors.red[700]}
-        placeholder="Email"
         autoCapitalize="none"
         _focus={{
           bg: theme.colors.white,

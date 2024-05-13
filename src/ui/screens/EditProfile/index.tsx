@@ -5,7 +5,6 @@ import { useContext, useState } from 'react'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { ModalSelectImage } from '../../components/ModalCharacters'
 import { useUser } from '../../../hooks/useUser'
-import { handleDateChange } from '../../../utils/HandleDateChange'
 import { charactersImages } from '../../../utils/CharactersImages'
 import { useNavigation } from '@react-navigation/native'
 import { Box, Center, Input, Text, theme } from 'native-base'
@@ -18,6 +17,8 @@ import { InputEditProfile } from '../../components/InputEditProfile'
 import { CharactersDTO } from '../../../dtos/UserDTO'
 import { validateDate } from '../../../utils/ValidateData'
 import { AppError } from '../../../utils/AppError'
+import { MaskedTextInput } from 'react-native-mask-text'
+import { maskDate } from '../../../utils/maskDate'
 
 interface IFields {
   name: string
@@ -161,7 +162,7 @@ export function EditProfile() {
               <InputEditProfile
                 placeholder="Data de Nascimento"
                 isErrors={!!errors.dateOfBirth}
-                onChangeText={(newText) => onChange(handleDateChange(newText))}
+                onChangeText={(newText) => onChange(maskDate(newText))}
                 value={value}
               />
             )}
@@ -174,7 +175,7 @@ export function EditProfile() {
             width={'90%'}
             bg="gray.900"
             color={theme.colors.gray['400']}
-            height={Platform.OS === 'ios' ? 45 : 40}
+            height={Platform.OS === 'ios' ? 45 : 12}
             fontSize={theme.fontSizes.sm}
             marginBottom={2}
             isDisabled={true}

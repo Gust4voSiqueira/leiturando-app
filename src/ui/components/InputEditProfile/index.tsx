@@ -26,7 +26,7 @@ export function InputEditProfile({
         borderRadius={4}
         color={theme.colors.white}
         width={'90%'}
-        height={Platform.OS === 'ios' ? 45 : 40}
+        height={Platform.OS === 'ios' ? 45 : 12}
         fontSize={theme.fontSizes.sm}
         borderWidth={!isErrors ? 1 : 2}
         borderColor={!isErrors ? 'gray.900' : theme.colors.red[700]}

@@ -1,6 +1,6 @@
 import { CardProfile } from './sections/CardProfile'
 import { CardLevelProfile } from './sections/CardLevelProfile'
-import { CardInfo } from './sections/cardInfo'
+import { CardInfo } from './sections/CardInfo'
 import { useContext } from 'react'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { Box } from 'native-base'

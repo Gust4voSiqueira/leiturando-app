@@ -5,23 +5,6 @@ export const styles = StyleSheet.create({
   formLogin: {
     width: '90%',
   },
-  input: {
-    width: '100%',
-    height: Platform.OS === 'ios' ? 45 : 40,
-    color: theme.colors.gray[900],
-    backgroundColor: theme.colors.white,
-    marginBottom: 10,
-    paddingLeft: 10,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: theme.colors.gray[900],
-    fontSize: theme.fontSizes.xs,
-  },
-  inputError: {
-    borderWidth: 2,
-    borderColor: theme.colors.red[600],
-    color: theme.colors.red[600],
-  },
   textRegister: {
     color: theme.colors.white,
     marginBottom: 10,
