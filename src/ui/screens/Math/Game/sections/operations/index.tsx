@@ -1,20 +1,14 @@
 import { Text, View } from 'react-native'
 import { styles } from './styles'
-import { Divide, Minus, Plus, X } from 'phosphor-react-native'
+
 import { Box, Input, theme } from 'native-base'
 import { IOperations } from '../../../../../../dtos/MathDTO'
-
-const operationsSimbols = {
-  SUBTRACTION: <Minus size={60} color={theme.colors.white} weight="bold" />,
-  ADDITION: <Plus size={60} color={theme.colors.white} weight="bold" />,
-  MULTIPLICATION: <X size={60} color={theme.colors.white} weight="bold" />,
-  DIVISION: <Divide size={60} color={theme.colors.white} weight="bold" />,
-}
 
 interface IOperationsSection {
   number1: number
   number2: number
   operation: IOperations
+  operationSimbol: JSX.Element
   onChangeResponse: (
     number1: number,
     number2: number,
@@ -29,10 +23,12 @@ export function OperationsContainer({
   number1,
   number2,
   operation,
+  operationSimbol,
   valueInput,
   onChangeResponse,
   isError,
 }: IOperationsSection) {
+
   return (
     <Box bg={'gray.900'} style={styles.operationContainer}>
       <View style={styles.line1container}>
@@ -40,7 +36,7 @@ export function OperationsContainer({
         <Text style={styles.operationText}>{number1}</Text>
       </View>
       <View style={styles.line2container}>
-        <Text style={styles.operationText}>{operationsSimbols[operation]}</Text>
+        <Text style={styles.operationText}>{operationSimbol}</Text>
         <Text style={styles.operationText}>{`${number2}`}</Text>
       </View>
 

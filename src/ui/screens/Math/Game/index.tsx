@@ -10,6 +10,7 @@ import { ButtonsSection } from './sections/buttons'
 import { OperationsContainer } from './sections/operations'
 import { ResultSkeleton } from '../../Result/ResultSkeleton'
 import { IOperations } from '../../../../dtos/MathDTO'
+import { operationsSimbols } from '../../../../utils/OperationsSimbols'
 
 interface IOperationsProps {
   operations: Array<IOperations>
@@ -131,6 +132,7 @@ export function MathScreen() {
         number1={data[index].number1}
         number2={data[index].number2}
         operation={data[index].operation}
+        operationSimbol={operationsSimbols[data[index].operation]}
         onChangeResponse={onChangeResponse}
         valueInput={responses[`response${index}`]?.response || ''}
         isError={error}
