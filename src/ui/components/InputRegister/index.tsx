@@ -1,27 +1,24 @@
+import React, { forwardRef } from 'react';
 import {
   Input as NativeBaseInput,
   IInputProps,
   FormControl,
   theme,
-} from 'native-base'
-import { Platform } from 'react-native'
+} from 'native-base';
+import { Platform } from 'react-native';
 
 type Props = IInputProps & {
-  errorMessage?: string | null
-  isErrors: boolean
-}
+  errorMessage?: string | null;
+  isErrors: boolean;
+};
 
-export function InputRegister({
-  errorMessage = null,
-  isInvalid,
-  isErrors,
-  ...rest
-}: Props) {
-  const invalid = !!errorMessage || isInvalid
+export const InputRegister = forwardRef(({ errorMessage = null, isInvalid, isErrors, ...rest }: Props, ref) => {
+  const invalid = !!errorMessage || isInvalid;
 
   return (
     <FormControl isInvalid={invalid} mb={4}>
       <NativeBaseInput
+        ref={ref}
         bg={theme.colors.white}
         borderRadius={4}
         color={theme.colors.gray[900]}
@@ -38,5 +35,6 @@ export function InputRegister({
         {...rest}
       />
     </FormControl>
-  )
-}
+  );
+});
+

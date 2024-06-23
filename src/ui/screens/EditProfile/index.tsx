@@ -1,7 +1,7 @@
 import { Platform, Pressable, View } from 'react-native'
 import { ButtonNext, Header } from '../../components'
 import { styles } from './styles'
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { ModalSelectImage } from '../../components/ModalCharacters'
 import { useUser } from '../../../hooks/useUser'
@@ -17,7 +17,6 @@ import { InputEditProfile } from '../../components/InputEditProfile'
 import { CharactersDTO } from '../../../dtos/UserDTO'
 import { validateDate } from '../../../utils/ValidateData'
 import { AppError } from '../../../utils/AppError'
-import { MaskedTextInput } from 'react-native-mask-text'
 import { maskDate } from '../../../utils/maskDate'
 
 interface IFields {
@@ -61,6 +60,7 @@ export function EditProfile() {
   const { userData } = useContext(UserContext)
   const { editProfile, login } = useUser()
   const { navigate } = useNavigation()
+  const inputRefs = Array.from({ length: 5 }, () => useRef(null));
 
   const renderProfileImage = () => {
     if (characterName !== '') {
@@ -71,6 +71,12 @@ export function EditProfile() {
     }
 
     return userData.image
+  }
+
+  function handleUpdateFocusInput(index: number) {
+    if (index < inputRefs.length - 1) {
+      inputRefs[index + 1].current.focus();
+    }
   }
 
   function toggleModal() {
@@ -148,6 +154,10 @@ export function EditProfile() {
                 isErrors={!!errors.name}
                 onChangeText={onChange}
                 value={value}
+                blurOnSubmit={false}
+                ref={inputRefs[0]}
+                returnKeyType='next'
+                onSubmitEditing={() => handleUpdateFocusInput(0)}
               />
             )}
           />
@@ -164,6 +174,10 @@ export function EditProfile() {
                 isErrors={!!errors.dateOfBirth}
                 onChangeText={(newText) => onChange(maskDate(newText))}
                 value={value}
+                blurOnSubmit={false}
+                ref={inputRefs[1]}
+                returnKeyType='next'
+                onSubmitEditing={() => handleUpdateFocusInput(1)}
               />
             )}
           />
@@ -194,6 +208,10 @@ export function EditProfile() {
                 onChangeText={(newText) => onChange(newText)}
                 value={value}
                 secureTextEntry={true}
+                blurOnSubmit={false}
+                ref={inputRefs[2]}
+                returnKeyType='next'
+                onSubmitEditing={() => handleUpdateFocusInput(2)}
               />
             )}
           />
@@ -220,6 +238,10 @@ export function EditProfile() {
                 onChangeText={(newText) => onChange(newText)}
                 value={value}
                 secureTextEntry={true}
+                blurOnSubmit={false}
+                ref={inputRefs[3]}
+                returnKeyType='next'
+                onSubmitEditing={() => handleUpdateFocusInput(3)}
               />
             )}
           />
@@ -237,6 +259,8 @@ export function EditProfile() {
                 onChangeText={(newText) => onChange(newText)}
                 value={value}
                 secureTextEntry={true}
+                ref={inputRefs[4]}
+                onSubmitEditing={handleSubmit(onEditProfile)}
               />
             )}
           />

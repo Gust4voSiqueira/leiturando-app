@@ -4,6 +4,7 @@ import {
   FormControl,
   theme,
 } from 'native-base'
+import { forwardRef } from 'react'
 import { Platform } from 'react-native'
 
 type Props = IInputProps & {
@@ -11,17 +12,18 @@ type Props = IInputProps & {
   isErrors: boolean
 }
 
-export function InputEditProfile({
+export const InputEditProfile = forwardRef(({
   errorMessage = null,
   isInvalid,
   isErrors,
   ...rest
-}: Props) {
+}: Props, ref) => {
   const invalid = !!errorMessage || isInvalid
 
   return (
     <FormControl isInvalid={invalid} mb={2}>
       <NativeBaseInput
+        ref={ref}
         bg={'gray.900'}
         borderRadius={4}
         color={theme.colors.white}
@@ -40,4 +42,4 @@ export function InputEditProfile({
       />
     </FormControl>
   )
-}
+});

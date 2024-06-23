@@ -5,7 +5,7 @@ import { globalStyles } from '../../../../global/global'
 import Logo from '../../../../assets/logo.svg'
 import { useNavigation } from '@react-navigation/native'
 import { useUser } from '../../../hooks/useUser'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Toast from 'react-native-toast-message'
 
 import * as yup from 'yup'
@@ -32,6 +32,8 @@ export function Login() {
   const { login } = useUser()
   const { navigate } = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
+
+  const passwordRef = useRef(null);
 
   const {
     control,
@@ -69,6 +71,12 @@ export function Login() {
     navigate('register')
   }
 
+  function handleUpdateFocusInput() {
+    if (passwordRef.current) {
+      passwordRef.current.focus();
+    }
+  };
+
   return (
     <View style={globalStyles.container}>
       <Logo width={280} height="25%" />
@@ -83,6 +91,9 @@ export function Login() {
               isErrors={!!errors.email}
               onChangeText={onChange}
               value={value}
+              returnKeyType="next"
+              onSubmitEditing={handleUpdateFocusInput}
+              blurOnSubmit={false}
             />
           )}
         />
@@ -97,6 +108,8 @@ export function Login() {
               onChangeText={onChange}
               value={value}
               secureTextEntry={true}
+              ref={passwordRef}
+              onSubmitEditing={handleSubmit(loginFunction)}
             />
           )}
         />

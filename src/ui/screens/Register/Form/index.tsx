@@ -12,7 +12,7 @@ import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CharactersDTO, IUserRegisterDTO } from '../../../../dtos/UserDTO'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { maskDate } from '../../../../utils/maskDate'
 
 interface IOnRenderImage {
@@ -65,6 +65,7 @@ export function FormRegister({
   })
 
   const { navigate } = useNavigation()
+  const inputRefs = Array.from({ length: 5 }, () => useRef(null));
 
   function handleLogin() {
     navigate('login')
@@ -79,6 +80,12 @@ export function FormRegister({
       setIsLoading(false)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  function handleUpdateFocusInput(index: number) {
+    if (index < inputRefs.length - 1) {
+      inputRefs[index + 1].current.focus();
     }
   }
 
@@ -100,6 +107,10 @@ export function FormRegister({
             isErrors={!!errors.name}
             onChangeText={onChange}
             value={value}
+            blurOnSubmit={false}
+            ref={inputRefs[0]}
+            returnKeyType='next'
+            onSubmitEditing={() => handleUpdateFocusInput(0)}
           />
         )}
       />
@@ -116,6 +127,10 @@ export function FormRegister({
             isErrors={!!errors.dateOfBirth}
             onChangeText={(newText) => onChange(maskDate(newText))}
             value={value}
+            blurOnSubmit={false}
+            ref={inputRefs[1]}
+            returnKeyType='next'
+            onSubmitEditing={() => handleUpdateFocusInput(1)}
           />
         )}
       />
@@ -129,6 +144,10 @@ export function FormRegister({
             isErrors={!!errors.email}
             onChangeText={onChange}
             value={value}
+            blurOnSubmit={false}
+            ref={inputRefs[2]}
+            returnKeyType='next'
+            onSubmitEditing={() => handleUpdateFocusInput(2)}
           />
         )}
       />
@@ -143,6 +162,10 @@ export function FormRegister({
             onChangeText={onChange}
             value={value}
             secureTextEntry={true}
+            blurOnSubmit={false}
+            ref={inputRefs[3]}
+            returnKeyType='next'
+            onSubmitEditing={() => handleUpdateFocusInput(3)}
           />
         )}
       />
@@ -157,6 +180,8 @@ export function FormRegister({
             onChangeText={onChange}
             value={value}
             secureTextEntry={true}
+            ref={inputRefs[4]}
+            onSubmitEditing={handleSubmit(onSubmit)}
           />
         )}
       />
