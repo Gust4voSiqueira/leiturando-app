@@ -3,15 +3,14 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   listRequestsContainer: {
-    position: 'absolute',
+    marginLeft: 'auto',
+    marginRight: 10,
+    marginTop: 90,
     alignItems: 'center',
-    right: 10,
-    top: 140,
     height: 360,
     borderRadius: 11,
     paddingVertical: 13,
     paddingHorizontal: 10,
-    zIndex: 10,
   },
   listRequestsTitle: {
     color: theme.colors.white,
@@ -30,4 +29,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     fontWeight: 'bold',
   },
+  buttonCloseRequests: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  }
 })

@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { Box, Center, Input, Pressable, Text, theme } from 'native-base'
 import { styles } from './styles'
+import { X } from 'phosphor-react-native'
 
 interface IRequestsList {
   redirectToAllRequests: () => void
@@ -19,6 +20,9 @@ export function RequestsList({
   if (!requests.requests)
     return (
       <Box bg={'gray.500'} width={200} style={styles.listRequestsContainer}>
+        <Pressable style={styles.buttonCloseRequests} onPress={handleCloseModal}>
+          <X color={'gray'} />
+        </Pressable>
         <Text style={styles.listRequestsTitle}>Solicitações</Text>
         <Center height={'90%'} justifyContent={'center'} alignItems={'center'}>
           <ActivityIndicator size="large" color={'white'} />
@@ -31,6 +35,9 @@ export function RequestsList({
 
   return (
     <Box bg={'gray.500'} width={200} style={styles.listRequestsContainer}>
+      <Pressable style={styles.buttonCloseRequests} onPress={handleCloseModal}>
+        <X color={'gray'} />
+      </Pressable>
       <Text style={styles.listRequestsTitle}>Solicitações</Text>
 
       <ScrollView

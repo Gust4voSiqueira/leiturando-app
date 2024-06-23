@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Alert, View } from 'react-native'
+import { Alert, Modal, View } from 'react-native'
 
 import { CardProfile } from './sections/CardProfile'
 
@@ -115,12 +115,19 @@ export function Home() {
             user={userData}
             handleLoggout={handleLoggout}
           />
-          {cardList && (
-            <RequestsList
-              redirectToAllRequests={redirectToAllRequests}
-              handleCloseModal={handleAlterStateCardList}
-            />
-          )}
+          
+              <Modal 
+                transparent
+                visible={cardList} 
+                onRequestClose={() => setCardList(!cardList)}
+                style={styles.modalContainer}
+              >
+              <RequestsList
+                redirectToAllRequests={redirectToAllRequests}
+                handleCloseModal={handleAlterStateCardList}
+              />
+            </Modal>
+          
           <WordsCard onRedirectFunction={onRedirect} />
           <ConnectWordsCard onRedirectFunction={onRedirect} />
           <MathCard onRedirectFunction={onRedirect} />
