@@ -36,7 +36,7 @@ export function Result() {
           title="Resultado"
           textSpeech={`Parabéns ${userData.name}, você acertou ${
             corrects.length
-          } de ${response.length}, e conquistou ${corrects.length * 2} pontos.`}
+          } de ${response.length}, e conquistou ${corrects.length} pontos.`}
         />
 
         <View style={styles.contentContainer}>

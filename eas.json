@@ -9,6 +9,12 @@
     },
     "preview": {
       "distribution": "internal",
+      "env": {
+        "ANDROID_HOME": "/Users/gustavosiqueira/Library/Android/sdk"
+      },
+      "android": {
+        "distribution": "internal"
+      },
       "ios": {
         "simulator": true
       }

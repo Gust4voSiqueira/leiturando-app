@@ -8,8 +8,8 @@
     "react-hooks/exhaustive-deps": "off",
     "no-useless-catch": "off",
     "@typescript-eslint/no-unused-vars": [
-        "error",
-        { "argsIgnorePattern": "^_" }
+      "error",
+      { "argsIgnorePattern": "^_" }
     ]
   }
 }
