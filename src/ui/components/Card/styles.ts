@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,5 +9,6 @@ export const styles = StyleSheet.create({
 
     padding: 15,
     maxWidth: '100%',
+    backgroundColor: THEME.colors.gray['700'],
   },
 })

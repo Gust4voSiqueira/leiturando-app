@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
   friendsContainer: {
+    backgroundColor: THEME.colors.gray['900'],
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

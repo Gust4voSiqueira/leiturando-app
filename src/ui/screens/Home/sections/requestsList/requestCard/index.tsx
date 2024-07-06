@@ -1,9 +1,8 @@
 import { useContext, useState } from 'react'
-import { ActivityIndicator, Alert, View } from 'react-native'
+import { ActivityIndicator, Text, View } from 'react-native'
 
 import { RequestsContext } from '../../../../../../contexts/RequestsContext'
 import { charactersImages } from '../../../../../../utils/CharactersImages'
-import { Box, Text } from 'native-base'
 import { styles } from './styles'
 import { RenderButtons } from './RenderButton'
 import Animated, {
@@ -11,6 +10,7 @@ import Animated, {
   SlideInRight,
   SlideOutRight,
 } from 'react-native-reanimated'
+import { handleError } from '../../../../../../utils/isError'
 
 interface IRequestCard {
   id: number
@@ -45,25 +45,12 @@ export function RequestCard({
     (character) => character.name === image,
   ).image
 
-  function handleFail() {
-    Alert.alert(
-      'Falha no servidor',
-      'Tivemos uma falha no servidor, {\n} por favor tente novamente mais tarde.',
-      [
-        {
-          text: 'Ok',
-          onPress: () => handleCloseModal,
-        },
-      ],
-    )
-  }
-
   function handleCancelRequest() {
     try {
       setIsLoading(true)
       onRemoveRequestSend(id)
     } catch (error) {
-      handleFail()
+      handleError(handleCloseModal)
     }
   }
 
@@ -72,7 +59,7 @@ export function RequestCard({
       setIsLoading(true)
       onRemoveRequestReceived(id)
     } catch (error) {
-      handleFail()
+      handleError(handleCloseModal)
     }
   }
 
@@ -81,7 +68,7 @@ export function RequestCard({
       setIsLoading(true)
       onSendRequest(id)
     } catch (error) {
-      handleFail()
+      handleError(handleCloseModal)
     }
   }
 
@@ -90,15 +77,15 @@ export function RequestCard({
       setIsLoading(true)
       onAcceptRequest(id)
     } catch (error) {
-      handleFail()
+      handleError(handleCloseModal)
     }
   }
 
   if (isLoading)
     return (
-      <Box bg={'gray.700'} height={20} style={styles.requestCardLoad}>
+      <View style={styles.requestCardLoad}>
         <ActivityIndicator size="small" style={styles.load} />
-      </Box>
+      </View>
     )
 
   return (
@@ -107,7 +94,7 @@ export function RequestCard({
       exiting={SlideOutRight}
       layout={Layout.springify()}
     >
-      <Box bg={'gray.700'} height={20} style={styles.requestCard}>
+      <View style={styles.requestCard}>
         <View style={styles.imageUserRequest}>{characterImage}</View>
 
         <View style={styles.infoRequestContainer}>
@@ -125,7 +112,7 @@ export function RequestCard({
             />
           </View>
         </View>
-      </Box>
+      </View>
     </Animated.View>
   )
 }

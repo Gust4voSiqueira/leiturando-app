@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 
 import { styles } from './styles'
 
 import { Header } from '../../components'
-import { ButtonsSection } from './sections/buttons'
 import { useConnectWords } from '../../../hooks/useConnectWords'
 import { WordsSection } from './sections/words'
 import { Loading } from '../Loading'
 import { AudiosSection, IAudio } from './sections/audios'
 import { useSpeech } from '../../../hooks/useSpeech'
 import { useNavigation } from '@react-navigation/native'
+import { ButtonsGame } from '../../components/ButtonsGame'
+import { handleError } from '../../../utils/isError'
 
 type IWordsToConnect = {
   id: number
@@ -39,16 +40,7 @@ export function ConnectWords() {
 
         setData(response)
       } catch (err) {
-        Alert.alert(
-          'Falha ao buscar as palavras',
-          'Por favor, tente novamente mais tarde.',
-          [
-            {
-              text: 'Ok',
-              onPress: () => navigate('home', { isReloadRanking: false }),
-            },
-          ],
-        )
+        handleError(() => navigate('home', { isReloadRanking: false }))
       }
     }
 
@@ -76,8 +68,13 @@ export function ConnectWords() {
     }
   }
 
-  async function onAlterIndex(newIndex: number) {
-    if (newIndex === 5) {
+  function updateWord(newIndex: number) {
+    if (newIndex >= 0) {
+      setIndex(newIndex)
+    }
+  }
+
+  async function finallyGame() {
       try {
         setLoading(true)
         const response = await finallyConnectWords(responses)
@@ -90,27 +87,6 @@ export function ConnectWords() {
       } catch (error) {
         setLoading(false)
       }
-    } else if (newIndex >= 0) {
-      setIndex(newIndex)
-    }
-  }
-
-  function handleStopGame() {
-    Alert.alert(
-      'Finalizar rodada',
-      'Tem certeza que deseja finalizar a rodada?',
-      [
-        {
-          text: 'Não',
-          style: 'cancel',
-        },
-        {
-          text: 'Sim, finalizar',
-          style: 'destructive',
-          onPress: () => navigate('home', { isReloadRanking: false }),
-        },
-      ],
-    )
   }
 
   if (data.length === 0 || loading) return <Loading />
@@ -134,11 +110,11 @@ export function ConnectWords() {
         />
       </View>
 
-      <ButtonsSection
-        nextIndexFunction={onAlterIndex}
+      <ButtonsGame
+        onAlterQuestion={updateWord}
+        finallyGame={finallyGame}
         index={index}
         totalIndex={data.length}
-        handleStopGame={handleStopGame}
       />
     </View>
   )

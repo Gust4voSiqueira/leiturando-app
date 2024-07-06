@@ -1,5 +1,5 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../../../global/theme'
 
 export const styles = StyleSheet.create({
   cardInfoContainer: {
@@ -11,12 +11,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     marginVertical: 2.5,
+    backgroundColor: THEME.colors.gray['700'],
   },
   textInfo: {
     fontWeight: '600',
+    color: THEME.colors.gray['300'],
   },
   numbersInfo: {
     fontWeight: 'bold',
-    fontSize: theme.fontSizes.xl,
+    fontSize: THEME.fontSizes.xl,
+    color: THEME.colors.gray['100'],
   },
 })

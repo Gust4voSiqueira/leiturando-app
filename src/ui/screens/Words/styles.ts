@@ -1,5 +1,5 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
   wordsContainer: {
@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    backgroundColor: theme.colors.gray[900],
+    backgroundColor: THEME.colors.gray[900],
   },
+  buttonsContainer: {
+    alignItems: 'center',
+    width: '70%'
+  }
 })

@@ -1,48 +1,50 @@
-import { Box, Skeleton } from 'native-base'
-import { SafeAreaView } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 import { globalStyles } from '../../../../../global/global'
-import { styles } from '../styles'
+
+import { THEME } from '../../../../../global/theme'
+
+import ContentLoader, { Rect } from 'react-content-loader/native'
+import { calculateHalfScreen } from '../../../../utils/calculateHalfScreenSkeleton'
 
 export function HomeSkeleton() {
+  const { height, width } = useWindowDimensions()
+
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <Box style={styles.homeContainer} mt={24}>
-        <Skeleton
-          w={320}
-          h={200}
-          marginBottom={5}
-          rounded={'sm'}
-          startColor={'gray.900'}
-          endColor={'gray.700'}
+    <View style={globalStyles.container}>
+      <ContentLoader
+        viewBox={`0 0 ${width} ${height}`}
+        backgroundColor={THEME.colors.gray['700']}
+        foregroundColor={THEME.colors.gray['500']}
+      >
+        <Rect
+          x={calculateHalfScreen(320)}
+          y="66"
+          ry="10"
+          width="320"
+          height="200"
         />
-
-        <Skeleton
-          width={320}
-          height={200}
-          rounded={'sm'}
-          marginBottom={5}
-          startColor={'gray.900'}
-          endColor={'gray.700'}
+        <Rect
+          x={calculateHalfScreen(320)}
+          y="284"
+          ry="10"
+          width="320"
+          height="200"
         />
-
-        <Skeleton
-          width={320}
-          height={200}
-          rounded={'sm'}
-          marginBottom={5}
-          startColor={'gray.900'}
-          endColor={'gray.700'}
+        <Rect
+          x={calculateHalfScreen(320)}
+          y="502"
+          ry="10"
+          width="320"
+          height="200"
         />
-
-        <Skeleton
-          width={320}
-          height={200}
-          rounded={'sm'}
-          marginBottom={5}
-          startColor={'gray.900'}
-          endColor={'gray.700'}
+        <Rect
+          x={calculateHalfScreen(320)}
+          y="720"
+          ry="10"
+          width="320"
+          height="200"
         />
-      </Box>
-    </SafeAreaView>
+      </ContentLoader>
+    </View>
   )
 }

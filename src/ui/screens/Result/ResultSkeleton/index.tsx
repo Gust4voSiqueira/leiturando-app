@@ -1,38 +1,54 @@
-import { Box, Skeleton } from 'native-base'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, useWindowDimensions } from 'react-native'
 import { globalStyles } from '../../../../../global/global'
-import { styles } from '../styles'
+import ContentLoader, { Rect } from 'react-content-loader/native'
+import { THEME } from '../../../../../global/theme'
+import { calculateHalfScreen } from '../../../../utils/calculateHalfScreenSkeleton'
 
 export function ResultSkeleton() {
+  const { height, width } = useWindowDimensions()
+  const halfScreen = (height - 155) / 2
+  const yCardProfileSkeleton = halfScreen - 40
+  const yScoreSkeleton = yCardProfileSkeleton + 180
+  const yNextButtonSkeleton = yScoreSkeleton + 58
+
+  const widthButtonSkeleton = (80 / 100) * width
+
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Skeleton
-        w={320}
-        h={155}
-        marginBottom={75}
-        rounded={'sm'}
-        startColor={'gray.900'}
-        endColor={'gray.700'}
-      />
-
-      <Box height={30} marginTop={5}>
-        <Skeleton
-          w={320}
-          h={50}
-          marginBottom={3}
-          rounded={'sm'}
-          startColor={'gray.900'}
-          endColor={'gray.700'}
+      <ContentLoader
+        viewBox={`0 0 ${width} ${height}`}
+        backgroundColor={THEME.colors.gray['700']}
+        foregroundColor={THEME.colors.gray['500']}
+      >
+        <Rect
+          x={calculateHalfScreen(320)}
+          y={yCardProfileSkeleton}
+          ry="10"
+          width="320"
+          height="155"
         />
-
-        <Skeleton
-          w={320}
-          h={50}
-          rounded={'sm'}
-          startColor={'gray.900'}
-          endColor={'gray.700'}
+        <Rect
+          x={calculateHalfScreen(180)}
+          y={yScoreSkeleton}
+          ry="10"
+          width="180"
+          height="40"
         />
-      </Box>
+        <Rect
+          x={calculateHalfScreen(widthButtonSkeleton)}
+          y={yNextButtonSkeleton}
+          ry="10"
+          width={widthButtonSkeleton}
+          height="48"
+        />
+        <Rect
+          x={calculateHalfScreen(widthButtonSkeleton)}
+          y={yNextButtonSkeleton + 64}
+          ry="10"
+          width={widthButtonSkeleton}
+          height="48"
+        />
+      </ContentLoader>
     </SafeAreaView>
   )
 }

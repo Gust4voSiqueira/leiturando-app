@@ -5,13 +5,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 80,
+    marginTop: 64,
   },
   cardContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
   },
   modalContainer: {
-    width: 10
-  }
+    width: 10,
+  },
 })

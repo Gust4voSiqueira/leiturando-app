@@ -7,7 +7,6 @@ import { useContext, useState } from 'react'
 import { RequestsContext } from '../../../contexts/RequestsContext'
 import { useUser } from '../../../hooks/useUser'
 import { RenderLists } from './renderLists'
-import { Box } from 'native-base'
 import { AppError } from '../../../utils/AppError'
 import Toast from 'react-native-toast-message'
 
@@ -59,7 +58,7 @@ export function FriendsScreen() {
   }
 
   return (
-    <Box bg={'gray.900'} style={styles.friendsContainer}>
+    <View style={styles.friendsContainer}>
       <Header title="Amigos" isRedirect />
 
       <FiltersSection
@@ -98,6 +97,6 @@ export function FriendsScreen() {
           )}
         </ScrollView>
       </View>
-    </Box>
+    </View>
   )
 }

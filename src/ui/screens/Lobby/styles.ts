@@ -1,27 +1,27 @@
 import { StyleSheet } from 'react-native'
-import { theme } from 'native-base'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
   textLobby: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.xl,
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes.xl,
     fontWeight: 'bold',
     textAlign: 'center',
-    width: '90%',
-    marginTop: 8,
+    marginHorizontal: 4,
+    marginVertical: 4,
   },
   buttonStart: {
     width: '65%',
     height: 45,
     borderRadius: 7,
-    backgroundColor: theme.colors.gray[700],
+    backgroundColor: THEME.colors.gray[700],
     justifyContent: 'center',
     marginTop: 40,
   },
   textStart: {
     textAlign: 'center',
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.xl,
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes.xl,
     fontWeight: 'bold',
   },
   textLobbyContainer: {

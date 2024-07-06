@@ -10,7 +10,7 @@ import {
 } from './buttons'
 import { RequestsContext } from '../../../../../contexts/RequestsContext'
 import { useUser } from '../../../../../hooks/useUser'
-import { Box } from 'native-base'
+
 import Animated, {
   Layout,
   SlideInRight,
@@ -90,9 +90,9 @@ export function CardFriendsSection({
 
   if (isLoading)
     return (
-      <Box bg={'gray.700'} style={styles.cardFriendsContainer}>
+      <View style={styles.cardFriendsContainer}>
         <ActivityIndicator size="small" style={styles.load} />
-      </Box>
+      </View>
     )
 
   return (

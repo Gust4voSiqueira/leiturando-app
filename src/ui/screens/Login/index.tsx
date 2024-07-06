@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import { styles } from './styles'
 import { globalStyles } from '../../../../global/global'
 
@@ -12,7 +12,7 @@ import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ButtonNext, InputRegister } from '../../components'
-import { Pressable } from 'native-base'
+
 import { AppError } from '../../../utils/AppError'
 
 interface IInputsFields {
@@ -33,7 +33,7 @@ export function Login() {
   const { navigate } = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
 
-  const passwordRef = useRef(null);
+  const passwordRef = useRef(null)
 
   const {
     control,
@@ -73,9 +73,9 @@ export function Login() {
 
   function handleUpdateFocusInput() {
     if (passwordRef.current) {
-      passwordRef.current.focus();
+      passwordRef.current.focus()
     }
-  };
+  }
 
   return (
     <View style={globalStyles.container}>

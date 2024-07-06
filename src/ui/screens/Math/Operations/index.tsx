@@ -1,19 +1,10 @@
 import { useState } from 'react'
-import { Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 
 import { styles } from './styles'
-import { ButtonNext, Header } from '../../../components'
-import { Divide, Minus, Plus, X } from 'phosphor-react-native'
+import { ButtonNext, Header, OperationsSimbols } from '../../../components'
 import { useNavigation } from '@react-navigation/native'
-import { Box, Pressable, theme } from 'native-base'
 import { IOperations } from '../../../../dtos/MathDTO'
-
-const icons = {
-  ADDITION: <Plus size={40} color={theme.colors.white} weight="bold" />,
-  SUBTRACTION: <Minus size={40} color={theme.colors.white} weight="bold" />,
-  MULTIPLICATION: <X size={40} color={theme.colors.white} weight="bold" />,
-  DIVISION: <Divide size={40} color={theme.colors.white} weight="bold" />,
-}
 
 export function Operations() {
   const { navigate } = useNavigation()
@@ -50,8 +41,6 @@ export function Operations() {
     return (
       <Pressable
         key={operation}
-        bg={'gray.700'}
-        borderColor={'gray.700'}
         style={[
           styles.buttonSelect,
           selectedOperations.some((selected) => selected === operation) &&
@@ -60,13 +49,13 @@ export function Operations() {
         ]}
         onPress={() => onSelectOperation(operation)}
       >
-        {icons[operation]}
+        <OperationsSimbols operation={operation} size={40} />
       </Pressable>
     )
   }
 
   return (
-    <Box bg={'gray.900'} style={styles.operationsContainer}>
+    <View style={styles.operationsContainer}>
       <Header
         title="Matemática"
         textSpeech="Selecione as operações que deseja:"
@@ -79,15 +68,16 @@ export function Operations() {
         </Text>
 
         <View style={styles.selectionContainer}>
-          {Object.keys(icons).map((operation: IOperations) => {
-            return RenderButtons(operation)
-          })}
+          {Object.values(['ADDITION', 'SUBTRACTION', 'MULTIPLICATION', 'DIVISION'])
+            .map((operation: IOperations) => {
+              return RenderButtons(operation)
+            })}
         </View>
 
-        <Box w={'60%'}>
+        <View style={styles.buttonNextContainer}>
           <ButtonNext text="Começar" onPress={onStartMathMode} />
-        </Box>
+        </View>
       </View>
-    </Box>
+    </View>
   )
 }

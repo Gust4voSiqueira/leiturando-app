@@ -1,5 +1,5 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../../../global/theme'
 
 interface StyleProps {
   progressActualBarProgress: number
@@ -13,9 +13,10 @@ export const styles = (props: StyleProps) =>
       borderRadius: 4,
 
       padding: 15,
+      backgroundColor: THEME.colors.gray['700'],
     },
     yourLevelText: {
-      color: theme.colors.white,
+      color: THEME.colors.white,
       fontSize: 17.5,
       fontWeight: '600',
     },
@@ -24,12 +25,12 @@ export const styles = (props: StyleProps) =>
       justifyContent: 'center',
     },
     levelProfileText: {
-      color: theme.colors.white,
+      color: THEME.colors.white,
       marginBottom: 10,
       marginTop: 15,
     },
     levelTotal: {
-      backgroundColor: theme.colors.white,
+      backgroundColor: THEME.colors.white,
       height: 5,
       width: 280,
       borderRadius: 8,
@@ -38,5 +39,6 @@ export const styles = (props: StyleProps) =>
       height: 5,
       width: `${props.progressActualBarProgress}%`,
       borderRadius: 8,
+      backgroundColor: THEME.colors.green['600'],
     },
   })

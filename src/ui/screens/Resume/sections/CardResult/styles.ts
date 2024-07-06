@@ -1,12 +1,12 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../../../global/theme'
 
 export const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: theme.colors.gray[700],
+    backgroundColor: THEME.colors.gray[700],
     width: '95%',
     height: 45,
     marginVertical: 5,
@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   textResume: {
-    fontSize: theme.fontSizes.lg,
-    color: theme.colors.white,
+    fontSize: THEME.fontSizes.lg,
+    color: THEME.colors.white,
     fontWeight: '600',
     width: '80%',
     textAlign: 'center',
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 50,
-    backgroundColor: theme.colors.green[600],
+    backgroundColor: THEME.colors.green[600],
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 50,
-    backgroundColor: theme.colors.red[600],
+    backgroundColor: THEME.colors.red[600],
     justifyContent: 'center',
     alignItems: 'center',
   },

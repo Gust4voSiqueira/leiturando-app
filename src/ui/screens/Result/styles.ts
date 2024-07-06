@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { theme } from 'native-base'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
   resultContainer: {
@@ -14,15 +14,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resultText: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.xl,
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes.xl,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 15,
   },
   scoreText: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes['2xl'],
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes['2xl'],
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 15,

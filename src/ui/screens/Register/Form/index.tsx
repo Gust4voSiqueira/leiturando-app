@@ -65,7 +65,7 @@ export function FormRegister({
   })
 
   const { navigate } = useNavigation()
-  const inputRefs = Array.from({ length: 5 }, () => useRef(null));
+  const inputRefs = Array.from({ length: 5 }, () => useRef(null))
 
   function handleLogin() {
     navigate('login')
@@ -85,7 +85,7 @@ export function FormRegister({
 
   function handleUpdateFocusInput(index: number) {
     if (index < inputRefs.length - 1) {
-      inputRefs[index + 1].current.focus();
+      inputRefs[index + 1].current.focus()
     }
   }
 
@@ -109,7 +109,7 @@ export function FormRegister({
             value={value}
             blurOnSubmit={false}
             ref={inputRefs[0]}
-            returnKeyType='next'
+            returnKeyType="next"
             onSubmitEditing={() => handleUpdateFocusInput(0)}
           />
         )}
@@ -129,7 +129,7 @@ export function FormRegister({
             value={value}
             blurOnSubmit={false}
             ref={inputRefs[1]}
-            returnKeyType='next'
+            returnKeyType="next"
             onSubmitEditing={() => handleUpdateFocusInput(1)}
           />
         )}
@@ -146,7 +146,7 @@ export function FormRegister({
             value={value}
             blurOnSubmit={false}
             ref={inputRefs[2]}
-            returnKeyType='next'
+            returnKeyType="next"
             onSubmitEditing={() => handleUpdateFocusInput(2)}
           />
         )}
@@ -164,7 +164,7 @@ export function FormRegister({
             secureTextEntry={true}
             blurOnSubmit={false}
             ref={inputRefs[3]}
-            returnKeyType='next'
+            returnKeyType="next"
             onSubmitEditing={() => handleUpdateFocusInput(3)}
           />
         )}

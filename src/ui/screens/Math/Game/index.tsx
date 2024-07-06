@@ -1,16 +1,16 @@
+import { styles } from './styles'
 import { useEffect, useState } from 'react'
-import { Alert, Text } from 'react-native'
+import { View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { Center } from 'native-base'
 
-import { Header } from '../../../components'
+import { Header, OperationsSimbols } from '../../../components'
 import { useMath } from '../../../../hooks/useMath'
 import { Loading } from '../../Loading'
-import { ButtonsSection } from './sections/buttons'
 import { OperationsContainer } from './sections/operations'
 import { ResultSkeleton } from '../../Result/ResultSkeleton'
 import { IOperations } from '../../../../dtos/MathDTO'
-import { operationsSimbols } from '../../../../utils/OperationsSimbols'
+
+import { ButtonsGame } from '../../../components/ButtonsGame'
 
 interface IOperationsProps {
   operations: Array<IOperations>
@@ -61,7 +61,7 @@ export function MathScreen() {
     }))
   }
 
-  async function onAlterOperation(newIndex: number) {
+  function updateOperation(newIndex: number) {
     const response = responses[`response${index}`]?.response.trim()
 
     if (!response) {
@@ -69,23 +69,21 @@ export function MathScreen() {
       return
     }
 
-    if (newIndex >= 0 && newIndex < 7) {
-      setIndex(newIndex)
-      setError(false)
-    }
+    setError(false)
+    setIndex(newIndex)
+  }
 
-    if (newIndex === 7) {
-      try {
-        setIsFinnally(true)
-        const response = await finnalyMath(responses)
+  async function finallyGame() {
+    try {
+      setIsFinnally(true)
+      const response = await finnalyMath(responses)
 
-        navigate('result', {
-          response: response.results,
-          score: response.score,
-        })
-      } catch (err) {
-        setIsFinnally(false)
-      }
+      navigate('result', {
+        response: response.results,
+        score: response.score,
+      })
+    } catch (err) {
+      setIsFinnally(false)
     }
   }
 
@@ -101,49 +99,32 @@ export function MathScreen() {
     onGetMaths()
   }, [])
 
-  function handleStopGame() {
-    Alert.alert(
-      'Finalizar rodada',
-      'Tem certeza que deseja finalizar a rodada?',
-      [
-        {
-          text: 'Não',
-          style: 'cancel',
-        },
-        {
-          text: 'Sim, finalizar',
-          style: 'destructive',
-          onPress: () => navigate('home', { isReloadRanking: false }),
-        },
-      ],
-    )
-  }
-
   if (data.length === 0) return <Loading />
 
   if (isFinnally) return <ResultSkeleton />
 
   return (
-    <Center bg={'gray.900'} flex={1}>
+    <View style={styles.gameContainer}>
       <Header title="Matemática" />
-      <Text />
 
       <OperationsContainer
         number1={data[index].number1}
         number2={data[index].number2}
         operation={data[index].operation}
-        operationSimbol={operationsSimbols[data[index].operation]}
+        operationSimbol={<OperationsSimbols operation={data[index].operation} size={60} />}
         onChangeResponse={onChangeResponse}
         valueInput={responses[`response${index}`]?.response || ''}
         isError={error}
       />
 
-      <ButtonsSection
-        onAlterOperation={onAlterOperation}
-        index={index}
-        totalIndex={data.length}
-        handleStopGame={handleStopGame}
-      />
-    </Center>
+      <View style={{ width: '100%' }}>
+        <ButtonsGame
+          finallyGame={finallyGame}
+          onAlterQuestion={updateOperation}
+          index={index}
+          totalIndex={data.length}
+        />
+      </View>
+    </View>
   )
 }

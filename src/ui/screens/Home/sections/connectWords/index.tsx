@@ -3,7 +3,7 @@ import { CardMatches } from '../../../../components'
 import Jupiter from '../../../../../../assets/jupiter.svg'
 import { IOnRedirectProps } from '../..'
 import Animated, { FadeInUp } from 'react-native-reanimated'
-import { SCORE_CONNECT_WORDS } from '../../../../../utils/Scores'
+import { SCORE_CONNECT_WORDS } from '../../../../../utils/scores'
 
 interface IPhrasesCart {
   onRedirectFunction: ({

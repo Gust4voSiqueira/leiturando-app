@@ -7,7 +7,7 @@ import { styles } from './styles'
 
 import { useNavigation } from '@react-navigation/native'
 import { useSpeech } from '../../../hooks/useSpeech'
-import { theme } from 'native-base'
+import { THEME } from '../../../../global/theme'
 
 interface IHandleIconHeader {
   condition: boolean
@@ -43,7 +43,7 @@ export function Header({
     <View style={styles.headerContainer}>
       <HandleIconHeader
         condition={isRedirect}
-        icon={<CaretLeft size={35} weight="bold" color={theme.colors.white} />}
+        icon={<CaretLeft size={35} weight="bold" color={THEME.colors.white} />}
         functionOnPress={() => navigation.goBack()}
       />
 
@@ -52,7 +52,7 @@ export function Header({
       <HandleIconHeader
         condition={textSpeech !== ''}
         icon={
-          <SpeakerSimpleHigh size={30} weight="fill" color={theme.colors.white} />
+          <SpeakerSimpleHigh size={30} weight="fill" color={THEME.colors.white} />
         }
         functionOnPress={() => speech(textSpeech)}
       />

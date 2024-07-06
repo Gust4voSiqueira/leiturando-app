@@ -9,7 +9,7 @@ import { FormRegister } from './Form'
 import { View } from 'react-native'
 import { ModalSelectImage } from '../../components/ModalCharacters'
 import { AppError } from '../../../utils/AppError'
-import { validateDate } from '../../../utils/ValidateData'
+import { validateDate } from '../../../utils/validateData'
 import { CharactersDTO, IUserRegisterDTO } from '../../../dtos/UserDTO'
 import { useUser } from '../../../hooks/useUser'
 

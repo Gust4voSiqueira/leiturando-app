@@ -1,9 +1,8 @@
-import React from 'react'
 import { CardMatches } from '../../../../components'
 import Shields from '../../../../../../assets/shield.svg'
 import { IOnRedirectProps } from '../..'
 import Animated, { FadeInUp } from 'react-native-reanimated'
-import { SCORE_MATH } from '../../../../../utils/Scores'
+import { SCORE_MATH } from '../../../../../utils/scores'
 
 interface IShieldsCard {
   onRedirectFunction: ({ title, description, screen }: IOnRedirectProps) => void

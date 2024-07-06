@@ -3,7 +3,7 @@ import { styles } from './styles'
 import { filters } from '../..'
 import { MagnifyingGlass } from 'phosphor-react-native'
 import { useState } from 'react'
-import { theme } from 'native-base'
+import { THEME } from '../../../../../../global/theme'
 
 interface IFiltersSection {
   alterFilter: (newFilter: filters) => void
@@ -29,7 +29,7 @@ export function FiltersSection({
       <View style={styles.inputSearchContainer}>
         <TextInput
           placeholder="Pesquisar"
-          placeholderTextColor={theme.colors.gray[300]}
+          placeholderTextColor={THEME.colors.gray[300]}
           style={styles.inputFilter}
           onChangeText={(newText) => setSearchName(newText)}
         />
@@ -37,7 +37,7 @@ export function FiltersSection({
         <Pressable style={styles.iconSearch} onPress={onSearch}>
           <MagnifyingGlass
             size={25}
-            color={theme.colors.gray[300]}
+            color={THEME.colors.gray[300]}
             weight="bold"
           />
         </Pressable>

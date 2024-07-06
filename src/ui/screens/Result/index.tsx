@@ -34,9 +34,7 @@ export function Result() {
       <View style={styles.resultContainer}>
         <Header
           title="Resultado"
-          textSpeech={`Parabéns ${userData.name}, você acertou ${
-            corrects.length
-          } de ${response.length}, e conquistou ${corrects.length} pontos.`}
+          textSpeech={`Parabéns ${userData.name}, você acertou ${corrects.length} de ${response.length}, e conquistou ${corrects.length} pontos.`}
         />
 
         <View style={styles.contentContainer}>
@@ -52,11 +50,11 @@ export function Result() {
         </View>
 
         <View style={styles.buttonsContainer}>
+          <ButtonNext text="Relatório" onPress={onRedirect} />
           <ButtonNext
             text="Página Inicial"
             onPress={() => navigate('home', { isReloadRanking: true })}
           />
-          <ButtonNext text="Relatório" onPress={onRedirect} />
         </View>
       </View>
     </View>

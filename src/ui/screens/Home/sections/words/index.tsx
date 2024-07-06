@@ -2,7 +2,7 @@ import { CardMatches } from '../../../../components'
 import Words from '../../../../../../assets/words.svg'
 import { IOnRedirectProps } from '../..'
 import Animated, { FadeInUp } from 'react-native-reanimated'
-import { SCORE_WORDS } from '../../../../../utils/Scores'
+import { SCORE_WORDS } from '../../../../../utils/scores'
 
 interface IWordsCard {
   onRedirectFunction: ({

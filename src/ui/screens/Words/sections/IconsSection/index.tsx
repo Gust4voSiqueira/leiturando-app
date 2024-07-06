@@ -1,21 +1,21 @@
-import { Microphone, Pause } from 'phosphor-react-native'
-import { useEffect } from 'react'
+import { styles } from './styles'
+import { THEME } from '../../../../../../global/theme'
 
+import { useEffect } from 'react'
+import { Pressable } from 'react-native'
+import { Microphone, Pause } from 'phosphor-react-native'
 import Voice, { SpeechResultsEvent } from '@react-native-voice/voice'
-import { Pressable, theme } from 'native-base'
 
 interface IIconsSectionProps {
   isRecording: boolean
   onRecordingVoice: () => void
   onAlterWordVoice: (newVoice: string) => void
-  isErrorRecording: boolean
 }
 
 export function IconsSection({
   isRecording,
   onRecordingVoice,
   onAlterWordVoice,
-  isErrorRecording,
 }: IIconsSectionProps) {
   async function recordVoice() {
     if (await Voice.isRecognizing()) {
@@ -41,19 +41,11 @@ export function IconsSection({
   }, [])
 
   return (
-    <Pressable
-      bg={'gray.700'}
-      padding={15}
-      marginY={10}
-      borderRadius={'full'}
-      onPress={recordVoice}
-      borderWidth={isErrorRecording ? 1 : 0}
-      borderColor={isErrorRecording ? 'red.600' : 'transparent'}
-    >
+    <Pressable onPress={recordVoice} style={styles.pressableContainer}>
       {isRecording ? (
-        <Pause size={50} weight="regular" color={theme.colors.white} />
+        <Pause size={50} weight="regular" color={THEME.colors.white} />
       ) : (
-        <Microphone size={50} weight="regular" color={theme.colors.white} />
+        <Microphone size={50} weight="regular" color={THEME.colors.white} />
       )}
     </Pressable>
   )

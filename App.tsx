@@ -3,17 +3,16 @@ import { THEME } from './global/theme'
 import { TokenContextProvider } from './src/contexts/TokenContext'
 import { RequestsContextProvider } from './src/contexts/RequestsContext'
 import { UserContextProvider } from './src/contexts/UserDataContext'
-import { NativeBaseProvider, StatusBar } from 'native-base'
+
 import Toast from 'react-native-toast-message'
 import { Routes } from './src/routes'
 
-import { LogBox } from 'react-native'
+import { LogBox, StatusBar } from 'react-native'
 LogBox.ignoreLogs(['new NativeEventEmitter']) // Ignore log notification by message
 LogBox.ignoreAllLogs()
 
 export default function App() {
   return (
-    <NativeBaseProvider theme={THEME}>
       <TokenContextProvider>
         <UserContextProvider>
           <RequestsContextProvider>
@@ -21,7 +20,7 @@ export default function App() {
               <Routes />
               <StatusBar
                 barStyle="light-content"
-                backgroundColor={'gray.900'}
+                backgroundColor={THEME.colors.gray['900']}
                 translucent
               />
 
@@ -30,6 +29,5 @@ export default function App() {
           </RequestsContextProvider>
         </UserContextProvider>
       </TokenContextProvider>
-    </NativeBaseProvider>
   )
 }

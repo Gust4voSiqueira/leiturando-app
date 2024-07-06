@@ -1,7 +1,7 @@
-import { Text } from 'react-native'
+import { Pressable, Text } from 'react-native'
 import { styles } from './styles'
 import { Check, X } from 'phosphor-react-native'
-import { Pressable, theme } from 'native-base'
+import { THEME } from '../../../../../../global/theme'
 
 interface IRequestReceivedButton {
   idUser: number
@@ -34,13 +34,13 @@ export function RequestReceivedButton({
         style={styles.responseFriendButtonReject}
         onPress={deleteRequest}
       >
-        <X size={18} color={theme.colors.white} />
+        <X size={18} color={THEME.colors.white} />
       </Pressable>
       <Pressable
         style={styles.responseFriendButtonAccept}
         onPress={() => acceptRequest(idUser)}
       >
-        <Check size={18} color={theme.colors.white} />
+        <Check size={18} color={THEME.colors.white} />
       </Pressable>
     </>
   )
@@ -57,7 +57,6 @@ export function RequestSendButton({ cancelRequest }: IRequestSendButton) {
 export function FriendButton({ idUser, unfriend }: IFriendButton) {
   return (
     <Pressable
-      bg={'gray.500'}
       style={styles.responseFriendButton}
       onPress={() => unfriend(idUser)}
     >
@@ -69,7 +68,6 @@ export function FriendButton({ idUser, unfriend }: IFriendButton) {
 export function DefaultButton({ idUser, sendRequest }: IDefaultButton) {
   return (
     <Pressable
-      bg={'gray.500'}
       style={styles.responseFriendButton}
       onPress={() => sendRequest(idUser)}
     >

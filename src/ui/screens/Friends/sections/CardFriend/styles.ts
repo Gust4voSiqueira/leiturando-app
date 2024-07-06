@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { theme } from 'native-base'
+import { THEME } from '../../../../../../global/theme'
 
 export const styles = StyleSheet.create({
   cardFriendsContainer: {
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
     borderRadius: 8,
-    backgroundColor: '#202024',
+    backgroundColor: THEME.colors.gray['700'],
   },
   imageUserRequest: {
     borderRadius: 50,
@@ -21,14 +21,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nameUserRequest: {
-    color: theme.colors.white,
+    color: THEME.colors.white,
     textAlign: 'center',
     fontWeight: 'bold',
   },
   quantitiFriendsCommon: {
-    color: theme.colors.white,
+    color: THEME.colors.white,
     textAlign: 'center',
-    fontSize: theme.fontSizes['2xs'],
+    fontSize: THEME.fontSizes['2xs'],
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     marginTop: 5,
   },
   responseFriendButtonAccept: {
-    backgroundColor: theme.colors.green[700],
+    backgroundColor: THEME.colors.green[700],
     paddingHorizontal: 10,
     borderRadius: 3,
     marginHorizontal: 5,
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   responseFriendButtonReject: {
-    backgroundColor: theme.colors.red[600],
+    backgroundColor: THEME.colors.red[600],
     paddingHorizontal: 10,
     borderRadius: 3,
     marginHorizontal: 5,
@@ -64,17 +64,18 @@ export const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 3,
     marginHorizontal: 5,
-    backgroundColor: theme.colors.red[600],
+    backgroundColor: THEME.colors.red[600],
   },
   responseFriendButton: {
+    backgroundColor: THEME.colors.gray['500'],
     paddingHorizontal: 10,
     paddingVertical: 3,
     borderRadius: 3,
     marginHorizontal: 5,
   },
   responseFriendText: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes['2xs'],
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes['2xs'],
   },
   load: {
     width: 5,

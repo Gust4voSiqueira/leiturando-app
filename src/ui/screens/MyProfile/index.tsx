@@ -1,15 +1,16 @@
+import { styles } from './styles'
+import { useContext } from 'react'
+import { View } from 'react-native'
 import { CardProfile } from './sections/CardProfile'
 import { CardLevelProfile } from './sections/CardLevelProfile'
 import { CardInfo } from './sections/CardInfo'
-import { useContext } from 'react'
 import { UserContext } from '../../../contexts/UserDataContext'
-import { Box } from 'native-base'
 
 export function MyProfile() {
   const { userData } = useContext(UserContext)
 
   return (
-    <Box flex={1} bgColor={'gray.900'} alignItems={'center'} pt={20}>
+    <View style={styles.myProfileContainer}>
       <CardProfile
         name={userData.name}
         character={userData.image}
@@ -28,6 +29,6 @@ export function MyProfile() {
         textInfo="Acertos/Erros Totais"
         numbersInfo={`${userData.correct}/${userData.wrong}`}
       />
-    </Box>
+    </View>
   )
 }

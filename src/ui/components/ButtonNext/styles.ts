@@ -1,5 +1,5 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
   buttonContainer: {
@@ -7,11 +7,12 @@ export const styles = StyleSheet.create({
     height: 45,
     borderRadius: 7,
     justifyContent: 'center',
+    backgroundColor: THEME.colors.green['600'],
   },
   textButton: {
-    color: theme.colors.black,
+    color: THEME.colors.black,
     fontWeight: '700',
-    fontSize: theme.fontSizes.md,
+    fontSize: THEME.fontSizes.md,
     textAlign: 'center',
   },
 })

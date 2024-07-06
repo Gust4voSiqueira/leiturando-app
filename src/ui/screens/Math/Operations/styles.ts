@@ -1,5 +1,5 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../../global/theme'
 
 export const styles = StyleSheet.create({
   operationsContainer: {
@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: THEME.colors.gray['900'],
   },
   container: {
     alignItems: 'center',
@@ -16,8 +17,8 @@ export const styles = StyleSheet.create({
     height: '40%',
   },
   instructions: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.xl,
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes.xl,
     fontWeight: 'bold',
     textAlign: 'center',
     width: '90%',
@@ -34,12 +35,17 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 13,
     borderRadius: 5,
     borderWidth: 1,
+    backgroundColor: THEME.colors.gray['700'],
+    borderColor: THEME.colors.gray['700'],
   },
   buttonSelected: {
     borderWidth: 1,
-    borderColor: theme.colors.green[600],
+    borderColor: THEME.colors.green['600'],
   },
   errorSelected: {
-    borderColor: theme.colors.red[600],
+    borderColor: THEME.colors.red['600'],
+  },
+  buttonNextContainer: {
+    width: '60%',
   },
 })

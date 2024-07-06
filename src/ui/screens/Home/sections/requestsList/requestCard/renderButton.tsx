@@ -1,6 +1,7 @@
-import { Pressable, Text, theme } from 'native-base'
 import { Check, X } from 'phosphor-react-native'
 import { styles } from './styles'
+import { THEME } from '../../../../../../../global/theme'
+import { Pressable, Text } from 'react-native'
 
 interface IHandleButton {
   idUser: number
@@ -26,28 +27,19 @@ export function RenderButtons({
           style={styles.responseFriendButtonReject}
           onPress={deleteRequest}
         >
-          <X size={18} color={theme.colors.white} />
+          <X size={18} color={THEME.colors.white} />
         </Pressable>
         <Pressable
           style={styles.responseFriendButtonAccept}
           onPress={() => acceptRequest(idUser)}
         >
-          <Check size={18} color={theme.colors.white} />
+          <Check size={18} color={THEME.colors.white} />
         </Pressable>
       </>
     )
   } else if (typeCard === 'SubmittedRequest') {
     return (
-      <Pressable
-        bg={'red.600'}
-        paddingX={2}
-        borderRadius={3}
-        marginX={5}
-        onPress={cancelRequest}
-        _pressed={{
-          bg: 'gray.500',
-        }}
-      >
+      <Pressable style={styles.buttonSubmittedRequest} onPress={cancelRequest}>
         <Text style={styles.responseFriendText}>Cancelar</Text>
       </Pressable>
     )
@@ -55,14 +47,8 @@ export function RenderButtons({
 
   return (
     <Pressable
-      bg={'gray.500'}
-      paddingX={2}
-      borderRadius={3}
-      marginX={5}
+      style={styles.buttonSendRequest}
       onPress={() => sendRequest(idUser)}
-      _pressed={{
-        bg: 'gray.500',
-      }}
     >
       <Text style={styles.responseFriendText}>Adicionar</Text>
     </Pressable>

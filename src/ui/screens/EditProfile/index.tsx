@@ -1,4 +1,4 @@
-import { Platform, Pressable, View } from 'react-native'
+import { Pressable, Text, TextInput, View } from 'react-native'
 import { ButtonNext, Header } from '../../components'
 import { styles } from './styles'
 import { useContext, useRef, useState } from 'react'
@@ -7,7 +7,6 @@ import { ModalSelectImage } from '../../components/ModalCharacters'
 import { useUser } from '../../../hooks/useUser'
 import { charactersImages } from '../../../utils/CharactersImages'
 import { useNavigation } from '@react-navigation/native'
-import { Box, Center, Input, Text, theme } from 'native-base'
 import Toast from 'react-native-toast-message'
 
 import * as yup from 'yup'
@@ -15,7 +14,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { InputEditProfile } from '../../components/InputEditProfile'
 import { CharactersDTO } from '../../../dtos/UserDTO'
-import { validateDate } from '../../../utils/ValidateData'
+import { validateDate } from '../../../utils/validateData'
 import { AppError } from '../../../utils/AppError'
 import { maskDate } from '../../../utils/maskDate'
 
@@ -60,7 +59,7 @@ export function EditProfile() {
   const { userData } = useContext(UserContext)
   const { editProfile, login } = useUser()
   const { navigate } = useNavigation()
-  const inputRefs = Array.from({ length: 5 }, () => useRef(null));
+  const inputRefs = Array.from({ length: 5 }, () => useRef(null))
 
   const renderProfileImage = () => {
     if (characterName !== '') {
@@ -75,7 +74,7 @@ export function EditProfile() {
 
   function handleUpdateFocusInput(index: number) {
     if (index < inputRefs.length - 1) {
-      inputRefs[index + 1].current.focus();
+      inputRefs[index + 1].current.focus()
     }
   }
 
@@ -130,10 +129,10 @@ export function EditProfile() {
   }
 
   return (
-    <Box bg={'gray.900'} style={styles.editProfileContainer}>
+    <View style={styles.editProfileContainer}>
       <Header title="Editar Perfil" isRedirect />
 
-      <Box bg={'gray.700'} style={styles.editProfileFormContainer}>
+      <View style={styles.editProfileFormContainer}>
         <Pressable onPress={toggleModal} style={styles.imageProfile}>
           {renderProfileImage()}
         </Pressable>
@@ -144,7 +143,7 @@ export function EditProfile() {
           />
         )}
 
-        <Center>
+        <View style={styles.inputsContainer}>
           <Controller
             control={control}
             name="name"
@@ -156,7 +155,7 @@ export function EditProfile() {
                 value={value}
                 blurOnSubmit={false}
                 ref={inputRefs[0]}
-                returnKeyType='next'
+                returnKeyType="next"
                 onSubmitEditing={() => handleUpdateFocusInput(0)}
               />
             )}
@@ -176,23 +175,16 @@ export function EditProfile() {
                 value={value}
                 blurOnSubmit={false}
                 ref={inputRefs[1]}
-                returnKeyType='next'
+                returnKeyType="next"
                 onSubmitEditing={() => handleUpdateFocusInput(1)}
               />
             )}
           />
 
-          <Input
+          <TextInput
+            style={styles.inputEmail}
             value={userData.email}
-            borderRadius={4}
-            borderWidth={0}
-            width={'90%'}
-            bg="gray.900"
-            color={theme.colors.gray['400']}
-            height={Platform.OS === 'ios' ? 45 : 12}
-            fontSize={theme.fontSizes.sm}
-            marginBottom={2}
-            isDisabled={true}
+            editable={false}
           />
 
           <Controller
@@ -210,20 +202,13 @@ export function EditProfile() {
                 secureTextEntry={true}
                 blurOnSubmit={false}
                 ref={inputRefs[2]}
-                returnKeyType='next'
+                returnKeyType="next"
                 onSubmitEditing={() => handleUpdateFocusInput(2)}
               />
             )}
           />
 
-          <Text
-            color={'white'}
-            fontSize={'md'}
-            fontWeight={'semibold'}
-            marginBottom={2}
-          >
-            Atualizar senha
-          </Text>
+          <Text style={styles.updatePasswordText}>Atualizar senha</Text>
 
           <Controller
             control={control}
@@ -240,7 +225,7 @@ export function EditProfile() {
                 secureTextEntry={true}
                 blurOnSubmit={false}
                 ref={inputRefs[3]}
-                returnKeyType='next'
+                returnKeyType="next"
                 onSubmitEditing={() => handleUpdateFocusInput(3)}
               />
             )}
@@ -264,7 +249,7 @@ export function EditProfile() {
               />
             )}
           />
-        </Center>
+        </View>
 
         <View style={styles.buttonsContainer}>
           <ButtonNext
@@ -273,7 +258,7 @@ export function EditProfile() {
             isDisabled={isLoading}
           />
         </View>
-      </Box>
-    </Box>
+      </View>
+    </View>
   )
 }

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Alert, Modal, View } from 'react-native'
+import { Modal, ScrollView, View } from 'react-native'
 
 import { CardProfile } from './sections/CardProfile'
 
@@ -11,7 +11,7 @@ import { useUser } from '../../../hooks/useUser'
 import { UserContext } from '../../../contexts/UserDataContext'
 import { ConnectWordsCard } from './sections/ConnectWords'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { ScrollView } from 'native-base'
+
 import { globalStyles } from '../../../../global/global'
 import { HomeSkeleton } from './HomeSkeleton'
 import { TokenContext } from '../../../contexts/TokenContext'
@@ -19,6 +19,8 @@ import { RequestsContext } from '../../../contexts/RequestsContext'
 import { Loading } from '../Loading'
 import { GlobalRanking } from './sections/GlobalRanking'
 import { FriendsRanking } from './sections/FriendsRanking'
+import { useRequests } from '../../../hooks/useRequests'
+import { handleError } from '../../../utils/isError'
 
 type RouteParamsProps = {
   isReloadRanking: boolean
@@ -34,6 +36,7 @@ export interface IOnRedirectProps {
 
 export function Home() {
   const { myUser } = useUser()
+  const { getRequests } = useRequests()
   const routes = useRoute()
   const [cardList, setCardList] = useState(false)
   const { userData, removeUserData } = useContext(UserContext)
@@ -49,19 +52,10 @@ export function Home() {
   useEffect(() => {
     async function getMyUserData() {
       try {
+        await Promise.all([myUser(), getRequests()])
         clearRequests()
-        await myUser()
       } catch (error) {
-        Alert.alert(
-          'Buscar informações',
-          'Tivemos uma falha no servidor. Faça login para tentar novamente.',
-          [
-            {
-              text: 'Ok',
-              onPress: removeToken,
-            },
-          ],
-        )
+        handleError(removeToken)
       }
     }
     getMyUserData()
@@ -115,19 +109,19 @@ export function Home() {
             user={userData}
             handleLoggout={handleLoggout}
           />
-          
-              <Modal 
-                transparent
-                visible={cardList} 
-                onRequestClose={() => setCardList(!cardList)}
-                style={styles.modalContainer}
-              >
-              <RequestsList
-                redirectToAllRequests={redirectToAllRequests}
-                handleCloseModal={handleAlterStateCardList}
-              />
-            </Modal>
-          
+
+          <Modal
+            transparent
+            visible={cardList}
+            onRequestClose={() => setCardList(!cardList)}
+            style={styles.modalContainer}
+          >
+            <RequestsList
+              redirectToAllRequests={redirectToAllRequests}
+              handleCloseModal={handleAlterStateCardList}
+            />
+          </Modal>
+
           <WordsCard onRedirectFunction={onRedirect} />
           <ConnectWordsCard onRedirectFunction={onRedirect} />
           <MathCard onRedirectFunction={onRedirect} />

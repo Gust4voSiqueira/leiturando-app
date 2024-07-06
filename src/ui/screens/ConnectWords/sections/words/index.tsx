@@ -1,7 +1,6 @@
-import { Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { styles } from './styles'
 import { IResponses } from '../..'
-import { Button } from 'native-base'
 import { useEffect, useState } from 'react'
 
 interface IWord {
@@ -43,28 +42,17 @@ export function WordsSection({
     <View>
       {scrambledWords.map((word) => {
         return isSelectedWord(word.word) ? (
-          <Button
-            bg={'gray.700'}
-            _pressed={{
-              bg: 'gray.700',
-            }}
-            style={styles.cardWord}
-            key={word.id}
-          >
+          <Pressable style={styles.cardWord} key={word.id}>
             <Text style={styles.textWord} />
-          </Button>
+          </Pressable>
         ) : (
-          <Button
-            bg={'gray.700'}
-            _pressed={{
-              bg: 'gray.700',
-            }}
+          <Pressable
             style={styles.cardWord}
             key={word.id}
             onPress={() => onSelectWord(word.word)}
           >
             <Text style={styles.textWord}>{word.word}</Text>
-          </Button>
+          </Pressable>
         )
       })}
     </View>

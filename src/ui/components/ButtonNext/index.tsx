@@ -1,8 +1,13 @@
-import { ActivityIndicator, Text } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  Text,
+} from 'react-native'
 import { styles } from './styles'
-import { IPressableProps, Pressable, theme } from 'native-base'
+import { THEME } from '../../../../global/theme'
 
-interface IButtonNextProps extends IPressableProps {
+interface IButtonNextProps extends PressableProps {
   text: string
   isDisabled?: boolean
 }
@@ -13,16 +18,11 @@ export function ButtonNext({
   ...rest
 }: IButtonNextProps) {
   return (
-    <Pressable
-      style={styles.buttonContainer}
-      bgColor={'green.600'}
-      disabled={isDisabled}
-      {...rest}
-    >
+    <Pressable style={styles.buttonContainer} disabled={isDisabled} {...rest}>
       {!isDisabled ? (
         <Text style={styles.textButton}>{text}</Text>
       ) : (
-        <ActivityIndicator size="small" color={theme.colors.black} />
+        <ActivityIndicator size="small" color={THEME.colors.black} />
       )}
     </Pressable>
   )

@@ -1,7 +1,7 @@
-import { extendTheme } from 'native-base'
-
-export const THEME = extendTheme({
+export const THEME = {
   colors: {
+    white: '#FFF',
+    black: '#000',
     gray: {
       100: '#E1E1E6',
       200: '#D3E2E5',
@@ -20,4 +20,20 @@ export const THEME = extendTheme({
       600: '#C11111',
     },
   },
-})
+  fontSizes: {
+    "2xs": 10,
+    "xs": 12,
+    "sm": 14,
+    "md": 16,
+    "lg": 18,
+    "xl": 20,
+    "2xl": 24,
+    "3xl": 30,
+    "4xl": 36,
+    "5xl": 48,
+    "6xl": 60,
+    "7xl": 72,
+    "8xl": 96,
+    "9xl": 128,
+  },
+}

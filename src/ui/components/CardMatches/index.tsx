@@ -5,7 +5,8 @@ import { styles } from './styles'
 import React from 'react'
 import { SpeakerSimpleHigh } from 'phosphor-react-native'
 import { useSpeech } from '../../../hooks/useSpeech'
-import { Box, theme } from 'native-base'
+import { THEME } from '../../../../global/theme'
+import { Card } from '../Card'
 
 interface IMatches {
   title: string
@@ -23,7 +24,7 @@ export function CardMatches({
   const { speech } = useSpeech()
 
   return (
-    <Box bg={'gray.700'} style={styles.cardMatchesContainer}>
+    <Card>
       <View style={styles.headerCardContainer}>
         <Text style={styles.titleSection}>{title}</Text>
 
@@ -31,7 +32,7 @@ export function CardMatches({
           <SpeakerSimpleHigh
             size={25}
             weight="fill"
-            color={theme.colors.white}
+            color={THEME.colors.white}
           />
         </Pressable>
       </View>
@@ -42,6 +43,6 @@ export function CardMatches({
           <ButtonStart onClickFunction={navigationFunction} />
         </View>
       </View>
-    </Box>
+    </Card>
   )
 }

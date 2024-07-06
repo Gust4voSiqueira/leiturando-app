@@ -1,12 +1,12 @@
-import { theme } from 'native-base'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../../global/theme'
 
 export const styles = StyleSheet.create({
   formLogin: {
     width: '90%',
   },
   textRegister: {
-    color: theme.colors.white,
+    color: THEME.colors.white,
     marginBottom: 10,
   },
   buttonSelectImage: {
@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   imageProfileText: {
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.xs,
+    color: THEME.colors.white,
+    fontSize: THEME.fontSizes.xs,
     marginTop: 5,
     fontWeight: '700',
   },

@@ -1,5 +1,5 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../../../global/theme'
 
 interface StyleProps {
   progressActualBarProgress: number
@@ -20,7 +20,7 @@ export const styles = (props: StyleProps) =>
       alignItems: 'center',
     },
     requestsText: {
-      color: theme.colors.white,
+      color: THEME.colors.white,
       fontSize: 9,
       textAlign: 'center',
     },
@@ -31,9 +31,9 @@ export const styles = (props: StyleProps) =>
       alignItems: 'center',
     },
     nameUser: {
-      fontSize: theme.fontSizes.xl,
+      fontSize: THEME.fontSizes.xl,
       fontWeight: '600',
-      color: theme.colors.white,
+      color: THEME.colors.white,
     },
     imageProfile: {
       borderRadius: 50,
@@ -42,12 +42,12 @@ export const styles = (props: StyleProps) =>
       marginTop: 5,
     },
     levelText: {
-      color: theme.colors.white,
+      color: THEME.colors.white,
       textAlign: 'center',
       marginBottom: 5,
     },
     levelTotal: {
-      backgroundColor: theme.colors.white,
+      backgroundColor: THEME.colors.white,
       height: 5,
       width: 180,
       borderRadius: 8,
@@ -56,12 +56,13 @@ export const styles = (props: StyleProps) =>
       height: 5,
       width: `${props.progressActualBarProgress}%`,
       borderRadius: 8,
+      backgroundColor: THEME.colors.green['600'],
     },
     quantitieRequestsCircle: {
       position: 'absolute',
       right: 0,
       top: -10,
-      backgroundColor: theme.colors.red[600],
+      backgroundColor: THEME.colors.red[600],
       borderRadius: 50,
       width: 15,
       height: 15,
@@ -70,7 +71,7 @@ export const styles = (props: StyleProps) =>
       alignItems: 'center',
     },
     quantitieRequestsText: {
-      color: theme.colors.white,
+      color: THEME.colors.white,
       fontSize: 10,
       fontWeight: 'bold',
       textAlign: 'center',
@@ -80,6 +81,7 @@ export const styles = (props: StyleProps) =>
       marginTop: 15,
       paddingVertical: 7,
       paddingHorizontal: 40,
+      backgroundColor: THEME.colors.green['600'],
     },
     textButtonProfile: {
       fontWeight: '600',

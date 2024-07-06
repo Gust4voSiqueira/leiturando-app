@@ -1,23 +1,15 @@
-import { theme } from 'native-base'
 import { StyleSheet } from 'react-native'
+import { THEME } from '../../../../global/theme'
 
 export const styles = StyleSheet.create({
-  cardMatchesContainer: {
-    width: 320,
-    borderRadius: 13,
-    marginBottom: 20,
-
-    padding: 15,
-    zIndex: -1,
-  },
   headerCardContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   titleSection: {
-    fontSize: theme.fontSizes.md,
+    fontSize: THEME.fontSizes.md,
     fontWeight: '600',
-    color: theme.colors.white,
+    color: THEME.colors.white,
     marginLeft: 10,
   },
   ImageContainer: {

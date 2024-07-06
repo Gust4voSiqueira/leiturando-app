@@ -2,7 +2,7 @@ import { Pressable, Text, View } from 'react-native'
 import { Card } from '../../../../components'
 import { styles } from './styles'
 
-import { progressActual } from '../../../../../utils/ProgressActual'
+import { progressActual } from '../../../../../utils/progressActual'
 import { useContext } from 'react'
 import { UserContext } from '../../../../../contexts/UserDataContext'
 
