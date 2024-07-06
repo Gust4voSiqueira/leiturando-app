@@ -3,7 +3,7 @@ import { api } from '../lib/axios'
 import { btoa } from 'react-native-quick-base64'
 import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
-import { convertData } from '../utils/ConvertData'
+import { convertData } from '../utils/convertData'
 import { RequestsContext } from '../contexts/RequestsContext'
 import { IEditProfileDTO, IUserRegisterDTO } from '../dtos/UserDTO'
 

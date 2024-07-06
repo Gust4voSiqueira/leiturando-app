@@ -6,8 +6,9 @@ import {
   useState,
 } from 'react'
 import { useRequests } from '../hooks/useRequests'
-import { Alert } from 'react-native'
+
 import { TokenContext } from './TokenContext'
+import { handleError } from '../utils/isError'
 
 interface IRequest {
   id: number
@@ -53,10 +54,6 @@ export function RequestsContextProvider({
 
   useEffect(() => {
     onLoadRequests()
-  }, [])
-
-  useEffect(() => {
-    onLoadRequests()
   }, [token])
 
   async function onLoadRequests() {
@@ -65,10 +62,7 @@ export function RequestsContextProvider({
 
       setRequests(requests)
     } catch (err) {
-      Alert.alert(
-        'Falha ao buscar solicitações',
-        'Tivemos uma falha no servidor. Por favor tente novamente mais tarde.',
-      )
+      handleError()
     }
   }
 
