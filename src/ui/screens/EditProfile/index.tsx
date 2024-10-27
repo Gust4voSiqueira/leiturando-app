@@ -1,4 +1,4 @@
-import { Pressable, Text, TextInput, View } from 'react-native'
+import { Keyboard, Modal, Pressable, Text, TextInput, View } from 'react-native'
 import { ButtonNext, Header } from '../../components'
 import { styles } from './styles'
 import { useContext, useRef, useState } from 'react'
@@ -17,6 +17,7 @@ import { CharactersDTO } from '../../../dtos/UserDTO'
 import { validateDate } from '../../../utils/validateData'
 import { AppError } from '../../../utils/AppError'
 import { maskDate } from '../../../utils/maskDate'
+import { ModalComponent } from '../../components/ModalComponent'
 
 interface IFields {
   name: string
@@ -89,6 +90,7 @@ export function EditProfile() {
 
   async function onEditProfile(data: IFields) {
     try {
+      Keyboard.dismiss()
       setIsLoading(true)
       if (data.dateOfBirth) {
         validateDate(data.dateOfBirth)
@@ -136,12 +138,15 @@ export function EditProfile() {
         <Pressable onPress={toggleModal} style={styles.imageProfile}>
           {renderProfileImage()}
         </Pressable>
-        {isOpenModal && (
-          <ModalSelectImage
-            onSelectCharacter={onSelectCharacter}
-            onCloseModal={toggleModal}
-          />
-        )}
+
+        <ModalComponent isOpen={isOpenModal} handleAlterStateModal={() => setIsOpenModal(!isOpenModal)}>
+          <View style={styles.modalSelectImageContainer}>
+            <ModalSelectImage
+              onSelectCharacter={onSelectCharacter}
+              onCloseModal={toggleModal}
+            />
+          </View>
+        </ModalComponent>
 
         <View style={styles.inputsContainer}>
           <Controller

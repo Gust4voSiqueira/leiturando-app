@@ -4,7 +4,6 @@ import { THEME } from '../../../../../global/theme'
 export const styles = StyleSheet.create({
   operationsContainer: {
     flex: 1,
-    paddingTop: 50,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -18,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   instructions: {
     color: THEME.colors.white,
-    fontSize: THEME.fontSizes.xl,
+    fontSize: THEME.fontSizes['2xl'],
     fontWeight: 'bold',
     textAlign: 'center',
     width: '90%',
@@ -31,8 +30,9 @@ export const styles = StyleSheet.create({
     gap: 20,
   },
   buttonSelect: {
-    paddingVertical: 5,
-    paddingHorizontal: 13,
+    width: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 5,
     borderWidth: 1,
     backgroundColor: THEME.colors.gray['700'],

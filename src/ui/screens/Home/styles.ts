@@ -11,7 +11,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  modalContainer: {
-    width: 10,
-  },
+  requestsListContainer: {
+    position: 'absolute',
+    right: 20,
+    top: 100,
+  }
 })

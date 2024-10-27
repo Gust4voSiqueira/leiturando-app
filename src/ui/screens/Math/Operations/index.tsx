@@ -5,6 +5,7 @@ import { styles } from './styles'
 import { ButtonNext, Header, OperationsSimbols } from '../../../components'
 import { useNavigation } from '@react-navigation/native'
 import { IOperations } from '../../../../dtos/MathDTO'
+import { THEME } from '../../../../../global/theme'
 
 export function Operations() {
   const { navigate } = useNavigation()
@@ -49,7 +50,7 @@ export function Operations() {
         ]}
         onPress={() => onSelectOperation(operation)}
       >
-        <OperationsSimbols operation={operation} size={40} />
+        <OperationsSimbols operation={operation} size={THEME.fontSizes['5xl']} />
       </Pressable>
     )
   }

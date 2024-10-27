@@ -9,24 +9,16 @@ import Voice, { SpeechResultsEvent } from '@react-native-voice/voice'
 interface IIconsSectionProps {
   isRecording: boolean
   onRecordingVoice: () => void
+  stopRecordVoice: () => void
   onAlterWordVoice: (newVoice: string) => void
 }
 
 export function IconsSection({
   isRecording,
   onRecordingVoice,
+  stopRecordVoice,
   onAlterWordVoice,
 }: IIconsSectionProps) {
-  async function recordVoice() {
-    if (await Voice.isRecognizing()) {
-      Voice.stop()
-
-      onRecordingVoice()
-    } else {
-      onRecordingVoice()
-      Voice.start('pt-BR')
-    }
-  }
 
   useEffect(() => {
     Voice.onSpeechResults = (e: SpeechResultsEvent) => {
@@ -40,13 +32,17 @@ export function IconsSection({
     }
   }, [])
 
-  return (
-    <Pressable onPress={recordVoice} style={styles.pressableContainer}>
-      {isRecording ? (
+  if(isRecording) {
+    return (
+      <Pressable onPress={stopRecordVoice} style={styles.pressableContainer}>
         <Pause size={50} weight="regular" color={THEME.colors.white} />
-      ) : (
+    </Pressable>
+    )
+  }
+
+  return (
+    <Pressable onPress={onRecordingVoice} style={styles.pressableContainer}>
         <Microphone size={50} weight="regular" color={THEME.colors.white} />
-      )}
     </Pressable>
   )
 }

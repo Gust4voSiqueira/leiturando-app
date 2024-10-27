@@ -1,5 +1,11 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { THEME } from '../../../../global/theme'
+
+const { get } = Dimensions
+
+const { width, height } = get('screen')
+const widthModalContainer = 0.8 * width
+const heightModalContainer = 0.5 * height
 
 export const styles = StyleSheet.create({
   editProfileContainer: {
@@ -12,10 +18,16 @@ export const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderRadius: 4,
-    marginTop: 14,
     backgroundColor: THEME.colors.gray['700'],
+  },
+  modalSelectImageContainer: {
+    position: 'absolute',
+    height: heightModalContainer,
+    width: widthModalContainer,
+    right: (width - (widthModalContainer)) / 2,
+    top: (height - (heightModalContainer)) / 2,
   },
   inputsContainer: {
     width: '90%',

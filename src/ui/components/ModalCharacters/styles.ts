@@ -1,26 +1,11 @@
-import { Dimensions, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { THEME } from '../../../../global/theme'
 
-const { width, height } = Dimensions.get('window')
-
 export const styles = StyleSheet.create({
-  deepShadow: {
-    zIndex: 10,
-    position: 'absolute',
-    opacity: 0.5,
-    width,
-    height,
-    backgroundColor: THEME.colors.black,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   modalContainer: {
-    zIndex: 11,
-    position: 'absolute',
-    padding: 10,
     borderRadius: 10,
-    width: '90%',
-    backgroundColor: THEME.colors.gray[900],
+    paddingVertical: 10,
+    backgroundColor: THEME.colors.gray['700'],
 
     flexDirection: 'row',
     flexWrap: 'wrap',

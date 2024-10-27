@@ -1,4 +1,4 @@
-import { View, Pressable, Text } from 'react-native'
+import { View, Pressable, Text, TextInput, Keyboard } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
 import { ButtonNext, InputRegister } from '../../../components'
@@ -65,7 +65,7 @@ export function FormRegister({
   })
 
   const { navigate } = useNavigation()
-  const inputRefs = Array.from({ length: 5 }, () => useRef(null))
+  const inputRefs = Array.from({ length: 5 }, () => useRef<TextInput>())
 
   function handleLogin() {
     navigate('login')
@@ -73,6 +73,7 @@ export function FormRegister({
 
   async function onSubmit(data: IUserRegisterDTO) {
     try {
+      Keyboard.dismiss()
       setIsLoading(true)
 
       await onRegisterFunction(data)
@@ -85,7 +86,7 @@ export function FormRegister({
 
   function handleUpdateFocusInput(index: number) {
     if (index < inputRefs.length - 1) {
-      inputRefs[index + 1].current.focus()
+      inputRefs[index + 1].current?.focus()
     }
   }
 

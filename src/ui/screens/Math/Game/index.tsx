@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-import { Header, OperationsSimbols } from '../../../components'
+import { Header } from '../../../components'
 import { useMath } from '../../../../hooks/useMath'
 import { Loading } from '../../Loading'
 import { OperationsContainer } from './sections/operations'
@@ -16,12 +16,6 @@ interface IOperationsProps {
   operations: Array<IOperations>
 }
 
-interface IOperationsResponse {
-  number1: number
-  number2: number
-  operation: IOperations
-}
-
 export interface IResponses {
   [key: string]: {
     number1: number
@@ -32,12 +26,12 @@ export interface IResponses {
 }
 
 export function MathScreen() {
-  const [data, setData] = useState<IOperationsResponse[]>([])
+  const [operationSimbol, setOperationSimbol] = useState(null)
   const [index, setIndex] = useState(0)
   const [responses, setResponses] = useState<IResponses>({})
   const [error, setError] = useState(false)
   const [isFinnally, setIsFinnally] = useState(false)
-  const { getMath, finnalyMath } = useMath()
+  const { data, getMath, finnalyMath } = useMath()
 
   const { navigate } = useNavigation()
   const routes = useRoute()
@@ -75,12 +69,20 @@ export function MathScreen() {
 
   async function finallyGame() {
     try {
+      const response = responses[`response${index}`]?.response.trim()
+
+      if (!response) {
+        setError(true)
+        return
+      }
+
       setIsFinnally(true)
-      const response = await finnalyMath(responses)
+
+      const data = await finnalyMath(responses)
 
       navigate('result', {
-        response: response.results,
-        score: response.score,
+        response: data.results,
+        score: data.score,
       })
     } catch (err) {
       setIsFinnally(false)
@@ -88,16 +90,19 @@ export function MathScreen() {
   }
 
   useEffect(() => {
-    async function onGetMaths() {
-      try {
-        const response = await getMath(operations)
-
-        setData(response)
-      } catch (err) {}
+    async function updateData() {
+      await getMath(operations)
     }
 
-    onGetMaths()
+    updateData()
   }, [])
+
+  useEffect(() => {
+  }, [operationSimbol])
+
+  useEffect(() => {
+    setOperationSimbol(data[index]?.operation)
+  }, [data, index])
 
   if (data.length === 0) return <Loading />
 
@@ -110,14 +115,13 @@ export function MathScreen() {
       <OperationsContainer
         number1={data[index].number1}
         number2={data[index].number2}
-        operation={data[index].operation}
-        operationSimbol={<OperationsSimbols operation={data[index].operation} size={60} />}
+        operation={operationSimbol}
         onChangeResponse={onChangeResponse}
         valueInput={responses[`response${index}`]?.response || ''}
         isError={error}
       />
 
-      <View style={{ width: '100%' }}>
+      <View style={styles.buttonsContainer}>
         <ButtonsGame
           finallyGame={finallyGame}
           onAlterQuestion={updateOperation}

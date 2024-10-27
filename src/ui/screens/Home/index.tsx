@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Modal, ScrollView, View } from 'react-native'
+import { Modal, Pressable, ScrollView, View } from 'react-native'
 
 import { CardProfile } from './sections/CardProfile'
 
@@ -21,6 +21,7 @@ import { GlobalRanking } from './sections/GlobalRanking'
 import { FriendsRanking } from './sections/FriendsRanking'
 import { useRequests } from '../../../hooks/useRequests'
 import { handleError } from '../../../utils/isError'
+import { ModalComponent } from '../../components/ModalComponent'
 
 type RouteParamsProps = {
   isReloadRanking: boolean
@@ -41,7 +42,7 @@ export function Home() {
   const [cardList, setCardList] = useState(false)
   const { userData, removeUserData } = useContext(UserContext)
   const { removeToken } = useContext(TokenContext)
-  const { clearRequests } = useContext(RequestsContext)
+  const { clearRequests, onLoadRequests } = useContext(RequestsContext)
 
   const [isLoggout, setIsLoggout] = useState(false)
 
@@ -52,8 +53,8 @@ export function Home() {
   useEffect(() => {
     async function getMyUserData() {
       try {
-        await Promise.all([myUser(), getRequests()])
-        clearRequests()
+        await Promise.all([myUser(), onLoadRequests()])
+
       } catch (error) {
         handleError(removeToken)
       }
@@ -110,17 +111,17 @@ export function Home() {
             handleLoggout={handleLoggout}
           />
 
-          <Modal
-            transparent
-            visible={cardList}
-            onRequestClose={() => setCardList(!cardList)}
-            style={styles.modalContainer}
+          <ModalComponent
+            isOpen={cardList}
+            handleAlterStateModal={() => setCardList(!cardList)}
           >
-            <RequestsList
-              redirectToAllRequests={redirectToAllRequests}
-              handleCloseModal={handleAlterStateCardList}
-            />
-          </Modal>
+              <View style={styles.requestsListContainer}>
+                <RequestsList
+                  redirectToAllRequests={redirectToAllRequests}
+                  handleCloseModal={handleAlterStateCardList}
+                />
+            </View>
+          </ModalComponent>
 
           <WordsCard onRedirectFunction={onRedirect} />
           <ConnectWordsCard onRedirectFunction={onRedirect} />

@@ -50,11 +50,6 @@ export function RequestsContextProvider({
   const { getRequests } = useRequests()
   const [requests, setRequests] = useState<IRequests>()
   const { removeRequest, acceptRequest, sendRequest } = useRequests()
-  const { token } = useContext(TokenContext)
-
-  useEffect(() => {
-    onLoadRequests()
-  }, [token])
 
   async function onLoadRequests() {
     try {

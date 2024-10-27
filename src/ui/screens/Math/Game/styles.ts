@@ -8,4 +8,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: THEME.colors.gray['900'],
   },
+  buttonsContainer: {
+    alignItems: 'center',
+    width: '70%'
+  }
 })

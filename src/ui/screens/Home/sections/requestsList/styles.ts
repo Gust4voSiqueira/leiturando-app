@@ -3,9 +3,6 @@ import { THEME } from '../../../../../../global/theme'
 
 export const styles = StyleSheet.create({
   listRequestsContainer: {
-    marginLeft: 'auto',
-    marginRight: 20,
-    marginTop: 110,
     alignItems: 'center',
     height: 360,
     borderRadius: 11,

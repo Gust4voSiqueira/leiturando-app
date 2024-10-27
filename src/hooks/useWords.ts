@@ -1,12 +1,21 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { api } from '../lib/axios'
 import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
 import { IFinnallyWordsDTO, IWordDTO } from '../dtos/WordDTO'
+import { handleError } from '../utils/isError'
+import { useNavigation } from '@react-navigation/native'
 
 export const useWords = () => {
+  const [ data, setData ] = useState<IWordDTO[]>([])
+
+  const { navigate } = useNavigation()
   const { token } = useContext(TokenContext)
   const { updateUserLevelData } = useContext(UserContext)
+
+  useEffect(() => {
+    getWords()
+  }, [])
 
   async function getWords() {
     try {
@@ -16,9 +25,9 @@ export const useWords = () => {
         },
       })
 
-      return response.data
+      setData(response.data)
     } catch (error) {
-      return error
+      handleError(() => navigate('home', { isReloadRanking: false }))
     }
   }
 
@@ -45,6 +54,7 @@ export const useWords = () => {
   }
 
   return {
+    data,
     getWords,
     finallyWords,
   }

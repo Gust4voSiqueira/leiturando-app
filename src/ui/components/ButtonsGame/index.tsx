@@ -40,7 +40,7 @@ export function ButtonsGame({
   }
 
   function renderButtons(index: number) {
-    if (index < 6) {
+    if (index < totalIndex - 1) {
       return (
         <Pressable
           style={styles.alterOperation}

@@ -12,6 +12,8 @@ import { AppError } from '../../../utils/AppError'
 import { validateDate } from '../../../utils/validateData'
 import { CharactersDTO, IUserRegisterDTO } from '../../../dtos/UserDTO'
 import { useUser } from '../../../hooks/useUser'
+import { ModalComponent } from '../../components/ModalComponent'
+import { styles } from './styles'
 
 export function Register() {
   const [isOpenModal, setIsOpenModal] = useState(false)
@@ -56,12 +58,22 @@ export function Register() {
   return (
     <View style={globalStyles.container}>
       <Logo width={280} height="20%" />
-      {isOpenModal && (
+
+      <ModalComponent isOpen={isOpenModal} handleAlterStateModal={toggleModal}>
+        <View style={styles.modalSelectImageContainer}>
+            <ModalSelectImage
+              onSelectCharacter={onSelectCharacter}
+              onCloseModal={toggleModal}
+            />
+          </View>
+        </ModalComponent>
+
+      {/* {isOpenModal && (
         <ModalSelectImage
           onSelectCharacter={onSelectCharacter}
           onCloseModal={toggleModal}
         />
-      )}
+      )} */}
 
       <FormRegister
         characterSelected={characterName}

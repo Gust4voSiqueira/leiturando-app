@@ -37,7 +37,7 @@ export function FiltersSection({
         <Pressable style={styles.iconSearch} onPress={onSearch}>
           <MagnifyingGlass
             size={25}
-            color={THEME.colors.gray[300]}
+            color={THEME.colors.gray['300']}
             weight="bold"
           />
         </Pressable>

@@ -1,6 +1,8 @@
-import { Divide, Minus, Plus, X } from 'phosphor-react-native'
+
 import { THEME } from '../../../../global/theme'
 import { IOperations } from '../../../dtos/MathDTO'
+
+import { Text } from 'react-native'
 
 interface IOperationsSimbols {
   operation: IOperations
@@ -9,10 +11,10 @@ interface IOperationsSimbols {
 
 export function OperationsSimbols({ operation, size }: IOperationsSimbols) {
   const icons = {
-    SUBTRACTION: <Minus size={size} color={THEME.colors.white} weight="bold" />,
-    ADDITION: <Plus size={size} color={THEME.colors.white} weight="bold" />,
-    MULTIPLICATION: <X size={size} color={THEME.colors.white} weight="bold" />,
-    DIVISION: <Divide size={size} color={THEME.colors.white} weight="bold" />,
+    SUBTRACTION: <Text  style={{ fontWeight: 'normal', fontSize: size, color: THEME.colors.white }}>{"-".toUpperCase()}</Text>,
+    ADDITION: <Text style={{ fontWeight: 'normal', fontSize: size, color: THEME.colors.white }}>+</Text>,
+    MULTIPLICATION: <Text  style={{ fontWeight: 'normal', fontSize: size, color: THEME.colors.white }}>x</Text>,
+    DIVISION: <Text  style={{ fontWeight: 'normal', fontSize: size, color: THEME.colors.white }}>÷</Text>,
   }
 
   return icons[operation]

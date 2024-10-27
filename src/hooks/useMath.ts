@@ -1,9 +1,15 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { api } from '../lib/axios'
 import { TokenContext } from '../contexts/TokenContext'
 import { UserContext } from '../contexts/UserDataContext'
 import { IResponses } from '../ui/screens/Math/Game'
 import { IOperations } from '../dtos/MathDTO'
+
+interface IOperationsResponse {
+  number1: number
+  number2: number
+  operation: IOperations
+}
 
 const operationMapping = {
   ADDITION: 'ADDITION',
@@ -13,6 +19,8 @@ const operationMapping = {
 }
 
 export const useMath = () => {
+  const [ data, setData ] = useState<IOperationsResponse[]>([])
+  
   const { token } = useContext(TokenContext)
   const { updateUserLevelData } = useContext(UserContext)
 
@@ -24,7 +32,7 @@ export const useMath = () => {
         },
       })
 
-      return response.data
+      setData(response.data)
     } catch (error) {
       return error
     }
@@ -61,6 +69,7 @@ export const useMath = () => {
   }
 
   return {
+    data,
     getMath,
     finnalyMath,
   }

@@ -1,19 +1,18 @@
-import { Dimensions, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { THEME } from '../../../../../../../global/theme'
-
-const windowWidth = Dimensions.get('window').width
 
 export const styles = StyleSheet.create({
   operationContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    width: windowWidth,
+    width: '100%',
     backgroundColor: THEME.colors.gray['900'],
   },
   operationText: {
     fontSize: THEME.fontSizes['7xl'],
     color: THEME.colors.white,
     fontWeight: 'bold',
+    paddingLeft: 4
   },
   error: {
     fontSize: THEME.fontSizes['7xl'],
@@ -28,16 +27,12 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
   line1container: {
-    flexDirection: 'row',
+    paddingLeft: 40,
   },
   line2container: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  simbol: {
-    fontSize: THEME.fontSizes['7xl'],
-    fontWeight: 'bold',
-    opacity: 0,
+    justifyContent: 'center',
   },
   inputResponse: {
     backgroundColor: THEME.colors.gray['700'],

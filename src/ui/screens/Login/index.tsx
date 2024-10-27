@@ -1,11 +1,11 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, TextInput, Keyboard } from 'react-native'
 import { styles } from './styles'
 import { globalStyles } from '../../../../global/global'
 
 import Logo from '../../../../assets/logo.svg'
 import { useNavigation } from '@react-navigation/native'
 import { useUser } from '../../../hooks/useUser'
-import { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Toast from 'react-native-toast-message'
 
 import * as yup from 'yup'
@@ -33,7 +33,7 @@ export function Login() {
   const { navigate } = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
 
-  const passwordRef = useRef(null)
+  const passwordRef = useRef<TextInput>()
 
   const {
     control,
@@ -45,6 +45,7 @@ export function Login() {
 
   async function loginFunction(data: IInputsFields) {
     try {
+      Keyboard.dismiss()
       setIsLoading(true)
 
       await login(data.email, data.password)
@@ -72,9 +73,7 @@ export function Login() {
   }
 
   function handleUpdateFocusInput() {
-    if (passwordRef.current) {
-      passwordRef.current.focus()
-    }
+    passwordRef.current.focus();
   }
 
   return (

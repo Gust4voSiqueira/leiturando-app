@@ -14,7 +14,6 @@ export function ModalSelectImage({
 }: IModalSelectImage) {
   return (
     <>
-      <View style={styles.deepShadow} />
       <View style={styles.modalContainer}>
         {charactersImages(60, 60).map((character, index) => {
           return (

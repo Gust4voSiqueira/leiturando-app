@@ -4,8 +4,8 @@ import { THEME } from '../../../../global/theme'
 export const styles = StyleSheet.create({
   headerContainer: {
     position: 'absolute',
+    top: 60,
     width: '90%',
-    top: '12%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

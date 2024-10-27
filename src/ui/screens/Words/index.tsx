@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 
 import { styles } from './styles'
@@ -10,9 +10,10 @@ import { Loading } from '../Loading'
 import { useNavigation } from '@react-navigation/native'
 import { ResultSkeleton } from '../Result/ResultSkeleton'
 
-import { IWordDTO } from '../../../dtos/WordDTO'
 import { ButtonsGame } from '../../components/ButtonsGame'
 import { handleError } from '../../../utils/isError'
+
+import Voice from '@react-native-voice/voice'
 
 export function Words() {
   const [indexWord, setIndexWord] = useState(0)
@@ -20,46 +21,38 @@ export function Words() {
   const [isFinnaly, setIsFinnaly] = useState(false)
   const [voice, setVoice] = useState<string>('')
   const [responses, setResponses] = useState<string[]>([])
-  const [words, setWords] = useState<IWordDTO[]>([])
   const [errorEmptyVoice, setErrorEmptyVoice] = useState(false)
 
-  const { getWords, finallyWords } = useWords()
+  const { data, finallyWords } = useWords()
   const { navigate } = useNavigation()
 
-  useEffect(() => {
-    async function onGetWords() {
-      try {
-        const response = await getWords()
-
-        setWords(response)
-      } catch (err) {
-        handleError(() => navigate('home', { isReloadRanking: false }))
-      }
-    }
-
-    onGetWords()
-  }, [])
-
-  function handleRecordingVoice() {
-    setIsRecording(!isRecording)
+  async function recordVoice() {
+    setIsRecording(true)
+    Voice.start('pt-BR')
   }
 
-  useEffect(() => {
-    return () => setVoice('')
-  }, [])
+  async function stopRecordVoice() {
+    setIsRecording(false)
+    Voice.stop()
+  }
 
   const handleAlterWordVoice = useCallback((newVoice: string) => {
     if (newVoice !== '') {
-      setVoice(newVoice)
+      setVoice(newVoice.split(" ")[0])
     }
   }, [])
 
   async function finallyGame() {
     try {
+      if (!voice && !responses[indexWord]) {
+        setErrorEmptyVoice(true)
+        return
+      }
+
       setIsFinnaly(true)
 
       const responsesRequest = [...responses, voice]
-      const response = await finallyWords(words, responsesRequest)
+      const response = await finallyWords(data, responsesRequest)
 
       navigate('result', {
         response: response.words,
@@ -73,29 +66,34 @@ export function Words() {
   }
 
   function updateWord(newIndex: number) {
-    if (!voice) {
+    stopRecordVoice()
+
+    if (!voice && !responses[indexWord]) {
       setErrorEmptyVoice(true)
       return
+    } else if(newIndex > responses.length) {
+      setIsRecording(false)
+      setResponses([...responses, voice])
+      setVoice("")
     }
 
     setErrorEmptyVoice(false)
     setIndexWord(newIndex)
-    setVoice(responses[indexWord])
-    setResponses([...responses, voice])
   }
 
   if (isFinnaly) return <ResultSkeleton />
 
-  if (words.length === 0) return <Loading />
+  if (data.length === 0) return <Loading />
 
   return (
     <View style={styles.wordsContainer}>
       <Header title="Palavras" />
 
-      <WordSection word={words[indexWord].word} />
+      <WordSection word={data[indexWord].word} />
       <IconsSection
         isRecording={isRecording}
-        onRecordingVoice={handleRecordingVoice}
+        onRecordingVoice={recordVoice}
+        stopRecordVoice={stopRecordVoice}
         onAlterWordVoice={handleAlterWordVoice}
       />
 
@@ -106,7 +104,7 @@ export function Words() {
           finallyGame={finallyGame}
           onAlterQuestion={updateWord}
           index={indexWord}
-          totalIndex={words.length}
+          totalIndex={data.length}
         />
       </View>
     </View>

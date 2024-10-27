@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Alert, Pressable, Text, View } from 'react-native'
 
 import { styles } from './styles'
 
@@ -27,25 +27,12 @@ export function ConnectWords() {
   const [loading, setLoading] = useState(false)
   const [selectedAudio, setSelectedAudio] = useState<IAudio>()
   const [responses, setResponses] = useState<IResponses[]>([])
-  const { speech } = useSpeech()
   const [data, setData] = useState<IWordsToConnect[]>([])
   const [index, setIndex] = useState(0)
+
   const { getWordsToConnect, finallyConnectWords } = useConnectWords()
+  const { speech } = useSpeech()
   const { navigate } = useNavigation()
-
-  useEffect(() => {
-    async function getWords() {
-      try {
-        const response = await getWordsToConnect()
-
-        setData(response)
-      } catch (err) {
-        handleError(() => navigate('home', { isReloadRanking: false }))
-      }
-    }
-
-    getWords()
-  }, [])
 
   function onSpeechAudio(word: string, idWord: number) {
     const selectAudio = {
@@ -54,6 +41,24 @@ export function ConnectWords() {
     }
     setSelectedAudio(selectAudio)
     speech(word)
+  }
+
+  function handleStopGame() {
+    Alert.alert(
+      'Finalizar rodada',
+      'Tem certeza que deseja finalizar a rodada?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim, finalizar',
+          style: 'destructive',
+          onPress: () => navigate('home', { isReloadRanking: false }),
+        },
+      ],
+    )
   }
 
   function onSelectWord(word: string) {
@@ -68,26 +73,42 @@ export function ConnectWords() {
     }
   }
 
-  function updateWord(newIndex: number) {
-    if (newIndex >= 0) {
-      setIndex(newIndex)
-    }
-  }
-
   async function finallyGame() {
       try {
         setLoading(true)
-        const response = await finallyConnectWords(responses)
+        const data = await finallyConnectWords(responses)
 
         navigate('result', {
-          response: response.words,
-          score: response.score,
+          response: data.words,
+          score: data.score,
         })
         setLoading(false)
       } catch (error) {
         setLoading(false)
       }
   }
+
+  useEffect(() => {
+    const isWordsNotSelected = ![4, 8, 12].includes(responses.length)
+    
+    if (!isWordsNotSelected) {
+      responses.length === 12 ? finallyGame() : setIndex(index + 1)
+    }
+  }, [responses])
+
+  useEffect(() => {
+    async function getWords() {
+      try {
+        const response = await getWordsToConnect()
+
+        setData(response)
+      } catch (err) {
+        handleError(() => navigate('home', { isReloadRanking: false }))
+      }
+    }
+
+    getWords()
+  }, [])
 
   if (data.length === 0 || loading) return <Loading />
 
@@ -110,12 +131,15 @@ export function ConnectWords() {
         />
       </View>
 
-      <ButtonsGame
-        onAlterQuestion={updateWord}
-        finallyGame={finallyGame}
-        index={index}
-        totalIndex={data.length}
-      />
+      <View style={styles.buttonsContainer}>
+          <Text style={styles.indexWord}>
+            {index + 1}/{data.length}
+          </Text>
+
+        <Pressable style={styles.stopButton} onPress={handleStopGame}>
+          <Text style={styles.textStop}>Parar</Text>
+        </Pressable>
+      </View>
     </View>
   )
 }
