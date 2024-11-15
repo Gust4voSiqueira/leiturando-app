@@ -1,0 +1,7 @@
+export { Card } from './Card/index'
+export { ButtonStart } from './ButtonStart'
+export { Header } from './Header'
+export { ButtonNext } from './ButtonNext'
+export { CardMatches } from './CardMatches'
+export { InputRegister } from './InputRegister'
+export { OperationsSimbols } from './OperationsSimbols' 
